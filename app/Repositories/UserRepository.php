@@ -16,14 +16,25 @@ class UserRepository
 
     public function login(array $request)
     {
-        $user = User::where('mobile', $request['mobile'])->firstOrFail();
-        if($user && Hash::check($request['password'], $user->password)){
-            $userTokenHandler = new UserTokenHandler();
-            $user = $userTokenHandler->regenerateUserToken($user);
-            $user->load('roles');
-            return $user;
+        if(!isset($request['otp'])) {
+            $otp = $this->generateOTP($request['mobile']);
+            return 'OTP created successfully. Your OTP is ' . $otp;
         }
+        else {
+            $user = User::where('mobile', $request['mobile'])->firstOrFail();
+            $userotp = Userotp::where('mobile', $request['mobile'])->firstOrFail();
+            if($userotp->otp == $request['otp']) {
+                if($user && Hash::check($request['password'], $user->password)){
+                    $userTokenHandler = new UserTokenHandler();
+                    $user = $userTokenHandler->regenerateUserToken($user);
+                    $user->load('roles');
+                    return $user;
+                }
+            }  else {
+                throw new \Exception('Invalid OTP');
+            }
 
+        }
         return null;
     }
 
