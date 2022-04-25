@@ -5,11 +5,8 @@ namespace App\Repositories;
 use App\Models\User;
 use App\Models\Userotp;
 use App\Workers\UserTokenHandler;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use PhpParser\Node\Stmt\Return_;
 
 class UserRepository
 {

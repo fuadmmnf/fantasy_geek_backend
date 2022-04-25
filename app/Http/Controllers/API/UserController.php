@@ -46,4 +46,8 @@ class UserController extends Controller
             return response()->json(['message' => 'Invalild Credentials'], 401);
         }
     }
+
+    public function updateUser() {
+
+    }
 }

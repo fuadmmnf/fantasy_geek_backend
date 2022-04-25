@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Pointdistribution extends Model
+{
+    public $timestamps = false;
+    public function game(){
+        return $this->belongsTo('App\Models\Game');
+    }
+
+    public function matches(){
+        return $this->hasMany('App\Models\Match');
+    }
+}
