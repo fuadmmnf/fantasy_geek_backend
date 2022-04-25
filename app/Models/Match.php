@@ -15,10 +15,6 @@ class Match extends Model
      */
     protected $hidden = [ 'api_matchid', ];
 
-    public function game(){
-        return $this->belongsTo('App\Models\Game');
-    }
-
     public function team1(){
         return $this->belongsTo('App\Models\Team');
     }

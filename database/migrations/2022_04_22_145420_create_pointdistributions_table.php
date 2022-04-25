@@ -15,13 +15,9 @@ class CreatePointdistributionsTable extends Migration
     {
         Schema::create('pointdistributions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('game_id');
             $table->string('match_type');
             $table->jsonb('distribution');
             $table->timestamps();
-
-            $table->foreign('game_id')->references('id')->on('games')
-                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
