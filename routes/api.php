@@ -29,3 +29,6 @@ Route::post('/matches', [\App\Http\Controllers\API\MatchController::class, 'crea
 
 //teams
 Route::post('/teams', [\App\Http\Controllers\API\TeamController::class, 'createTeam']);
+
+//players
+Route::post('/players', [\App\Http\Controllers\API\PlayerController::class, 'createPlayer']);
