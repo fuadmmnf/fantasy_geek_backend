@@ -19,6 +19,7 @@ class CreatePlayerpositionsTable extends Migration
             $table->string("fullname");
             $table->integer("limit_min");
             $table->integer("limit_max");
+            $table->string("message");
             $table->timestamps();
         });
     }

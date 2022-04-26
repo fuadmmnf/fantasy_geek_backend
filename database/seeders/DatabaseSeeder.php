@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         Artisan::call('migrate:fresh');
         $this->call(AuthorizationSeeder::class);
+        $this->call(PlayerpositionSeeder::class);
+        $this->call(PointdistributionSeeder::class);
     }
 }
