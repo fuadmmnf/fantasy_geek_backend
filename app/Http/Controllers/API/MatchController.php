@@ -17,6 +17,6 @@ class MatchController extends Controller
     public function createMatch(CreateMatchRequest $request) {
         $match = $this->matchRepository->storeMatch($request->validated());
 
-//        return response()->json($user, 200);
+        return response()->json($match, 201);
     }
 }

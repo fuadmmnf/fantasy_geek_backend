@@ -26,3 +26,6 @@ Route::put('/users', [\App\Http\Controllers\API\UserController::class, 'updateUs
 
 //matches
 Route::post('/matches', [\App\Http\Controllers\API\MatchController::class, 'createMatch']);
+
+//teams
+Route::post('/teams', [\App\Http\Controllers\API\TeamController::class, 'createTeam']);
