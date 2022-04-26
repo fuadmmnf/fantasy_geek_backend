@@ -23,3 +23,6 @@ Route::post('/login', [\App\Http\Controllers\API\UserController::class, 'authori
 Route::post('/users', [\App\Http\Controllers\API\UserController::class, 'createUser']);
 Route::post('/users/register/verify', [\App\Http\Controllers\API\UserController::class, 'verifyUser']);
 Route::put('/users', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
+
+//matches
+Route::post('/matches', [\App\Http\Controllers\API\MatchController::class, 'createMatch']);
