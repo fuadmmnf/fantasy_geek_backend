@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AuthorizationSeeder::class);
         $this->call(PlayerpositionSeeder::class);
         $this->call(PointdistributionSeeder::class);
+        $this->call(LocalMockDataSeeder::class);
     }
 }
