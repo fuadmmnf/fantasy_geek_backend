@@ -31,7 +31,7 @@ class MatchRepository
         $newMatch->starting_time = Carbon::parse($request['starting_time']);
         $newMatch->api_matchid = $request['api_matchid'];
 
-        if ($request['team1_monogram']) {
+        if (isset($request['team1_monogram'])) {
             // $filename = time(). '.' . explode('/', explode(':', substr($request->monogram, 0, strpos($request->monogram, ':')))[1])[0];
             $filename = 'team1_' . time() . '.' . explode(';', explode('/', $request['team1_monogram'])[1])[0];
             $location = public_path('/images/teams/' . $filename);
@@ -41,7 +41,7 @@ class MatchRepository
             $newMatch->team1_monogram = $filename;
         }
 
-        if ($request['team2_monogram']) {
+        if (isset($request['team2_monogram'])) {
             // $filename = time(). '.' . explode('/', explode(':', substr($request->monogram, 0, strpos($request->monogram, ':')))[1])[0];
             $filename = 'team2_' . time() . '.' . explode(';', explode('/', $request['team2_monogram'])[1])[0];
             $location = public_path('/images/teams/' . $filename);

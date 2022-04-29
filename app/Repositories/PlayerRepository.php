@@ -15,7 +15,7 @@ class PlayerRepository
         $newPLayer->playerposition_id = $playerPosition->id;
         $newPLayer->api_pid = $request['api_pid'];
         $newPLayer->name = $request['name'];
-        if ($request['image']) {
+        if (isset($request['image'])) {
             $newPLayer->image = $request['image'];
         }
         $newPLayer->rating = $request['rating'];

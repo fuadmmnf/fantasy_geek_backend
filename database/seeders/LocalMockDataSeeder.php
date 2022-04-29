@@ -17,7 +17,7 @@ class LocalMockDataSeeder extends Seeder
     public function run()
     {
         $players = Player::factory()->count(40)->create([
-            'playerposition_id' => random_int(1,4)
+            'playerposition_id' => rand(1,4)
         ]);
 
         $teams = Team::factory()->count(5)->create([
