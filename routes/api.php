@@ -27,6 +27,12 @@ Route::put('/users', [\App\Http\Controllers\API\UserController::class, 'updateUs
 //matches
 Route::post('/matches', [\App\Http\Controllers\API\MatchController::class, 'createMatch']);
 
+
+//contests
+Route::get('/matches/{match}/contests', 'API\ContestController@getContestsByMatch');
+Route::get('/contests/{contest}', 'API\ContestController@getContest');
+Route::post('/contests', [\App\Http\Controllers\API\ContestController::class, 'store']);
+
 //teams
 Route::post('/teams', [\App\Http\Controllers\API\TeamController::class, 'createTeam']);
 
