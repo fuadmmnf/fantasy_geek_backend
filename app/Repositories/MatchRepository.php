@@ -12,6 +12,27 @@ use Illuminate\Support\Carbon;
 class MatchRepository
 {
 
+    public function getAllMatch() {
+        $matches = Match::with('team1', 'team2')
+            ->orderBy('starting_time', 'DESC')
+            ->paginate(20);
+        return $matches;
+    }
+    public function getMatch($match_id) {
+        $match = Match::findOrFail($match_id);
+        $match->load('team1', 'team2');
+
+        return $match;
+    }
+
+    public function getUpcomingMatches() {
+        $matches = Match::where('status', 0)
+            ->with('team1', 'team2')
+            ->orderBy('starting_time', 'DESC')
+            ->paginate(20);
+        return $matches;
+    }
+
     public function storeMatch(array $request)
     {
         $searchMatch = Match::where('api_matchid', $request['api_matchid'])->first();
@@ -50,13 +71,24 @@ class MatchRepository
             })->save($location);
             $newMatch->team2_monogram = $filename;
         }
-
-
         $newMatch->save();
 
         $cricketScorecardHandler = new CricketScorecardUpdater();
         $cricketScorecardHandler->initPlayerScorecardForMatch($newMatch);
 
         return $newMatch;
+    }
+
+    public function updateMatch(array $request) {
+        $match = Match::findOrFail($request['id']);
+        if(isset($request['starting_time'])){
+            $match->starting_time = $request['starting_time'];
+        }
+        if(isset($request['status'])){
+            $match->status = $request['status'];
+        }
+
+        $match->save();
+        return $match;
     }
 }

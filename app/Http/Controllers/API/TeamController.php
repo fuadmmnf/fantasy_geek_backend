@@ -14,8 +14,14 @@ class TeamController extends Controller
         $this->teamRepository = $teamRepository;
     }
     public function createTeam(CreateTeamRequest $request) {
-        $match = $this->teamRepository->storeTeam($request->validated());
+        $team = $this->teamRepository->storeTeam($request->validated());
 
-        return response()->json($match, 201);
+        return response()->json($team, 201);
+    }
+
+    public function getSingleTeam($team_id) {
+        $team = $this->teamRepository->getTeam($team_id);
+
+        return response()->json($team, 200);
     }
 }

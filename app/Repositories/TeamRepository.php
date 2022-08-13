@@ -13,6 +13,18 @@ use Illuminate\Support\Carbon;
 
 class TeamRepository
 {
+    function getTeam($team_id) {
+        $team = Team::findOrfail($team_id);
+        $team->team_members = json_decode($team->team_members, true);
+        $team->key_members = json_decode($team->team_members, true);
+
+        for ($i = 0; $i < count($team->team_members); $i++) {
+            $player = Player::findOrFail($team->team_members[$i]['id']);
+            $team->team_members[$i]['image'] = $player->image;
+        }
+
+        return $team;
+    }
 
     public function storeTeam(array $request)
     {
@@ -42,6 +54,6 @@ class TeamRepository
         $newTeam->save();
 
         return $newTeam;
-
     }
+
 }

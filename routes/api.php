@@ -25,9 +25,14 @@ Route::post('/users/register/verify', [\App\Http\Controllers\API\UserController:
 Route::put('/users', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
 
 //matches
+Route::get('/matches', [\App\Http\Controllers\API\MatchController::class, 'getMatches']);
+Route::get('/matches/{match_id}', [\App\Http\Controllers\API\MatchController::class, 'getSingleMatch']);
+Route::get('/matches/upcoming', [\App\Http\Controllers\API\MatchController::class, 'getUpcomingMatches']);
 Route::post('/matches', [\App\Http\Controllers\API\MatchController::class, 'createMatch']);
+Route::put('/matches', [\App\Http\Controllers\API\MatchController::class, 'updateMatch']);
 
 //teams
+Route::get('/teams/{team_id}', [\App\Http\Controllers\API\TeamController::class, 'getSingleTeam']);
 Route::post('/teams', [\App\Http\Controllers\API\TeamController::class, 'createTeam']);
 
 //players
