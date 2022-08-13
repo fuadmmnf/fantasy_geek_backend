@@ -12,6 +12,10 @@ class ContestRepository
         return $contestsByMatch;
     }
 
+    public function getDetail($contest_id){
+        $contest = Contest::findOrFail('id', $contest_id);
+        return $contest;
+    }
 
     public function saveContest(array $request)
     {

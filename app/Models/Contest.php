@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Contest extends Model
 {
     public $timestamps = false;
+    protected $casts = [
+        'prize_list' => 'array',
+        'user_standings' => 'array',
+    ];
+
     public function match(){
         return $this->belongsTo('App\Models\Match');
     }
