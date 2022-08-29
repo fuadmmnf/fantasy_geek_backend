@@ -3,9 +3,11 @@
 namespace App\Repositories;
 
 use App\Handlers\Scorecard\CricketScorecardUpdater;
+use App\Models\Contest;
 use App\Models\Match;
 use App\Models\Pointdistribution;
 use App\Models\Team;
+use App\Models\Usercontest;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Carbon;
 
@@ -31,6 +33,41 @@ class MatchRepository
             ->orderBy('starting_time', 'DESC')
             ->paginate(20);
         return $matches;
+    }
+
+    public function getUpcomingMatchesByUser($user_id) {
+        $contestIdsByUser = Usercontest::where('user_id', $user_id)->pluck('contest_id');
+        $matchIdsByContest = Contest::whereIn('id', $contestIdsByUser)->pluck('match_id');
+
+        $userUpcomingMatches = Match::whereIn('id', $matchIdsByContest)
+            ->where('status', 0)
+            ->with('team1', 'team2')
+            ->get();
+
+       return $userUpcomingMatches;
+    }
+
+    public function getRunningMatchesByUser($user_id) {
+        $contestIdsByUser = Usercontest::where('user_id', $user_id)->pluck('contest_id');
+        $matchIdsByContest = Contest::whereIn('id', $contestIdsByUser)->pluck('match_id');
+
+        $userRunningMatches = Match::whereIn('id', $matchIdsByContest)
+            ->where('status', 1)
+            ->with('team1', 'team2')
+            ->get();
+
+        return $userRunningMatches;
+    }
+    public function getCompleteMatchesByUser($user_id) {
+        $contestIdsByUser = Usercontest::where('user_id', $user_id)->pluck('contest_id');
+        $matchIdsByContest = Contest::whereIn('id', $contestIdsByUser)->pluck('match_id');
+
+        $userCompleteMatches = Match::whereIn('id', $matchIdsByContest)
+            ->where('status', 2)
+            ->with('team1', 'team2')
+            ->get();
+
+        return $userCompleteMatches;
     }
 
     public function storeMatch(array $request)

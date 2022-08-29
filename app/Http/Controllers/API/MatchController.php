@@ -42,4 +42,21 @@ class MatchController extends Controller
 
         return response()->json($match, 200);
     }
+    public function getUpcomingMatchesByUser($user_id) {
+        $match = $this->matchRepository->getUpcomingMatchesByUser($user_id);
+
+        return response()->json($match, 200);
+    }
+
+    public function getRunningMatchesByUser($user_id) {
+        $match = $this->matchRepository->getRunningMatchesByUser($user_id);
+
+        return response()->json($match, 200);
+    }
+
+    public function getCompleteMatchesByUser($user_id) {
+        $match = $this->matchRepository->getCompleteMatchesByUser($user_id);
+
+        return response()->json($match, 200);
+    }
 }

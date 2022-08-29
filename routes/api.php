@@ -28,6 +28,9 @@ Route::put('/users', [\App\Http\Controllers\API\UserController::class, 'updateUs
 Route::get('/matches', [\App\Http\Controllers\API\MatchController::class, 'getMatches']);
 Route::get('/matches/{match_id}', [\App\Http\Controllers\API\MatchController::class, 'getSingleMatch']);
 Route::get('/matches/upcoming', [\App\Http\Controllers\API\MatchController::class, 'getUpcomingMatches']);
+Route::get('/users/{user_id}/matches/upcoming', [\App\Http\Controllers\API\MatchController::class, 'getUpcomingMatchesByUser']);
+Route::get('/users/{user_id}/matches/running', [\App\Http\Controllers\API\MatchController::class, 'getRunningMatchesByUser']);
+Route::get('/users/{user_id}/matches/complete', [\App\Http\Controllers\API\MatchController::class, 'getCompleteMatchesByUser']);
 Route::post('/matches', [\App\Http\Controllers\API\MatchController::class, 'createMatch']);
 Route::put('/matches', [\App\Http\Controllers\API\MatchController::class, 'updateMatch']);
 

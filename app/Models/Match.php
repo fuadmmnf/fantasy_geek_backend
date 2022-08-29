@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Match extends Model
 {
+    use HasFactory;
     public $timestamps = false;
     /**
      * The attributes that should be hidden for arrays.
