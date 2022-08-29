@@ -14,10 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Artisan::call('migrate:fresh');
-        $this->call(AuthorizationSeeder::class);
-        $this->call(PlayerpositionSeeder::class);
-        $this->call(PointdistributionSeeder::class);
+//        Artisan::call('migrate:fresh');
+//        $this->call(AuthorizationSeeder::class);
+//        $this->call(PlayerpositionSeeder::class);
+//        $this->call(PointdistributionSeeder::class);
         $this->call(LocalMockDataSeeder::class);
     }
 }

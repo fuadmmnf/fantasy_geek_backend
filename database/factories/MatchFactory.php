@@ -18,8 +18,8 @@ class MatchFactory extends Factory
     {
         return [
             'pointdistribution_id' => 2,
-            'team1_id' => '',
-            'team2_id' => '',
+            'team1_id' => rand(1,3),
+            'team2_id' => rand(4,5),
             'api_matchid' => $this->faker->unique()->ean8,
             'status' => 0,
             'name' => 'Demo Match',
