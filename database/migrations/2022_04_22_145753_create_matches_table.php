@@ -15,7 +15,6 @@ class CreateMatchesTable extends Migration
     {
         Schema::create('matches', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('game_id');
             $table->unsignedBigInteger('pointdistribution_id');
             $table->unsignedBigInteger('team1_id');
             $table->unsignedBigInteger('team2_id');
@@ -27,8 +26,6 @@ class CreateMatchesTable extends Migration
             $table->string('team2_monogram');
             $table->timestamps();
 
-            $table->foreign('game_id')->references('id')->on('games')
-                ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('pointdistribution_id')->references('id')->on('pointdistributions')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('team1_id')->references('id')->on('teams')

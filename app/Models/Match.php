@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Match extends Model
 {
+    use HasFactory;
     public $timestamps = false;
     /**
      * The attributes that should be hidden for arrays.
@@ -14,10 +15,6 @@ class Match extends Model
      * @var array
      */
     protected $hidden = [ 'api_matchid', ];
-
-    public function game(){
-        return $this->belongsTo('App\Models\Game');
-    }
 
     public function team1(){
         return $this->belongsTo('App\Models\Team');

@@ -8,7 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class Playerposition extends Model
 {
     public $timestamps = false;
-    public function game(){
-        return $this->belongsTo('App\Models\Game');
-    }
 }

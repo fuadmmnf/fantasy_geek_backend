@@ -22,4 +22,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [\App\Http\Controllers\API\UserController::class, 'authorizeUserLogin']);
 Route::post('/users/create', [\App\Http\Controllers\API\UserController::class, 'createUser']);
 Route::post('/users/register/verify', [\App\Http\Controllers\API\UserController::class, 'verifyUser']);
+<<<<<<< HEAD
 Route::put('/users/update', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
+=======
+Route::put('/users', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
+
+//matches
+Route::get('/matches', [\App\Http\Controllers\API\MatchController::class, 'getMatches']);
+Route::get('/matches/{match_id}', [\App\Http\Controllers\API\MatchController::class, 'getSingleMatch'])->where('match_id', '[0-9]+');
+Route::get('/matches/upcoming', [\App\Http\Controllers\API\MatchController::class, 'getUpcomingMatches']);
+Route::get('/users/{user_id}/matches/upcoming', [\App\Http\Controllers\API\MatchController::class, 'getUpcomingMatchesByUser']);
+Route::get('/users/{user_id}/matches/running', [\App\Http\Controllers\API\MatchController::class, 'getRunningMatchesByUser']);
+Route::get('/users/{user_id}/matches/complete', [\App\Http\Controllers\API\MatchController::class, 'getCompleteMatchesByUser']);
+Route::post('/matches', [\App\Http\Controllers\API\MatchController::class, 'createMatch']);
+Route::put('/matches', [\App\Http\Controllers\API\MatchController::class, 'updateMatch']);
+
+//teams
+Route::get('/teams/{team_id}', [\App\Http\Controllers\API\TeamController::class, 'getSingleTeam']);
+Route::post('/teams', [\App\Http\Controllers\API\TeamController::class, 'createTeam']);
+
+//players
+Route::post('/players', [\App\Http\Controllers\API\PlayerController::class, 'createPlayer']);
+>>>>>>> 2d557b8eac2bf7a86ced6b3c166ffe999be17a63

@@ -15,15 +15,12 @@ class CreatePlayerpositionsTable extends Migration
     {
         Schema::create('playerpositions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('game_id');
             $table->string('name');
             $table->string("fullname");
             $table->integer("limit_min");
             $table->integer("limit_max");
+            $table->string("message");
             $table->timestamps();
-
-            $table->foreign('game_id')->references('id')->on('games')
-                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
