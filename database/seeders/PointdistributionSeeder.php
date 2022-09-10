@@ -44,7 +44,7 @@ class PointdistributionSeeder extends Seeder
             'catches' => 8,
         );
         $t20distribution = new Pointdistribution();
-        $t20distribution->match_type = 't20';
+        $t20distribution->fixture_type = 't20';
         $t20distribution->distribution = json_encode($t20PointDistribution);
         $t20distribution->save();
 
@@ -83,7 +83,7 @@ class PointdistributionSeeder extends Seeder
         );
 
         $oddistribution = new Pointdistribution();
-        $oddistribution->match_type = 'od';
+        $oddistribution->fixture_type = 'od';
         $oddistribution->distribution = json_encode($odPointDistribution);
         $oddistribution->save();
 
@@ -122,7 +122,7 @@ class PointdistributionSeeder extends Seeder
         );
 
         $testdistribution = new Pointdistribution();
-        $testdistribution->match_type = 'test';
+        $testdistribution->fixture_type = 'test';
         $testdistribution->distribution = json_encode($testPointDistribution);
         $testdistribution->save();
 

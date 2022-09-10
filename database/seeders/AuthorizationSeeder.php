@@ -34,9 +34,9 @@ class AuthorizationSeeder extends Seeder
                 'description' => 'Admin Menu Permission'
             ],
             [
-                'name' => 'match-crud',
-                'display_name' => 'match CRUD',
-                'description' => 'match CRUD Permission'
+                'name' => 'fixture-crud',
+                'display_name' => 'fixture CRUD',
+                'description' => 'fixture CRUD Permission'
             ],
             [
                 'name' => 'contest',

@@ -34,7 +34,7 @@ class CreateFixtureTable extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
 
 
-            $table->index(['api_matchid',]);
+            $table->index(['api_fixtureid',]);
         });
     }
 
@@ -45,6 +45,6 @@ class CreateFixtureTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('matches');
+        Schema::dropIfExists('fixtures');
     }
 }
