@@ -1,9 +1,13 @@
 <?php
 
 namespace Database\Seeders;
+
+use App\Models\Contest;
+use App\Models\Fixture;
 use App\Models\Player;
 use App\Models\Playerposition;
 use App\Models\Team;
+use App\Models\Usercontest;
 use Illuminate\Database\Seeder;
 
 class LocalMockDataSeeder extends Seeder
@@ -16,14 +20,18 @@ class LocalMockDataSeeder extends Seeder
 
     public function run()
     {
-        $players = Player::factory()->count(40)->create([
-            'playerposition_id' => random_int(1,4)
-        ]);
 
-        $teams = Team::factory()->count(5)->create([
-            'key_members' => null,
-            'team_members' => json_encode(Player::all()->random(15))
-        ]);
+//        $players = Player::factory()->count(40)->create();
+//
+//        $teams = Team::factory()->count(5)->create([
+//            'key_members' => null,
+//            'team_members' => json_encode(Player::all()->random(15))
+//        ]);
+//
+//        $matches = Fixture::factory()->count(5)->create();
 
+//        $contests = Contest::factory()->count(10)->create();
+
+        $usercontests = Usercontest::factory()->count(3)->create();
     }
 }

@@ -9,7 +9,7 @@ class Pointdistribution extends Model
 {
     public $timestamps = false;
 
-    public function matches(){
-        return $this->hasMany('App\Models\Match');
+    public function fixtures(){
+        return $this->hasMany(Fixture::class);
     }
 }

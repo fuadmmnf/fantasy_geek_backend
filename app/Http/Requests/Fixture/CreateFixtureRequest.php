@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Match;
+namespace App\Http\Requests\Fixture;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateMatchRequest extends FormRequest
+class CreateFixtureRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

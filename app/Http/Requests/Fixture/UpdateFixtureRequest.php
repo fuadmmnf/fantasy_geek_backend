@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Player;
+namespace App\Http\Requests\Fixture;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePlayerRequest extends FormRequest
+class UpdateFixtureRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,11 +13,7 @@ class CreatePlayerRequest extends FormRequest
      */
     public function authorize()
     {
-<<<<<<< HEAD
         return false;
-=======
-        return true;
->>>>>>> master
     }
 
     /**
@@ -28,11 +24,9 @@ class CreatePlayerRequest extends FormRequest
     public function rules()
     {
         return [
-            'playerposition_id' => 'required| numeric',
-            'name' => 'required',
-            'api_pid' => 'required',
-            'rating' => 'required| numeric',
-            'image' => 'sometimes',
+            'id' => 'required',
+            'starting_time' => 'sometimes',
+            'status' => 'sometimes| numeric',
         ];
     }
 }

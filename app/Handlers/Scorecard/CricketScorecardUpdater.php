@@ -3,13 +3,13 @@
 
 namespace App\Handlers\Scorecard;
 
-use App\Models\Match;
+use App\Models\Fixture;
 use App\Models\Scorecard;
 
 class CricketScorecardUpdater implements ScorecardStrategy
 {
 
-    public function initPlayerScorecardForMatch(Match $match)
+    public function initPlayerScorecardForMatch(Fixture $match)
     {
         $initPlayerStat = array(
             'is_in_starting_xi' => false,
@@ -59,7 +59,7 @@ class CricketScorecardUpdater implements ScorecardStrategy
     }
 
 
-    public function parseAndStoreMatchScorecard(Match $match, $matchSummary)
+    public function parseAndStoreMatchScorecard(Fixture $match, $matchSummary)
     {
 //        $this->initPlayerScorecardForMatch($match);
 //        dd(array_merge($matchSummary['team'][0]['players'], $matchSummary['team'][1]['players']));
@@ -263,7 +263,7 @@ class CricketScorecardUpdater implements ScorecardStrategy
     }
 
 
-    public function parseAndUpdateMatchState(Match $match, $matchSummary)
+    public function parseAndUpdateMatchState(Fixture $match, $matchSummary)
     {
         if ($match->status == 1 && array_key_exists('man-of-the-match', $matchSummary) && isset($matchSummary['man-of-the-match']['pid'])) {
             $match->status = 2;

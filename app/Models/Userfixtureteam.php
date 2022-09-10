@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Usermatchteam extends Model
+class Userfixtureteam extends Model
 {
     public $timestamps = false;
     public function teams(){
-        return $this->hasMany('App\Models\Team');
+        return $this->hasMany(Team::class);
     }
 
     public function user(){
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 
-    public function match(){
-        return $this->belongsTo('App\Models\Match');
+    public function fixture(){
+        return $this->belongsTo(Fixture::class);
     }
 }

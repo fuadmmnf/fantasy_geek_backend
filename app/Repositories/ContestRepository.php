@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class ContestRepository
 {
-    public function getContestsByMatch($match_id){
-        $contestsByMatch = Contest::where('match_id', $match_id)->get();
-        return $contestsByMatch;
+    public function getContestsByFixture($fixture_id){
+        $contestsByFixture = Contest::where('fixture_id', $fixture_id)->get();
+        return $contestsByFixture;
     }
 
     public function getDetail($contest_id){
@@ -23,7 +23,7 @@ class ContestRepository
         try{
             $newContest = new Contest();
             $newContest->name = $request['name'];
-            $newContest->match_id = $request['match_id'];
+            $newContest->fixture_id = $request['fixture_id'];
             $newContest->entry_fee = $request['entry_fee'];
             $newContest->winner_count = $request['winner_count'];
             $newContest->award_amount = $request['award_amount'];

@@ -21,12 +21,16 @@ class UserRepository
             $user = User::where('mobile', $request['mobile'])->firstOrFail();
             $userotp = Userotp::where('mobile', $request['mobile'])->firstOrFail();
             if($userotp->otp == $request['otp']) {
-                if($user && Hash::check($request['password'], $user->password)){
-                    $userTokenHandler = new UserTokenHandler();
-                    $user = $userTokenHandler->regenerateUserToken($user);
-                    $user->load('roles');
-                    return $user;
-                }
+                $userTokenHandler = new UserTokenHandler();
+                $user = $userTokenHandler->regenerateUserToken($user);
+                $user->load('roles');
+                return $user;
+                // if($user && Hash::check($request['password'], $user->password)){
+                //     $userTokenHandler = new UserTokenHandler();
+                //     $user = $userTokenHandler->regenerateUserToken($user);
+                //     $user->load('roles');
+                //     return $user;
+                // }
             }  else {
                 throw new \Exception('Invalid OTP');
             }

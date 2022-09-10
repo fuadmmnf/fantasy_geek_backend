@@ -15,7 +15,7 @@ class CreateContestsTable extends Migration
     {
         Schema::create('contests', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('match_id');
+            $table->unsignedBigInteger('fixture_id');
             $table->string('name');
             $table->double('entry_fee')->nullable(false);
             $table->integer('winner_count')->nullable(false);
@@ -29,7 +29,7 @@ class CreateContestsTable extends Migration
 
             $table->timestamps();
 
-            $table->foreign('match_id')->references('id')->on('matches')
+            $table->foreign('fixture_id')->references('id')->on('fixtures')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
     }

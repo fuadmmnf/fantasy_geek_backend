@@ -7,17 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contest extends Model
 {
+    use HasFactory;
     public $timestamps = false;
     protected $casts = [
         'prize_list' => 'array',
         'user_standings' => 'array',
     ];
 
-    public function match(){
-        return $this->belongsTo('App\Models\Match');
+    public function fixture(){
+        return $this->belongsTo(Fixture::class);
     }
 
     public function usercontests(){
-        return $this->hasMany('App\Models\Usercontest');
+        return $this->hasMany(Usercontest::class);
     }
 }

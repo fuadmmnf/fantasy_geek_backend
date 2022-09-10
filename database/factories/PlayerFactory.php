@@ -16,7 +16,7 @@ class PlayerFactory extends Factory
     public function definition()
     {
         return [
-            'playerposition_id' => '',
+            'playerposition_id' => rand(1,4),
             'name' => $this->faker->name,
             'api_pid' => $this->faker->uuid,
             'rating' => rand(1,1),

@@ -20,20 +20,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //users
 Route::post('/login', [\App\Http\Controllers\API\UserController::class, 'authorizeUserLogin']);
-Route::post('/users', [\App\Http\Controllers\API\UserController::class, 'createUser']);
+Route::post('/users/create', [\App\Http\Controllers\API\UserController::class, 'createUser']);
 Route::post('/users/register/verify', [\App\Http\Controllers\API\UserController::class, 'verifyUser']);
 Route::put('/users', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
 
-//matches
-Route::post('/matches', [\App\Http\Controllers\API\MatchController::class, 'createMatch']);
+//fixtures
 
-
-//contests
-Route::get('/matches/{match}/contests', 'API\ContestController@getContestsByMatch');
-Route::get('/contests/{contest}', 'API\ContestController@getContest');
-Route::post('/contests', [\App\Http\Controllers\API\ContestController::class, 'store']);
+Route::get('/fixtures', [\App\Http\Controllers\API\FixtureController::class, 'getFixtures']);
+Route::get('/fixtures/{fixture_id}', [\App\Http\Controllers\API\FixtureController::class, 'getSingleFixture'])->where('fixture_id', '[0-9]+');
+Route::get('/fixtures/upcoming', [\App\Http\Controllers\API\FixtureController::class, 'getUpcomingFixtures']);
+Route::get('/users/{user_id}/fixtures/upcoming', [\App\Http\Controllers\API\FixtureController::class, 'getUpcomingFixturesByUser']);
+Route::get('/users/{user_id}/fixtures/running', [\App\Http\Controllers\API\FixtureController::class, 'getRunningFixturesByUser']);
+Route::get('/users/{user_id}/fixtures/complete', [\App\Http\Controllers\API\FixtureController::class, 'getCompleteFixturesByUser']);
+Route::post('/fixtures', [\App\Http\Controllers\API\FixtureController::class, 'createFixture']);
+Route::put('/fixtures', [\App\Http\Controllers\API\FixtureController::class, 'updateFixture']);
 
 //teams
+Route::get('/teams/{team_id}', [\App\Http\Controllers\API\TeamController::class, 'getSingleTeam']);
 Route::post('/teams', [\App\Http\Controllers\API\TeamController::class, 'createTeam']);
 
 //players

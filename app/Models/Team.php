@@ -19,6 +19,6 @@ class Team extends Model
 //    ];
 
     public function usercontests(){
-        return $this->hasMany('App\Models\Usercontest');
+        return $this->hasMany(Usercontest::class);
     }
 }

@@ -9,9 +9,9 @@ class Scorecard extends Model
 {
     public $timestamps = false;
     public function player(){
-        return $this->belongsTo('App\Models\Player');
+        return $this->belongsTo(Player::class);
     }
-    public function match(){
-        return $this->belongsTo('App\Models\Match');
+    public function fixture(){
+        return $this->belongsTo(Fixture::class);
     }
 }

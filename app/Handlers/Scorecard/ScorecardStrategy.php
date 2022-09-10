@@ -4,10 +4,10 @@
 namespace App\Handlers\Scorecard;
 
 
-use App\Models\Match;
+use App\Models\Fixture;
 
 interface ScorecardStrategy
 {
-    public function initPlayerScorecardForMatch(Match $match);
-    public function parseAndStoreMatchScorecard(Match $match, $matchSummary);
+    public function initPlayerScorecardForMatch(Fixture $match);
+    public function parseAndStoreMatchScorecard(Fixture $match, $matchSummary);
 }
