@@ -22,10 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [\App\Http\Controllers\API\UserController::class, 'authorizeUserLogin']);
 Route::post('/users/create', [\App\Http\Controllers\API\UserController::class, 'createUser']);
 Route::post('/users/register/verify', [\App\Http\Controllers\API\UserController::class, 'verifyUser']);
-
 Route::put('/users/update', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
-
-Route::put('/users', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
 
 //matches
 Route::get('/matches', [\App\Http\Controllers\API\MatchController::class, 'getMatches']);
