@@ -25,7 +25,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'mobile' => 'required',
-            'password' => 'required',
+            'password' => 'sometimes',
             'otp' => 'sometimes',
         ];
     }

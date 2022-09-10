@@ -20,6 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //users
 Route::post('/login', [\App\Http\Controllers\API\UserController::class, 'authorizeUserLogin']);
-Route::post('/users', [\App\Http\Controllers\API\UserController::class, 'createUser']);
+Route::post('/users/create', [\App\Http\Controllers\API\UserController::class, 'createUser']);
 Route::post('/users/register/verify', [\App\Http\Controllers\API\UserController::class, 'verifyUser']);
 Route::put('/users', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
