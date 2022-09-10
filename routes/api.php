@@ -24,7 +24,7 @@ Route::post('/users/create', [\App\Http\Controllers\API\UserController::class, '
 Route::post('/users/register/verify', [\App\Http\Controllers\API\UserController::class, 'verifyUser']);
 
 Route::put('/users/update', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
-=======
+
 Route::put('/users', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
 
 //matches
