@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [\App\Http\Controllers\API\UserController::class, 'authorizeUserLogin']);
 Route::post('/users/create', [\App\Http\Controllers\API\UserController::class, 'createUser']);
 Route::post('/users/register/verify', [\App\Http\Controllers\API\UserController::class, 'verifyUser']);
-<<<<<<< HEAD
+
 Route::put('/users/update', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
 =======
 Route::put('/users', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
@@ -43,4 +43,4 @@ Route::post('/teams', [\App\Http\Controllers\API\TeamController::class, 'createT
 
 //players
 Route::post('/players', [\App\Http\Controllers\API\PlayerController::class, 'createPlayer']);
->>>>>>> 2d557b8eac2bf7a86ced6b3c166ffe999be17a63
+
