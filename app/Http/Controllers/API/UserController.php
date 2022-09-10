@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RegistrationRequest;
 use App\Http\Requests\User\VerifyRegistrationRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,7 @@ class UserController extends Controller
     {
         $this->userRepository = $userRepository;
     }
+    
     public function authorizeUserLogin(LoginRequest $request)
     {
         $user = $this->userRepository->login($request->validated());
@@ -47,7 +49,13 @@ class UserController extends Controller
         }
     }
 
-    public function updateUser() {
+    public function updateUser(UpdateUserRequest $request) {
+        $user = $this->userRepository->updateAccount($request->validated());
 
+        if ($user) {
+            return response()->json($user, 200);
+        } else {
+            return response()->json(['message' => 'Invalild Credentials'], 401);
+        }
     }
 }
