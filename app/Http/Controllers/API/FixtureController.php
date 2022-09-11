@@ -16,47 +16,47 @@ class FixtureController extends Controller
         $this->fixtureRepository = $fixtureRepository;
     }
     public function createFixture(CreateFixtureRequest $request) {
-        $match = $this->fixtureRepository->storeMatch($request->validated());
+        $fixture = $this->fixtureRepository->storeFixture($request->validated());
 
-        return response()->json($match, 201);
+        return response()->json($fixture, 201);
     }
 
     public function updateFixture(UpdateFixtureRequest $request) {
-        $match = $this->fixtureRepository->updateMatch($request->validated());
+        $fixture = $this->fixtureRepository->updateFixture($request->validated());
 
-        return response()->json($match, 201);
+        return response()->json($fixture, 201);
     }
 
     public function getFixtures() {
-        $matches = $this->fixtureRepository->getAllMatch();
+        $fixturees = $this->fixtureRepository->getAllFixture();
 
-        return response()->json($matches, 200);
+        return response()->json($fixturees, 200);
     }
-    public function getSingleFixture($match_id) {
-        $match = $this->fixtureRepository->getMatch($match_id);
+    public function getSingleFixture($fixture_id) {
+        $fixture = $this->fixtureRepository->getFixture($fixture_id);
 
-        return response()->json($match, 200);
+        return response()->json($fixture, 200);
     }
     public function getUpcomingFixtures() {
-        $match = $this->fixtureRepository->getUpcomingMatches();
+        $fixture = $this->fixtureRepository->getUpcomingFixturees();
 
-        return response()->json($match, 200);
+        return response()->json($fixture, 200);
     }
     public function getUpcomingFixturesByUser($user_id) {
-        $match = $this->fixtureRepository->getUpcomingMatchesByUser($user_id);
+        $fixture = $this->fixtureRepository->getUpcomingFixtureesByUser($user_id);
 
-        return response()->json($match, 200);
+        return response()->json($fixture, 200);
     }
 
     public function getRunningFixturesByUser($user_id) {
-        $match = $this->fixtureRepository->getRunningMatchesByUser($user_id);
+        $fixture = $this->fixtureRepository->getRunningFixtureesByUser($user_id);
 
-        return response()->json($match, 200);
+        return response()->json($fixture, 200);
     }
 
     public function getCompleteFixturesByUser($user_id) {
-        $match = $this->fixtureRepository->getCompleteMatchesByUser($user_id);
+        $fixture = $this->fixtureRepository->getCompleteFixtureesByUser($user_id);
 
-        return response()->json($match, 200);
+        return response()->json($fixture, 200);
     }
 }

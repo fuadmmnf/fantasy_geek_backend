@@ -24,14 +24,14 @@ class CreateFixtureRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required| min:1',
-            'pointdistribution_id' => 'required| numeric',
-            'team1_id' => 'required| numeric',
-            'team2_id' => 'required| numeric',
-            'starting_time' => 'required',
-            'api_matchid' => 'required',
-            'team1_monogram' => 'sometimes',
-            'team2_monogram' => 'sometimes'
+//            'name' => 'required| min:1',
+//            'pointdistribution_id' => 'required| numeric',
+//            'team1_id' => 'required| numeric',
+//            'team2_id' => 'required| numeric',
+//            'starting_time' => 'required',
+            'api_fixtureid' => 'required|numeric',
+//            'team1_monogram' => 'sometimes',
+//            'team2_monogram' => 'sometimes'
         ];
     }
 }
