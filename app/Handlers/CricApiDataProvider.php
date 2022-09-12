@@ -3,18 +3,16 @@
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 
-class CricApiDataProvider
-{
+class CricApiDataProvider {
 //    private $api_key;
 //    private $api_baseUrl = 'https://cricket.sportmonks.com/api/v2.0';
-    public function __construct()
-    {
+    public function __construct() {
 //        $this->api_key = config('sport_apikey.cricket_cric_api');
         $this->client = new Client([
             'base_url' => ['https://cricket.sportmonks.com/api/{version}/', ['version' => 'v2.0']],
             'defaults' => [
 //                'headers' => ['Foo' => 'Bar'],
-                'query'   => ['api_token' => config('sport_apikey.cricket_cric_api')],
+                'query' => ['api_token' => config('sport_apikey.cricket_cric_api')],
 //                'auth'    => ['username', 'password'],
 //                'proxy'   => 'tcp://localhost:80'
             ]
@@ -22,29 +20,33 @@ class CricApiDataProvider
     }
 
 
-    public function fetchUpcomingFixtures()
-    {
+    public function fetchUpcomingFixtures() {
         $upcomingFixturees = $this->client->get("/fixtures");
         return $upcomingFixturees['data'];
     }
 
-    public function fetchFixtureById($fixture_id, $query_params){
-        $fixtureDetails = $this->client->get(`/fixtures/${fixture_id}`, [
-            'query' => $query_params
-        ]);
-        return $fixtureDetails['data'];
-    }
+//    public function fetchFixtureById($fixture_id) {
+//        $fixtureDetails = $this->client->get(`/fixtures/${fixture_id}`);
+//        return $fixtureDetails['data'];
+//    }
 
-    public function fetchTeamDetailsWithSquad($team_id){
-        $teamDetails = $this->client->get(`/teams/${$team_id}`, [
+    public function fetchFixtureTeamDetail($fixture_id) {
+        $teamDetails = $this->client->get(`/fixtures/${fixture_id}`, [
             'query' => [
-                'include' => 'squad',
+                'include' => 'localteam,visitorteam,lineup',
             ]
         ]);
         return $teamDetails['data'];
     }
 
-
+    public function fetchFixtureScoreboard($fixture_id) {
+        $fixtureScoreboards = $this->client->get(`/fixtures/${fixture_id}`, [
+            'query' => [
+                'include' => 'bowling, batting',
+            ]
+        ]);
+        return $fixtureDetails['data'];
+    }
 //    public function fetchPlayerFromApiPid($pid){
 //        $playerStatistics = Http::get("{$this->api_baseUrl}/playerStats?apikey={$this->api_key}&pid={$pid}");
 //        return $playerStatistics;
@@ -73,12 +75,6 @@ class CricApiDataProvider
 //        return $fixtureSquads;
 //    }
 
-
-
-    public function fetchScoresByFixtureFromApiFixtureId($mid){
-        $fixtureSummary = Http::get("{$this->api_baseUrl}/fantasySummary?apikey={$this->api_key}&unique_id={$mid}");
-        return $fixtureSummary['data'];
-    }
 
 }
 

@@ -4,6 +4,7 @@ namespace App\Data;
 
 use Carbon\CarbonImmutable;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\DataCollection;
 
 class FixtureDetailDTO extends Data {
     public function __construct(
@@ -17,6 +18,10 @@ class FixtureDetailDTO extends Data {
         public string $note,
         public int $winner_team_id,
         public int $man_of_match_id,
+        public ?TeamDetailDTO $visitorteam,
+        public ?TeamDetailDTO $localteam,
+        /** @var \App\Data\PlayerDTO[] */
+        public ?DataCollection $lineups,
     ) {
     }
 }
