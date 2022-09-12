@@ -45,7 +45,7 @@ class CricApiDataProvider {
                 'include' => 'bowling, batting',
             ]
         ]);
-        return $fixtureDetails['data'];
+        return $fixtureScoreboards['data'];
     }
 //    public function fetchPlayerFromApiPid($pid){
 //        $playerStatistics = Http::get("{$this->api_baseUrl}/playerStats?apikey={$this->api_key}&pid={$pid}");
