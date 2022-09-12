@@ -12,6 +12,7 @@ class FixtureDetailDTO extends Data {
         public string $round,
         public int $localteam_id,
         public int $visitorteam_id,
+        public int $toss_won_team_id,
         public CarbonImmutable $starting_at,
         public string $type,
         public string $status,

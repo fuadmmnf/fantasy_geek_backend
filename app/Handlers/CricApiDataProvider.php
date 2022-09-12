@@ -1,5 +1,8 @@
 <?php
 
+use App\Data\BattingScoreboardDTO;
+use App\Data\BowlingScoreboardDTO;
+use App\Data\FixtureDetailDTO;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 
@@ -30,13 +33,14 @@ class CricApiDataProvider {
 //        return $fixtureDetails['data'];
 //    }
 
-    public function fetchFixtureTeamDetail($fixture_id) {
+    public function fetchFixtureInfo($fixture_id, $query_params = []) {
         $teamDetails = $this->client->get(`/fixtures/${fixture_id}`, [
-            'query' => [
-                'include' => 'localteam,visitorteam,lineup',
-            ]
+//            'query' => [
+//                'include' => 'localteam,visitorteam,lineup',
+//            ],
+            'query' => $query_params,
         ]);
-        return $teamDetails['data'];
+        return FixtureDetailDTO::from($teamDetails['data']);
     }
 
     public function fetchFixtureScoreboard($fixture_id) {
@@ -45,7 +49,10 @@ class CricApiDataProvider {
                 'include' => 'bowling, batting',
             ]
         ]);
-        return $fixtureScoreboards['data'];
+        return [
+            'batting' => BattingScoreboardDTO::from($fixtureScoreboards['data']['batting']),
+            'bowling' => BowlingScoreboardDTO::from($fixtureScoreboards['data']['bowling']),
+        ];
     }
 //    public function fetchPlayerFromApiPid($pid){
 //        $playerStatistics = Http::get("{$this->api_baseUrl}/playerStats?apikey={$this->api_key}&pid={$pid}");
