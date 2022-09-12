@@ -49,9 +49,14 @@ class CricApiDataProvider {
                 'include' => 'bowling, batting',
             ]
         ]);
+
         return [
-            'batting' => BattingScoreboardDTO::from($fixtureScoreboards['data']['batting']),
-            'bowling' => BowlingScoreboardDTO::from($fixtureScoreboards['data']['bowling']),
+            'batting' => collect($fixtureScoreboards['data']['batting'])->transform(function ($data) {
+                return BattingScoreboardDTO::from($data);
+            }),
+            'bowling' => collect($fixtureScoreboards['data']['bowling'])->transform(function ($data) {
+                return BowlingScoreboardDTO::from($data);
+            }),
         ];
     }
 //    public function fetchPlayerFromApiPid($pid){

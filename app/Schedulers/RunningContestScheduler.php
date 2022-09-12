@@ -4,25 +4,26 @@
 namespace App\Schedulers;
 
 
-use App\Handlers\ContestProgressHandler;
-use App\Match;
+use App\Models\Fixture;
 use Illuminate\Support\Facades\Log;
 
 class RunningContestScheduler
 {
+    private \CricApiDataProvider $cricApiProvider;
     public function __invoke()
     {
-        $this->checkRunningMatchAndUpdateContestScores();
+        $this->cricApiProvider = new \CricApiDataProvider();
+        $this->checkRunningFixtureAndUpdateContestScores();
     }
 
-    private function checkRunningMatchAndUpdateContestScores()
+    private function checkRunningFixtureAndUpdateContestScores()
     {
         Log::debug('RunningContestScheduler running');
-        $runningMatches = Match::where('status', 1)->get();
-        foreach ($runningMatches as $runningMatch){
-            $contestProgressHandler = new ContestProgressHandler($runningMatch);
-            $contestProgressHandler->handleContestProgress();
-        }
+        $runningFixtures = Fixture::where('status', 1)->get();
+        foreach ($runningFixtures as $runningFixture){
+            $scorecards = $this->cricApiProvider->fetchFixtureScoreboard($runningFixture->api_fixtureid);
+
+         }
     }
 
 }
