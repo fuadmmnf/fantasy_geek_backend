@@ -50,14 +50,7 @@ class CricApiDataProvider {
             ]
         ]);
 
-        return [
-            'batting' => collect($fixtureScoreboards['data']['batting'])->transform(function ($data) {
-                return BattingScoreboardDTO::from($data);
-            }),
-            'bowling' => collect($fixtureScoreboards['data']['bowling'])->transform(function ($data) {
-                return BowlingScoreboardDTO::from($data);
-            }),
-        ];
+        return FixtureDetailDTO::from($fixtureScoreboards['data']);
     }
 //    public function fetchPlayerFromApiPid($pid){
 //        $playerStatistics = Http::get("{$this->api_baseUrl}/playerStats?apikey={$this->api_key}&pid={$pid}");

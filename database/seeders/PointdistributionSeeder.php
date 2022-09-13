@@ -40,8 +40,8 @@ class PointdistributionSeeder extends Seeder
             'wicket_5' => 16,
             'maiden_overs' => 8,
             'run_outs' => 12,
-            'stumpings' => 12,
-            'catches' => 8,
+            'catches_stumpings' => 12,
+//            'catches' => 8,
         );
         $t20distribution = new Pointdistribution();
         $t20distribution->fixture_type = 't20';
@@ -78,8 +78,8 @@ class PointdistributionSeeder extends Seeder
             'wickets_5' => 8,
             'maiden_overs' => 6,
             'run_outs' => 12,
-            'stumpings' => 12,
-            'catches' => 8,
+            'catches_stumpings' => 12,
+//            'catches' => 8,
         );
 
         $oddistribution = new Pointdistribution();
@@ -117,8 +117,8 @@ class PointdistributionSeeder extends Seeder
             'wickets_5' => 8,
             'maiden_overs' => 1,
             'run_outs' => 12,
-            'stumpings' => 12,
-            'catches' => 8,
+            'catches_stumpings' => 12,
+//            'catches' => 8,
         );
 
         $testdistribution = new Pointdistribution();

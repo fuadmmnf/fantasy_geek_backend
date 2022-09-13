@@ -1,32 +1,62 @@
 <?php
 
+use App\Data\BattingScoreboardDTO;
+use App\Data\BowlingScoreboardDTO;
+use App\Data\FixtureDetailDTO;
 use App\Data\PointDistributionDTO;
 use App\Models\Fixture;
+use App\Models\Scorecard;
 
-class FixtureProgressTracker
-{
+class FixtureProgressTracker {
     private $fixture;
 
-    public function __construct(Fixture $fixture)
-    {
+    public function __construct(Fixture $fixture) {
         $this->fixture = $fixture;
     }
 
 
-    public function handleContestProgress($scorecards)
-    {
-        $scorecards = $this->updateFixtureScorecard();
-        $this->updateUserContestScores($scorecards);
+    public function handleContestProgress(FixtureDetailDTO $fixtureDTO) {
+        $scorecards = $this->fixture->scorecards;
+        foreach ($scorecards as $scorecard) {
+            $batting_score = $fixtureDTO->batting->where('player_id', $scorecard->player->api_pid)->first();
+            $bowling_score = $fixtureDTO->bowling->where('player_id', $scorecard->player->api_pid)->first();
+
+            // calculate run outs, catches, etc here
+            $this->calculatePoints($scorecard, $batting_score, $bowling_score);
+        }
     }
 
-    private function updateFixtureScorecard()
-    {
-        $scorecards = $this->parseAndStoreFixtureScorecard($this->fixture, $fixtureSummary);
-        return $scorecards;
+    private function calculatePoints(Scorecard $scorecard, BattingScoreboardDTO $battingScoreboardDTO, BowlingScoreboardDTO $bowlingScoreboardDTO) {
+        $pd = json_decode($this->fixture->pointdistribution->distribution);
+        $pd['econ_rate'] = json_decode($pd['econ_rate']);
+        $pd['strike_rate'] = json_decode($pd['strike_rate']);
+        $pointDistributionDTO = PointDistributionDTO::from($pd);
+        $playerStats = new PointDistributionDTO();
+        $playerPointScores = new PointDistributionDTO();
+
+        $playerStats->runs = $battingScoreboardDTO->score;
+        $playerStats->runs_50 = floor($battingScoreboardDTO->score / 50);
+        $playerStats->runs_100 = floor($battingScoreboardDTO->score / 100);
+        $playerStats->four_x = $battingScoreboardDTO->four_x;
+        $playerStats->six_x = $battingScoreboardDTO->six_x;
+        $playerStats->duck = ($battingScoreboardDTO->score == 0 && ($battingScoreboardDTO->catch_stump_player_id != -1 || $battingScoreboardDTO->bowling_player_id != -1)) ? 1 : 0;
+        $playerStats->strike_rate = $battingScoreboardDTO->rate;
+
+
+        $playerStats->econ_rate = $bowlingScoreboardDTO->rate;
+        $playerStats->wickets_1 = $bowlingScoreboardDTO->wickets;
+        $playerStats->wickets_3 = floor($bowlingScoreboardDTO->wickets/3);
+        $playerStats->wickets_4 = floor($bowlingScoreboardDTO->wickets/4);
+        $playerStats->wickets_5 = floor($bowlingScoreboardDTO->wickets/5);
+        $playerStats->maiden_overs = $bowlingScoreboardDTO->medians;
+        $playerStats->run_outs = $bowlingScoreboardDTO->rate; // needs processing
+        $playerStats->catches_stumpings = $bowlingScoreboardDTO->rate; // needs processing
+        //get player infos and $bowlingScoreboardDTO point
+        //update scorecard
+
     }
 
-    private function updateUserContestScores($scorecards)
-    {
+    private function updateUserContestScores($scorecards) {
         $contests = $this->fixture->contests;
         $scorecardsArr = array();
         foreach ($scorecards as $scorecard) {
@@ -42,8 +72,8 @@ class FixtureProgressTracker
 
             $contestStandings = array();
             $usercontests = $usercontests->sortByDesc('score');
-            $j=0;
-            foreach($usercontests as $usercontest) {
+            $j = 0;
+            foreach ($usercontests as $usercontest) {
                 $usercontest->ranking = ++$j;
 
                 $usercontest->save();
@@ -61,8 +91,7 @@ class FixtureProgressTracker
         }
     }
 
-    private function storeContestUserScores(Usercontest &$usercontest, &$scorecardsArr)
-    {
+    private function storeContestUserScores(Usercontest &$usercontest, &$scorecardsArr) {
         $teammembers = json_decode($usercontest->team->team_members, true);
         $teamstatsArr = array();
         $contestantScore = 0.0;
@@ -74,9 +103,9 @@ class FixtureProgressTracker
                 "stats" => json_decode($scorecardsArr[$player_id]->player_stats)
             ];
             $playerScore = $scorecardsArr[$player_id]->score;
-            if($usercontest->captain_id == $player_id){
+            if ($usercontest->captain_id == $player_id) {
                 $playerScore *= 2;
-            } elseif ($usercontest->vicecaptain_id == $player_id){
+            } elseif ($usercontest->vicecaptain_id == $player_id) {
                 $playerScore *= 1.5;
             }
             $contestantScore += $playerScore;
@@ -86,9 +115,7 @@ class FixtureProgressTracker
     }
 
 
-
-    public function initPlayerScorecardForFixture(Fixture $fixture)
-    {
+    public function initPlayerScorecardForFixture(Fixture $fixture) {
         $initPlayerStat = array(
             'is_in_starting_xi' => false,
             'is_dismissed' => false,
@@ -137,8 +164,7 @@ class FixtureProgressTracker
     }
 
 
-    public function parseAndStoreFixtureScorecard(Fixture $fixture, $fixtureSummary)
-    {
+    public function parseAndStoreFixtureScorecard(Fixture $fixture, $fixtureSummary) {
 //        $this->initPlayerScorecardForFixture($fixture);
 //        dd(array_merge($fixtureSummary['team'][0]['players'], $fixtureSummary['team'][1]['players']));
         $scorecards = $fixture->scorecards;
@@ -153,8 +179,7 @@ class FixtureProgressTracker
         return $scorecards;
     }
 
-    private function updateStartingLineupStat(&$scorecards, $teamsquads)
-    {
+    private function updateStartingLineupStat(&$scorecards, $teamsquads) {
         foreach ($scorecards as $scorecard) {
             $player = $scorecard->player;
             foreach ($teamsquads as $key => $val) {
@@ -170,8 +195,7 @@ class FixtureProgressTracker
     }
 
 
-    private function updatePerformanceStat(&$scorecards, $fixtureSummary, $pointdistribution)
-    {
+    private function updatePerformanceStat(&$scorecards, $fixtureSummary, $pointdistribution) {
         $statsArr = array();
 
 
@@ -215,8 +239,7 @@ class FixtureProgressTracker
         }
     }
 
-    private function setPlayerScores(Scorecard &$scorecard, &$attr, $pointdistribution)
-    {
+    private function setPlayerScores(Scorecard &$scorecard, &$attr, $pointdistribution) {
         if (!$attr['is_in_starting_xi'])
             return;
         $statPoints = json_decode($scorecard->stat_points, true);
@@ -341,8 +364,7 @@ class FixtureProgressTracker
     }
 
 
-    public function parseAndUpdateFixtureState(Fixture $fixture, $fixtureSummary)
-    {
+    public function parseAndUpdateFixtureState(Fixture $fixture, $fixtureSummary) {
         if ($fixture->status == 1 && array_key_exists('man-of-the-fixture', $fixtureSummary) && isset($fixtureSummary['man-of-the-fixture']['pid'])) {
             $fixture->status = 2;
             $fixture->save();

@@ -21,11 +21,11 @@ class FixtureDetailDTO extends Data {
         public int $man_of_match_id,
         public ?TeamDetailDTO $visitorteam,
         public ?TeamDetailDTO $localteam,
-        /** @var \App\Data\PlayerDTO[] */
+        #[DataCollectionOf(PlayerDTO::class)]
         public ?DataCollection $lineup,
-        /** @var \App\Data\BowlingScoreboardDTO[] */
+        #[DataCollectionOf(BowlingScoreboardDTO::class)]
         public ?DataCollection $bowling,
-        /** @var \App\Data\BattingScoreboardDTO[] */
+        #[DataCollectionOf(BattingScoreboardDTO::class)]
         public ?DataCollection $batting,
     ) {
     }
