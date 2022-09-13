@@ -5,9 +5,10 @@ namespace App\Schedulers;
 
 
 use App\Models\Fixture;
+use FixtureProgressTracker;
 use Illuminate\Support\Facades\Log;
 
-class RunningContestScheduler
+class RunningFixtureTrackerScheduler
 {
     private \CricApiDataProvider $cricApiProvider;
     public function __invoke()
@@ -20,9 +21,10 @@ class RunningContestScheduler
     {
         Log::debug('RunningContestScheduler running');
         $runningFixtures = Fixture::where('status', 1)->get();
+        $runningFixtures->load('pointdistribution', 'scorecards');
         foreach ($runningFixtures as $runningFixture){
             $scorecards = $this->cricApiProvider->fetchFixtureScoreboard($runningFixture->api_fixtureid);
-
+            (new FixtureProgressTracker($runningFixture))->handleContestProgress($scorecards);
          }
     }
 
