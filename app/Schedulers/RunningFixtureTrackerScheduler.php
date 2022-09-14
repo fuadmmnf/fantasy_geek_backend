@@ -22,7 +22,7 @@ class RunningFixtureTrackerScheduler
     {
         Log::debug('RunningContestScheduler running');
         $runningFixtures = Fixture::where('status', 1)->get();
-        $runningFixtures->load('pointdistribution', 'scorecards', 'scorecards.player', 'contests', 'contests.team', 'contests.usercontests');
+        $runningFixtures->load('pointdistribution', 'scorecards', 'scorecards.player', 'contests', 'contests.team', 'contests.usercontests', 'contests.usercontests.user');
         foreach ($runningFixtures as $runningFixture){
             $fixtureDTO = $this->cricApiProvider->fetchFixtureScoreboard($runningFixture->api_fixtureid);
             (new FixtureProgressTracker($runningFixture))->handleContestProgress($fixtureDTO);

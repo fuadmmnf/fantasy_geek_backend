@@ -9,6 +9,8 @@ use App\Data\PointDistributionDTO;
 use App\Models\Fixture;
 use App\Models\Scorecard;
 use App\Models\Usercontest;
+use PhpParser\ErrorHandler\Collecting;
+use Ramsey\Collection\Collection;
 use Spatie\LaravelData\DataCollection;
 
 class FixtureProgressTracker {
@@ -20,15 +22,35 @@ class FixtureProgressTracker {
 
 
     public function handleContestProgress(FixtureDetailDTO $fixtureDTO) {
-
-        foreach ($this->fixture->scorecards as $scorecard) {
-            $this->calculateAndStorePoints($scorecard, $fixtureDTO);
+        $scorecards = $this->fixture->scorecards;
+        foreach (range(0, count($scorecards)) as $i) {
+            $this->calculateAndStorePoints($scorecards[$i], $fixtureDTO);
         }
 
         foreach ($this->fixture->contests as $contest){
-            foreach ($contest->usercontests as $usercontest){
-                $this->updateUserContestProgress($usercontest);
+            $usercontests = $contest->usercontests;
+            foreach (range(0, count($usercontests)) as $i){
+                $this->updateUserContestProgress($usercontests[$i], $scorecards);
             }
+
+            $contestStandings = array();
+            $usercontests = $usercontests->sortByDesc('score');
+            $j = 0;
+            foreach ($usercontests as $usercontest) {
+                $usercontest->ranking = ++$j;
+
+                $usercontest->save();
+
+                $contestStandings[] = [
+                    'user_id' => $usercontest->user_id,
+                    'user_name' => $usercontest->user->name,
+                    'ranking' => $usercontest->ranking,
+                    'score' => $usercontest->score
+                ];
+            }
+
+            $contest->user_standings = $contestStandings;
+            $contest->save();
         }
 
     }
@@ -86,10 +108,10 @@ class FixtureProgressTracker {
         return 0.0;
     }
 
-    private function updateUserContestProgress(Usercontest &$usercontest){
+    private function updateUserContestProgress(Usercontest &$usercontest, Collection $scorecards){
         $playerIds = $usercontest->team->team_members;
         $key_members = $usercontest->team->key_members;
-        $playerScorecards = $this->fixture->scorecards->filter(function ($scorecard) use ($playerIds) {
+        $playerScorecards = $scorecards->filter(function ($scorecard) use ($playerIds) {
             return in_array($scorecard->player_id, $playerIds);
         });
         $usercontest->team_stats = $playerScorecards->transform(function ($item) {
@@ -99,69 +121,7 @@ class FixtureProgressTracker {
             $factor = $item->player_id == $key_members['captain_id'] ? 2.0 : ($item->player_id == $key_members['vicecaptain_id'] ? 1.5 : 1);
             return $carry + $item->score * $factor;
         });
-        $usercontest->save();
+
     }
-
-
-    private
-    function updateUserContestScores($scorecards) {
-        $contests = $this->fixture->contests;
-        $scorecardsArr = array();
-        foreach ($scorecards as $scorecard) {
-            $scorecardsArr[$scorecard->player_id] = $scorecard;
-        }
-
-
-        foreach ($contests as $contest) {
-            $usercontests = $contest->usercontests;
-            for ($i = 0; $i < count($usercontests); $i++) {
-                $this->storeContestUserScores($usercontests[$i], $scorecardsArr);
-            }
-
-            $contestStandings = array();
-            $usercontests = $usercontests->sortByDesc('score');
-            $j = 0;
-            foreach ($usercontests as $usercontest) {
-                $usercontest->ranking = ++$j;
-
-                $usercontest->save();
-
-                $contestStandings[] = [
-                    'user_id' => $usercontest->user_id,
-                    'user_name' => $usercontest->user->name,
-                    'ranking' => $usercontest->ranking,
-                    'score' => $usercontest->score
-                ];
-            }
-
-            $contest->user_standings = json_encode($contestStandings);
-            $contest->save();
-        }
-    }
-
-    private
-    function storeContestUserScores(Usercontest &$usercontest, &$scorecardsArr) {
-        $teammembers = json_decode($usercontest->team->team_members, true);
-        $teamstatsArr = array();
-        $contestantScore = 0.0;
-
-        foreach ($teammembers as $teammember) {
-            $player_id = $teammember['id'];
-            $teamstatsArr[$player_id] = [
-                "score" => $scorecardsArr[$player_id]->score,
-                "stats" => json_decode($scorecardsArr[$player_id]->player_stats)
-            ];
-            $playerScore = $scorecardsArr[$player_id]->score;
-            if ($usercontest->captain_id == $player_id) {
-                $playerScore *= 2;
-            } elseif ($usercontest->vicecaptain_id == $player_id) {
-                $playerScore *= 1.5;
-            }
-            $contestantScore += $playerScore;
-        }
-        $usercontest->team_stats = json_encode($teamstatsArr);
-        $usercontest->score = $contestantScore;
-    }
-
 
 }
