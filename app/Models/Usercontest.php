@@ -9,6 +9,10 @@ class Usercontest extends Model
 {
     use HasFactory;
     public $timestamps = false;
+
+    protected $casts = [
+        'team_stats' => 'array',
+    ];
     /**
      * The attributes that should be hidden for arrays.
      *

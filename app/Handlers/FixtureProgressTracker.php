@@ -8,6 +8,8 @@ use App\Data\FixtureDetailDTO;
 use App\Data\PointDistributionDTO;
 use App\Models\Fixture;
 use App\Models\Scorecard;
+use App\Models\Usercontest;
+use Spatie\LaravelData\DataCollection;
 
 class FixtureProgressTracker {
     private Fixture $fixture;
@@ -23,11 +25,15 @@ class FixtureProgressTracker {
             $this->calculateAndStorePoints($scorecard, $fixtureDTO);
         }
 
-
+        foreach ($this->fixture->contests as $contest){
+            foreach ($contest->usercontests as $usercontest){
+                $this->updateUserContestProgress($usercontest);
+            }
+        }
 
     }
 
-    private function calculateAndStorePoints(Scorecard $scorecard, FixtureDetailDTO $fixtureDetailDTO) {
+    private function calculateAndStorePoints(Scorecard &$scorecard, FixtureDetailDTO $fixtureDetailDTO) {
         $battingScoreboardDTO = BattingScoreboardDTO::from($fixtureDetailDTO->batting->where('player_id', $scorecard->player->api_pid)->first()); // ->toArray()
         $bowlingScoreboardDTO = BowlingScoreboardDTO::from($fixtureDetailDTO->bowling->where('player_id', $scorecard->player->api_pid)->first());
 
@@ -79,6 +85,23 @@ class FixtureProgressTracker {
         }
         return 0.0;
     }
+
+    private function updateUserContestProgress(Usercontest &$usercontest){
+        $playerIds = $usercontest->team->team_members;
+        $key_members = $usercontest->team->key_members;
+        $playerScorecards = $this->fixture->scorecards->filter(function ($scorecard) use ($playerIds) {
+            return in_array($scorecard->player_id, $playerIds);
+        });
+        $usercontest->team_stats = $playerScorecards->transform(function ($item) {
+            return $item->player_stats;
+        })->all();
+        $usercontest->score = $playerScorecards->reduce(function ($carry, $item) use ($key_members) {
+            $factor = $item->player_id == $key_members['captain_id'] ? 2.0 : ($item->player_id == $key_members['vicecaptain_id'] ? 1.5 : 1);
+            return $carry + $item->score * $factor;
+        });
+        $usercontest->save();
+    }
+
 
     private
     function updateUserContestScores($scorecards) {
