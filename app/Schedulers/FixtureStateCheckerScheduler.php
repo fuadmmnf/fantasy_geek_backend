@@ -4,15 +4,16 @@
 namespace App\Schedulers;
 
 use App\Data\FixtureDetailDTO;
+use App\Handlers\CricApiDataProvider;
 use App\Models\Fixture;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class FixtureStateCheckerScheduler {
-    private \CricApiDataProvider $cricApiProvider;
+    private CricApiDataProvider $cricApiProvider;
 
     public function __invoke() {
-        $this->cricApiProvider = new \CricApiDataProvider();
+        $this->cricApiProvider = new CricApiDataProvider();
         $this->checkFixtureState();
     }
 

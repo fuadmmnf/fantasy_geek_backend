@@ -1,4 +1,5 @@
 <?php
+namespace App\Handlers;
 
 use App\Data\BattingScoreboardDTO;
 use App\Data\BowlingScoreboardDTO;

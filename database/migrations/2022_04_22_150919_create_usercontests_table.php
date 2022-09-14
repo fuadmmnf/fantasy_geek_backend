@@ -19,8 +19,8 @@ class CreateUsercontestsTable extends Migration
             $table->unsignedBigInteger('contest_id');
             $table->unsignedBigInteger('team_id');
             $table->unsignedBigInteger('transaction_id');
-            $table->unsignedBigInteger('captain_id');
-            $table->unsignedBigInteger('vicecaptain_id');
+//            $table->unsignedBigInteger('captain_id');
+//            $table->unsignedBigInteger('vicecaptain_id');
             $table->jsonb('team_stats')->nullable();
             $table->double('score')->default(0.0);
             $table->integer('ranking')->default(0);
@@ -32,10 +32,10 @@ class CreateUsercontestsTable extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('team_id')->references('id')->on('teams')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('captain_id')->references('id')->on('players')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('vicecaptain_id')->references('id')->on('players')
-                ->onUpdate('cascade')->onDelete('cascade');
+//            $table->foreign('captain_id')->references('id')->on('players')
+//                ->onUpdate('cascade')->onDelete('cascade');
+//            $table->foreign('vicecaptain_id')->references('id')->on('players')
+//                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
