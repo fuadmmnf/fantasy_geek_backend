@@ -4,20 +4,25 @@
 namespace App\Schedulers;
 
 use App\Data\FixtureDetailDTO;
+use App\Data\ScorecardStatsDTO;
 use App\Handlers\CricApiDataProvider;
 use App\Models\Fixture;
+use App\Models\Scorecard;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
-class FixtureStateCheckerScheduler {
+class FixtureStateCheckerScheduler
+{
     private CricApiDataProvider $cricApiProvider;
 
-    public function __invoke() {
+    public function __invoke()
+    {
         $this->cricApiProvider = new CricApiDataProvider();
         $this->checkFixtureState();
     }
 
-    private function checkFixtureState() {
+    private function checkFixtureState()
+    {
         Log::debug('FixtureStateCheckerScheduler running');
 
         $now = Carbon::now();
@@ -37,19 +42,30 @@ class FixtureStateCheckerScheduler {
             if ($fixtureDTO->status == 'Aban.') { // handle match abandoned
                 $fixture->status = 3;
                 $fixture->save();
-
                 //refund coin to players
 
-            } else if (($fixture->status == 0 && $fixtureDTO->toss_won_team_id != null) ||
-                ($fixture->status == 1 && $fixtureDTO->man_of_match_id != null)
-            ) {
-                $fixture->status = $fixture->status + 1;
-                $fixture->save();
-            }
+            } else if ($fixture->status == 0 && $fixtureDTO->toss_won_team_id != null) {
+                $fixture->status = 1;
+                //init scorecards
+                $teammembers = array_merge($fixture->team1->team_members, $fixture->team2->team_members);
+                foreach ($teammembers as $teammember) {
+                    $newScorecard = new Scorecard();
+                    $newScorecard->match_id = $fixture->id;
+                    $newScorecard->player_id = $teammember->id;
+                    $newScorecard->player_stats = (new ScorecardStatsDTO())->toArray();
+                    $newScorecard->stat_points = (new ScorecardStatsDTO())->toArray();
+                    $newScorecard->save();
+                }
 
-            if ($fixture->status == 2) {
+                $fixture->save();
+
+            } else if ($fixture->status == 1 && $fixtureDTO->man_of_match_id != null) {
+                $fixture->status = 2;
+                $fixture->save();
                 //distribute prize to winners
             }
+
+
         }
     }
 

@@ -4,7 +4,7 @@ namespace App\Data;
 
 use Spatie\LaravelData\Data;
 
-class PointDistributionDTO extends Data {
+class ScorecardStatsDTO extends Data {
     public function __construct(
         public int $is_in_starting_xi = 0,
         public int $runs = 0,

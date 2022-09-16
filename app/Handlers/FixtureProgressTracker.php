@@ -5,13 +5,11 @@ namespace App\Handlers;
 use App\Data\BattingScoreboardDTO;
 use App\Data\BowlingScoreboardDTO;
 use App\Data\FixtureDetailDTO;
-use App\Data\PointDistributionDTO;
+use App\Data\ScorecardStatsDTO;
 use App\Models\Fixture;
 use App\Models\Scorecard;
 use App\Models\Usercontest;
-use PhpParser\ErrorHandler\Collecting;
 use Ramsey\Collection\Collection;
-use Spatie\LaravelData\DataCollection;
 
 class FixtureProgressTracker {
     private Fixture $fixture;
@@ -63,11 +61,11 @@ class FixtureProgressTracker {
         $pd = json_decode($this->fixture->pointdistribution->distribution);
         $pd['econ_rate'] = $this->getRatesFromRange(json_decode($pd['econ_rate']), $bowlingScoreboardDTO->rate) / $bowlingScoreboardDTO->rate;
         $pd['strike_rate'] = $this->getRatesFromRange(json_decode($pd['strike_rate']), $battingScoreboardDTO->rate) / $battingScoreboardDTO->rate;
-        $pointDistributionDTO = PointDistributionDTO::from($pd);
+        $pointDistributionDTO = ScorecardStatsDTO::from($pd);
 
 
         //get player stats
-        $playerStats = new PointDistributionDTO();
+        $playerStats = new ScorecardStatsDTO();
         $playerStats->runs = $battingScoreboardDTO->score;
         $playerStats->runs_50 = floor($battingScoreboardDTO->score / 50);
         $playerStats->runs_100 = floor($battingScoreboardDTO->score / 100);

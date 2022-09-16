@@ -13,6 +13,7 @@ use App\Models\Player;
 use App\Models\Pointdistribution;
 use App\Models\Team;
 use App\Models\Usercontest;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Carbon;
 use Spatie\LaravelData\DataCollection;
@@ -123,36 +124,23 @@ class FixtureRepository
 
 
         $newFixture = new Fixture();
-        $newFixture->name = `${fixtureDetailDTO->localteam->name}_${fixtureDetailDTO->visitorteam->name}`;
-        $newFixture->pointdistribution_id = Pointdistribution::findOrFail($request['pointdistribution_id'])->id;
-        $newFixture->team1_id = $this->createTeam($fixtureDetailDTO->localteam, $fixtureDetailDTO->lineup, $fixtureDetailDTO->localteam_id)->id;
-        $newFixture->team2_id = $this->createTeam($fixtureDetailDTO->visitorteam, $fixtureDetailDTO->lineup, $fixtureDetailDTO->visitorteam_id)->id;
-        $newFixture->starting_time = Carbon::parse($fixtureDetailDTO->starting_at);
-        $newFixture->api_fixtureid = $fixtureDetailDTO->id;
+        DB::beginTransaction();
+        try {
+            $newFixture->name = `${fixtureDetailDTO->localteam->name}_${fixtureDetailDTO->visitorteam->name}`;
+            $newFixture->pointdistribution_id = Pointdistribution::findOrFail($request['pointdistribution_id'])->id;
+            $newFixture->team1_id = $this->createTeam($fixtureDetailDTO->localteam, $fixtureDetailDTO->lineup, $fixtureDetailDTO->localteam_id)->id;
+            $newFixture->team2_id = $this->createTeam($fixtureDetailDTO->visitorteam, $fixtureDetailDTO->lineup, $fixtureDetailDTO->visitorteam_id)->id;
+            $newFixture->starting_time = Carbon::parse($fixtureDetailDTO->starting_at);
+            $newFixture->api_fixtureid = $fixtureDetailDTO->id;
+            $newFixture->save();
 
 
-//        if (isset($request['team1_monogram'])) {
-//            // $filename = time(). '.' . explode('/', explode(':', substr($request->monogram, 0, strpos($request->monogram, ':')))[1])[0];
-//            $filename = 'team1_' . time() . '.' . explode(';', explode('/', $request['team1_monogram'])[1])[0];
-//            $location = public_path('/images/teams/' . $filename);
-//            Image::make($request['team1_monogram'])->resize(200, null, function ($constraint) {
-//                $constraint->aspectRatio();
-//            })->save($location);
-//            $newFixture->team1_monogram = $filename;
-//        }
-//
-//
-//        if (isset($request['team2_monogram'])) {
-//            // $filename = time(). '.' . explode('/', explode(':', substr($request->monogram, 0, strpos($request->monogram, ':')))[1])[0];
-//            $filename = 'team2_' . time() . '.' . explode(';', explode('/', $request['team2_monogram'])[1])[0];
-//            $location = public_path('/images/teams/' . $filename);
-//            Image::make($request['team2_monogram'])->resize(200, null, function ($constraint) {
-//                $constraint->aspectRatio();
-//            })->save($location);
-//            $newFixture->team2_monogram = $filename;
-//        }
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw new \Exception($exception->getMessage());
+        }
 
-        $newFixture->save();
+        DB::commit();
 //
 //        $cricketScorecardHandler = new CricketScorecardUpdater();
 //        $cricketScorecardHandler->initPlayerScorecardForFixture($newFixture);
