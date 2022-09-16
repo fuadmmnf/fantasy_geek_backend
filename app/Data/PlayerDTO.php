@@ -12,5 +12,6 @@ class PlayerDTO extends Data {
         public string $battingstyle,
         public string $bowlingstyle,
         public PlayerPositionDTO $position,
+        public TeamLineupDTO $lineup,
     ){}
 }

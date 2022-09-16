@@ -34,7 +34,7 @@ class CricApiDataProvider {
 //        return $fixtureDetails['data'];
 //    }
 
-    public function fetchFixtureInfo($fixture_id, $query_params = []) {
+    public function fetchFixtureInfo($fixture_id, $query_params = []): FixtureDetailDTO {
         $teamDetails = $this->client->get(`/fixtures/${fixture_id}`, [
 //            'query' => [
 //                'include' => 'localteam,visitorteam,lineup',
@@ -44,7 +44,7 @@ class CricApiDataProvider {
         return FixtureDetailDTO::from($teamDetails['data']);
     }
 
-    public function fetchFixtureScoreboard($fixture_id) {
+    public function fetchFixtureScoreboard($fixture_id): FixtureDetailDTO {
         $fixtureScoreboards = $this->client->get(`/fixtures/${fixture_id}`, [
             'query' => [
                 'include' => 'bowling, batting',

@@ -27,10 +27,10 @@ class ContestRepository
             $newContest->entry_fee = $request['entry_fee'];
             $newContest->winner_count = $request['winner_count'];
             $newContest->award_amount = $request['award_amount'];
-            $newContest->prize_list = json_encode($request['prize_list']);
+            $newContest->prize_list = $request['prize_list'];
             $newContest->total_award_amount = $request['total_award_amount'];
             $newContest->entry_capacity = $request['entry_capacity'];
-            $newContest->user_standings = json_encode([]);
+            $newContest->user_standings = [];
             $newContest->save();
         } catch (\Exception $exception){
             DB::rollBack();

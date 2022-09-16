@@ -22,8 +22,8 @@ class CreateFixtureTable extends Migration
             $table->integer('status')->default(0); // 0 => upcoming, 1 => running, 2 => completed, 3 => canceled
             $table->string('name');
             $table->dateTime('starting_time');
-            $table->string('team1_monogram');
-            $table->string('team2_monogram');
+//            $table->string('team1_monogram');
+//            $table->string('team2_monogram');
             $table->timestamps();
 
             $table->foreign('pointdistribution_id')->references('id')->on('pointdistributions')

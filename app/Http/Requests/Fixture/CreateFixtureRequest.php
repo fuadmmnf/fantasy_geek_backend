@@ -25,7 +25,7 @@ class CreateFixtureRequest extends FormRequest
     {
         return [
 //            'name' => 'required| min:1',
-//            'pointdistribution_id' => 'required| numeric',
+            'pointdistribution_id' => 'required| numeric',
 //            'team1_id' => 'required| numeric',
 //            'team2_id' => 'required| numeric',
 //            'starting_time' => 'required',
