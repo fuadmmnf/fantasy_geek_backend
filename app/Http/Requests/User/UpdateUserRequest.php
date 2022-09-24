@@ -26,6 +26,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'id' => 'sometimes',
             'mobile' => 'sometimes',
+            'bkash' => 'sometimes',
             'email' => 'sometimes',
             'name' => 'sometimes',
         ];
