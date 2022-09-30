@@ -13,7 +13,10 @@ class ContestRepository
     }
 
     public function getDetail($contest_id){
-        $contest = Contest::findOrFail('id', $contest_id);
+        error_log('adlf---'. $contest_id);
+        $contest = Contest::findOrFail($contest_id);
+        error_log('adlf');
+        error_log($contest);
         return $contest;
     }
 

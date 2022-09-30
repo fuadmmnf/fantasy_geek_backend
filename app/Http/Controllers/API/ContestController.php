@@ -23,8 +23,9 @@ class ContestController extends Controller
         return ContestsByFixtureResource::collection($contests);
     }
 
-    public function getContestDetails(Request $request){
-        $contest = $this->contestRepository->getDetail($request->query('contest_id'));
+    public function getContestDetails($contest_id){
+        error_log('adlf');
+        $contest = $this->contestRepository->getDetail($contest_id);
         return new ContestDetailResource($contest);
     }
 
