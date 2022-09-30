@@ -47,3 +47,6 @@ Route::get('/contests/{contest_id}', [\App\Http\Controllers\API\ContestControlle
 
 //usercontests
 Route::get('/user/{user_id}/fixture/{fixture_id}/usercontests', [\App\Http\Controllers\API\UsercontestController::class, 'getUsercontestsByFixture']);
+Route::get('/user/{user_id}/usercontests/upcoming', [\App\Http\Controllers\API\UsercontestController::class, 'getUserUpcomingContests']);
+Route::get('/user/{user_id}/usercontests/ongoing', [\App\Http\Controllers\API\UsercontestController::class, 'getUserOngoingContests']);
+Route::get('/user/{user_id}/usercontests/completed', [\App\Http\Controllers\API\UsercontestController::class, 'getUserCompletedContests']);

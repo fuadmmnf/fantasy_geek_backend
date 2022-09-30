@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Usercontest;
 
-use App\Http\Resources\Contest\ContestDetailResource;
+use App\Http\Resources\Contest\ContestsByFixtureResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +20,7 @@ class UsercontestByFixtureResource extends JsonResource
             'user_id' => $this->user_id,
             'team_id' => $this->team_id,
             'contest_id' => $this->contest_id,
-            'contest' => new ContestDetailResource($this->contest)
+            'contest' => new ContestsByFixtureResource($this->contest)
         ];
     }
 }

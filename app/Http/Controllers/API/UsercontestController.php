@@ -19,4 +19,20 @@ class UsercontestController extends Controller
 
         return UsercontestByFixtureResource::collection($usercontests);
     }
+
+    public function getUserUpcomingContests($user_id){
+        $usercontests = $this->usercontestRepository->getUserUpcomingContests($user_id);
+
+        return UsercontestByFixtureResource::collection($usercontests);
+    }
+    public function getUserOngoingContests($user_id){
+        $usercontests = $this->usercontestRepository->getUserOngoingContests($user_id);
+
+        return UsercontestByFixtureResource::collection($usercontests);
+    }
+    public function getUserCompletedContests($user_id){
+        $usercontests = $this->usercontestRepository->getUserCompletedContests($user_id);
+
+        return UsercontestByFixtureResource::collection($usercontests);
+    }
 }
