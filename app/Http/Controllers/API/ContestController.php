@@ -24,7 +24,6 @@ class ContestController extends Controller
     }
 
     public function getContestDetails($contest_id){
-        error_log('adlf');
         $contest = $this->contestRepository->getDetail($contest_id);
         return new ContestDetailResource($contest);
     }

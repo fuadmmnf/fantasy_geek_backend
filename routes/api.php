@@ -44,3 +44,6 @@ Route::post('/players', [\App\Http\Controllers\API\PlayerController::class, 'cre
 //contests
 Route::get('/contests', [\App\Http\Controllers\API\ContestController::class, 'getContestsByFixture']);
 Route::get('/contests/{contest_id}', [\App\Http\Controllers\API\ContestController::class, 'getContestDetails'])->where('contest_id', '[0-9]+');
+
+//usercontests
+Route::get('/user/{user_id}/fixture/{fixture_id}/usercontests', [\App\Http\Controllers\API\UsercontestController::class, 'getUsercontestsByFixture']);
