@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Models\Contest;
 use App\Models\Fixture;
+use App\Models\Team;
+use App\Models\User;
 use App\Models\Usercontest;
 use App\Models\Userfixtureteam;
 use Illuminate\Support\Facades\DB;
@@ -26,15 +28,10 @@ class UsercontestRepository
 
         $matchIdsByUser = Userfixtureteam::where('user_id', $user_id)->pluck('fixture_id');
 
-        error_log('match--'. $matchIdsByUser);
-
         $upcomingFixtureIds = Fixture::where('status', 0)
             ->whereIn('id', $matchIdsByUser)->pluck('id');
 
-        error_log('match--'. $matchIdsByUser);
-
         $contestIdsByFixture = Contest::whereIn('fixture_id', $upcomingFixtureIds)->pluck('id');
-
 
         $userUpcomingContests = Usercontest::where('user_id', $user_id)
             ->whereIn('contest_id', $contestIdsByFixture)->get();
@@ -45,45 +42,54 @@ class UsercontestRepository
     }
     public function getUserOngoingContests($user_id){
 
-            $matchIdsByUser = Userfixtureteam::where('user_id', $user_id)->pluck('fixture_id');
+        $matchIdsByUser = Userfixtureteam::where('user_id', $user_id)->pluck('fixture_id');
 
-            error_log('match--'. $matchIdsByUser);
+        $upcomingFixtureIds = Fixture::where('status', 1)
+            ->whereIn('id', $matchIdsByUser)->pluck('id');
 
-            $upcomingFixtureIds = Fixture::where('status', 1)
-                ->whereIn('id', $matchIdsByUser)->pluck('id');
+        $contestIdsByFixture = Contest::whereIn('fixture_id', $upcomingFixtureIds)->pluck('id');
 
-            error_log('match--'. $matchIdsByUser);
+        $userUpcomingContests = Usercontest::where('user_id', $user_id)
+            ->whereIn('contest_id', $contestIdsByFixture)->get();
 
-            $contestIdsByFixture = Contest::whereIn('fixture_id', $upcomingFixtureIds)->pluck('id');
+        $userUpcomingContests->load('contest');
 
-            $userUpcomingContests = Usercontest::where('user_id', $user_id)
-                ->whereIn('contest_id', $contestIdsByFixture)->get();
-
-            $userUpcomingContests->load('contest');
-
-            return $userUpcomingContests;
-        }
+        return $userUpcomingContests;
+    }
 
      public function getUserCompletedContests($user_id){
 
-                $matchIdsByUser = Userfixtureteam::where('user_id', $user_id)->pluck('fixture_id');
+        $matchIdsByUser = Userfixtureteam::where('user_id', $user_id)->pluck('fixture_id');
 
-                error_log('match--'. $matchIdsByUser);
+        $upcomingFixtureIds = Fixture::where('status', 2)
+            ->whereIn('id', $matchIdsByUser)->pluck('id');
 
-                $upcomingFixtureIds = Fixture::where('status', 2)
-                    ->whereIn('id', $matchIdsByUser)->pluck('id');
+        $contestIdsByFixture = Contest::whereIn('fixture_id', $upcomingFixtureIds)->pluck('id');
 
-                error_log('match--'. $matchIdsByUser);
+        $userUpcomingContests = Usercontest::where('user_id', $user_id)
+            ->whereIn('contest_id', $contestIdsByFixture)->get();
 
-                $contestIdsByFixture = Contest::whereIn('fixture_id', $upcomingFixtureIds)->pluck('id');
+        $userUpcomingContests->load('contest');
 
-                $userUpcomingContests = Usercontest::where('user_id', $user_id)
-                    ->whereIn('contest_id', $contestIdsByFixture)->get();
+        return $userUpcomingContests;
+    }
 
-                $userUpcomingContests->load('contest');
+    public function createUsercontest(array $request){
+        $user = User::findOrFail($request['user_id']);
+        $team = Team::findOrFail($request['team_id']);
+        $contest = Contest::findOrFail($request['contest_id']);
 
-                return $userUpcomingContests;
-            }
+        $newUsercontest = new Usercontest();
+
+        $newUsercontest->user_id = $user->id;
+        $newUsercontest->team_id = $team->id;
+        $newUsercontest->contest_id = $contest->id;
+        $newUsercontest->transaction_id = $request['transaction_id'];
+
+        $newUsercontest->save();
+
+        return $newUsercontest;
+    }
 
 
 }
