@@ -44,6 +44,7 @@ Route::post('/players', [\App\Http\Controllers\API\PlayerController::class, 'cre
 //contests
 Route::get('/contests', [\App\Http\Controllers\API\ContestController::class, 'getContestsByFixture']);
 Route::get('/contests/{contest_id}', [\App\Http\Controllers\API\ContestController::class, 'getContestDetails'])->where('contest_id', '[0-9]+');
+Route::post('/contests', [\App\Http\Controllers\API\ContestController::class, 'createContest']);
 
 //usercontests
 Route::get('/user/{user_id}/fixture/{fixture_id}/usercontests', [\App\Http\Controllers\API\UsercontestController::class, 'getUsercontestsByFixture']);
@@ -51,3 +52,4 @@ Route::get('/user/{user_id}/usercontests/upcoming', [\App\Http\Controllers\API\U
 Route::get('/user/{user_id}/usercontests/ongoing', [\App\Http\Controllers\API\UsercontestController::class, 'getUserOngoingContests']);
 Route::get('/user/{user_id}/usercontests/completed', [\App\Http\Controllers\API\UsercontestController::class, 'getUserCompletedContests']);
 Route::post('/usercontests', [\App\Http\Controllers\API\UsercontestController::class, 'createUsercontest']);
+

@@ -8,7 +8,7 @@ class CreateContestRequest extends FormRequest {
 	public function rules(): array {
 		return [
             'name' => 'required',
-            'match_id' => 'required',
+            'fixture_id' => 'required',
             'entry_fee' => 'required',
             'winner_count' => 'required',
             'award_amount' => 'required',

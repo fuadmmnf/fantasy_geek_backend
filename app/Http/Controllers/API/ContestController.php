@@ -28,7 +28,7 @@ class ContestController extends Controller
         return new ContestDetailResource($contest);
     }
 
-    public function store(CreateContestRequest $request) {
+    public function createContest(CreateContestRequest $request) {
         $contest = $this->contestRepository->saveContest($request->validated());
         return response()->json($contest, 201);
     }
