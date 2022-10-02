@@ -48,6 +48,8 @@ Route::post('/contests', [\App\Http\Controllers\API\ContestController::class, 'c
 Route::put('/contests', [\App\Http\Controllers\API\ContestController::class, 'updateContest']);
 
 //usercontests
+Route::get('usercontests', [\App\Http\Controllers\API\UsercontestController::class, 'getUsercontestsById']);
+Route::get('usercontests/ranking', [\App\Http\Controllers\API\UsercontestController::class, 'getUsercontestsRankingById']);
 Route::get('/user/{user_id}/fixture/{fixture_id}/usercontests', [\App\Http\Controllers\API\UsercontestController::class, 'getUsercontestsByFixture']);
 Route::get('/user/{user_id}/usercontests/upcoming', [\App\Http\Controllers\API\UsercontestController::class, 'getUserUpcomingContests']);
 Route::get('/user/{user_id}/usercontests/ongoing', [\App\Http\Controllers\API\UsercontestController::class, 'getUserOngoingContests']);

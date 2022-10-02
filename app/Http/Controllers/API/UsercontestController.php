@@ -21,6 +21,18 @@ class UsercontestController extends Controller
         return UsercontestByFixtureResource::collection($usercontests);
     }
 
+    public function getUsercontestsById(Request $request){
+        $usercontests = $this->usercontestRepository->getUsercontestsById($request->query('user_id'), $request->query('contest_id'));
+
+        return new UsercontestByFixtureResource($usercontests);
+    }
+    public function getUsercontestsRankingById(Request $request)
+    {
+        $ranking = $this->usercontestRepository->getUsercontestsRankingById($request->query('contest_id'));
+
+        return response()->json($ranking, 200);
+    }
+
     public function getUserUpcomingContests($user_id){
         $usercontests = $this->usercontestRepository->getUserUpcomingContests($user_id);
 

@@ -24,6 +24,23 @@ class UsercontestRepository
         return $userContestByFixture;
     }
 
+    public function getUsercontestsById($user_id, $contest_id){
+        $user = User::findOrFail($user_id);
+
+        $usercontest = Usercontest::where('user_id', $user->id)
+            ->where('contest_id', $contest_id)
+            ->first();
+
+        return $usercontest;
+    }
+    public function getUsercontestsRankingById($contest_id){
+        $ranking = Usercontest::where('contest_id', $contest_id)
+            ->orderBy('ranking', 'ASC')
+            ->paginate(10);
+
+        return $ranking;
+    }
+
     public function getUserUpcomingContests($user_id){
 
         $matchIdsByUser = Userfixtureteam::where('user_id', $user_id)->pluck('fixture_id');
