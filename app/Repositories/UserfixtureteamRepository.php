@@ -2,17 +2,23 @@
 
 namespace App\Repositories;
 
-use App\Models\Contest;
 use App\Models\Fixture;
 use App\Models\Team;
 use App\Models\User;
-use App\Models\Usercontest;
 use App\Models\Userfixtureteam;
-use Illuminate\Support\Facades\DB;
 
 class UserfixtureteamRepository
 {
 
+    public function getUserFixtureTeams($user_id, $fixture_id){
+        $teamIds =  Userfixtureteam::where('user_id', $user_id)
+            ->where('fixture_id', $fixture_id)
+            ->pluck('team_id');
+
+        $teams = Team::whereIn('id', $teamIds)->get();
+
+        return $teams;
+    }
     public function createUserFixtureTeam(array $request){
         $fixture = Fixture::findOrFail($request['fixture_id']);
         $user = User::findOrFail($request['user_id']);

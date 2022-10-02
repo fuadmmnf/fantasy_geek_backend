@@ -55,4 +55,5 @@ Route::get('/user/{user_id}/usercontests/completed', [\App\Http\Controllers\API\
 Route::post('/usercontests', [\App\Http\Controllers\API\UsercontestController::class, 'createUsercontest']);
 
 //userfixtureteams
+Route::get('/userfixtureteams', [\App\Http\Controllers\API\UserfixtureteamController::class, 'getUserfixtureteamsByFixture']);
 Route::post('/userfixtureteams', [\App\Http\Controllers\API\UserfixtureteamController::class, 'createUserfixtureteam']);
