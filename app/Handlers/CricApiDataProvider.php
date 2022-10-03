@@ -32,21 +32,21 @@ class CricApiDataProvider {
 //    }
 
     public function fetchFixtureInfo($fixture_id, $query_params = []): FixtureDetailDTO {
-        $teamDetails = $this->client->get(`/fixtures/${fixture_id}`, [
+        $teamDetails = json_decode($this->client->get(`/fixtures/${fixture_id}`, [
 //            'query' => [
 //                'include' => 'localteam,visitorteam,lineup',
 //            ],
             'query' => $this->api_key + $query_params,
-        ]);
+        ])->getBody()->getContents(), true);
         return FixtureDetailDTO::from($teamDetails['data']);
     }
 
     public function fetchFixtureScoreboard($fixture_id): FixtureDetailDTO {
-        $fixtureScoreboards = $this->client->get(`/fixtures/${fixture_id}`,  [
+        $fixtureScoreboards = json_decode($this->client->get(`/fixtures/${fixture_id}`,  [
             'query' => $this->api_key + [
                 'include' => 'bowling, batting',
             ]
-        ]);
+        ])->getBody()->getContents(), true);
 
         return FixtureDetailDTO::from($fixtureScoreboards['data']);
     }
