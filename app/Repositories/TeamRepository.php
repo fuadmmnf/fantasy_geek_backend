@@ -36,7 +36,7 @@ class TeamRepository
 
         $teamMembers = [];
         foreach ($request['team_members'] as $teamMember) {
-            $player = Player::findOrFail($teamMember['id']);
+            $player = Player::findOrFail($teamMember);
             $teamMembers[] = [
                 "id" => $player->id,
                 "name" => $player->name,

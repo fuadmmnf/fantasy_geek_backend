@@ -1,11 +1,8 @@
 <?php
 namespace App\Handlers;
 
-use App\Data\BattingScoreboardDTO;
-use App\Data\BowlingScoreboardDTO;
 use App\Data\FixtureDetailDTO;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Http;
 
 class CricApiDataProvider {
 
@@ -32,10 +29,7 @@ class CricApiDataProvider {
 //    }
 
     public function fetchFixtureInfo($fixture_id, $query_params = []): FixtureDetailDTO {
-        $teamDetails = json_decode($this->client->get(`/fixtures/${fixture_id}`, [
-//            'query' => [
-//                'include' => 'localteam,visitorteam,lineup',
-//            ],
+        $teamDetails = json_decode($this->client->get("fixtures/{$fixture_id}", [
             'query' => $this->api_key + $query_params,
         ])->getBody()->getContents(), true);
         return FixtureDetailDTO::from($teamDetails['data']);

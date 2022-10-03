@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use Carbon\CarbonImmutable;
+use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
 
@@ -21,11 +22,11 @@ class FixtureDetailDTO extends Data {
         public ?int $man_of_match_id,
         public ?TeamDetailDTO $visitorteam,
         public ?TeamDetailDTO $localteam,
-        #[DataCollectionOf(PlayerDTO::class)]
+        /** @var \App\Data\PlayerDTO[] */
         public ?DataCollection $lineup,
-        #[DataCollectionOf(BowlingScoreboardDTO::class)]
+        /** @var \App\Data\BowlingScoreboardDTO[] */
         public ?DataCollection $bowling,
-        #[DataCollectionOf(BattingScoreboardDTO::class)]
+        /** @var \App\Data\BattingScoreboardDTO[] */
         public ?DataCollection $batting,
     ) {
     }

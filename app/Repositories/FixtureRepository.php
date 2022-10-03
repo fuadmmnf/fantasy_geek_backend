@@ -96,6 +96,8 @@ class FixtureRepository
                 $player = (new PlayerRepository())->storePlayer([
                     'playerposition_id' => $playerDTO->position->id, // id's are synced with our backend, via seeder
                     'name' => $playerDTO->fullname,
+                    'battingstyle' => $playerDTO->battingstyle,
+                    'bowlingstyle' => $playerDTO->bowlingstyle,
                     'api_pid' => $playerDTO->id,
                     'image' => $playerDTO->image_path
                 ]);
@@ -108,6 +110,7 @@ class FixtureRepository
             'type' => 0,
             'image' => $detailDTO->image_path, // same image to local later
             'team_members' => $teammember_ids,
+            'key_members' => [],
         ]);
     }
 
@@ -126,7 +129,7 @@ class FixtureRepository
         $newFixture = new Fixture();
         DB::beginTransaction();
         try {
-            $newFixture->name = `${fixtureDetailDTO->localteam->name}_${fixtureDetailDTO->visitorteam->name}`;
+            $newFixture->name = "{$fixtureDetailDTO->localteam->name}_{$fixtureDetailDTO->visitorteam->name}";
             $newFixture->pointdistribution_id = Pointdistribution::findOrFail($request['pointdistribution_id'])->id;
             $newFixture->team1_id = $this->createTeam($fixtureDetailDTO->localteam, $fixtureDetailDTO->lineup, $fixtureDetailDTO->localteam_id)->id;
             $newFixture->team2_id = $this->createTeam($fixtureDetailDTO->visitorteam, $fixtureDetailDTO->lineup, $fixtureDetailDTO->visitorteam_id)->id;

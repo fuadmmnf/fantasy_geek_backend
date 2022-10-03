@@ -9,8 +9,8 @@ class PlayerDTO extends Data {
         public int $id,
         public string $fullname,
         public string $image_path,
-        public string $battingstyle,
-        public string $bowlingstyle,
+        public ?string $battingstyle,
+        public ?string $bowlingstyle,
         public PlayerPositionDTO $position,
         public TeamLineupDTO $lineup,
     ){}

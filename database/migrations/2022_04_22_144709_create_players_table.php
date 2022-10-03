@@ -20,6 +20,8 @@ class CreatePlayersTable extends Migration
             $table->string('name');
             $table->double('rating')->nullable();
             $table->string('code');
+            $table->string('bowlingstyle')->nullable();
+            $table->string('battingstyle')->nullable();
             $table->string('image')->nullable();
             // strike rate and players profile
             $table->timestamps();

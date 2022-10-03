@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('admin')->middleware([])->group(function () { //fix auth permissions later
     Route::get('/fixtures/upcoming', [\App\Http\Controllers\API\FixtureController::class, 'getUpcomingFixturesForAdmin']);
+    Route::post('/fixtures', [\App\Http\Controllers\API\FixtureController::class, 'createFixture']);
 });
 
 
@@ -37,7 +38,6 @@ Route::get('/fixtures/upcoming', [\App\Http\Controllers\API\FixtureController::c
 Route::get('/users/{user_id}/fixtures/upcoming', [\App\Http\Controllers\API\FixtureController::class, 'getUpcomingFixturesByUser']);
 Route::get('/users/{user_id}/fixtures/running', [\App\Http\Controllers\API\FixtureController::class, 'getRunningFixturesByUser']);
 Route::get('/users/{user_id}/fixtures/complete', [\App\Http\Controllers\API\FixtureController::class, 'getCompleteFixturesByUser']);
-Route::post('/fixtures', [\App\Http\Controllers\API\FixtureController::class, 'createFixture']);
 Route::put('/fixtures', [\App\Http\Controllers\API\FixtureController::class, 'updateFixture']);
 
 //teams

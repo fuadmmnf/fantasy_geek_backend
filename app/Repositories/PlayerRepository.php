@@ -15,6 +15,8 @@ class PlayerRepository
         $newPLayer->playerposition_id = $playerPosition->id;
         $newPLayer->api_pid = $request['api_pid'];
         $newPLayer->name = $request['name'];
+        $newPLayer->battingstyle = $request['battingstyle'];
+        $newPLayer->bowlingstyle = $request['bowlingstyle'];
         $newPLayer->image = $request['image']?? null;
         $newPLayer->rating = $request['rating'] ?? null;
         $newPLayer->code = random_string(10) . time();

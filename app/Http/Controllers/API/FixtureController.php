@@ -30,7 +30,7 @@ class FixtureController extends Controller
 
     public function getUpcomingFixturesForAdmin(){
         $fixtures = (new CricApiDataProvider())->fetchUpcomingFixtures();
-        return response()->json($fixtures, 200);
+        return response()->json($fixtures);
     }
 
     public function getFixtures() {
