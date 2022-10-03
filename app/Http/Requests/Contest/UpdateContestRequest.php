@@ -4,9 +4,10 @@ namespace App\Http\Requests\Contest;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateContestRequest extends FormRequest {
+class UpdateContestRequest extends FormRequest {
 	public function rules(): array {
 		return [
+            'id' => 'required',
             'name' => 'required',
             'fixture_id' => 'required',
             'entry_fee' => 'required',

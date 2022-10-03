@@ -13,7 +13,7 @@ class ContestRepository
     }
 
     public function getDetail($contest_id){
-        $contest = Contest::findOrFail('id', $contest_id);
+        $contest = Contest::findOrFail($contest_id);
         return $contest;
     }
 
@@ -39,5 +39,24 @@ class ContestRepository
 
         DB::commit();
         return $newContest;
+    }
+
+    public function updateContest(array $request)
+    {
+        $contest = Contest::findOrFail($request['id']);
+
+        $contest->name = $request['name'];
+        $contest->fixture_id = $request['fixture_id'];
+        $contest->entry_fee = $request['entry_fee'];
+        $contest->winner_count = $request['winner_count'];
+        $contest->award_amount = $request['award_amount'];
+        $contest->prize_list = $request['prize_list'];
+        $contest->total_award_amount = $request['total_award_amount'];
+        $contest->entry_capacity = $request['entry_capacity'];
+        $contest->user_standings = [];
+        $contest->save();
+
+
+        return $contest;
     }
 }
