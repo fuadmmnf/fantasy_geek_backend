@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Handlers\CricApiDataProvider;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Fixture\CreateFixtureRequest;
 use App\Http\Requests\Fixture\UpdateFixtureRequest;
@@ -27,6 +28,12 @@ class FixtureController extends Controller
         return response()->json($fixture, 201);
     }
 
+    public function getUpcomingFixturesForAdmin(){
+        $fixtures = (new CricApiDataProvider())->fetchUpcomingFixtures();
+        dd($fixtures);
+        return response()->json($fixtures, 200);
+    }
+
     public function getFixtures() {
         $fixturees = $this->fixtureRepository->getAllFixture();
 
@@ -44,7 +51,6 @@ class FixtureController extends Controller
     }
     public function getUpcomingFixturesByUser($user_id) {
         $fixture = $this->fixtureRepository->getUpcomingFixtureesByUser($user_id);
-
         return response()->json($fixture, 200);
     }
 

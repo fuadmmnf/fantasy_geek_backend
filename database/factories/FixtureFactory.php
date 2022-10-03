@@ -23,8 +23,8 @@ class FixtureFactory extends Factory
             'api_fixtureid' => $this->faker->unique()->ean8,
             'status' => 0,
             'name' => 'Demo Fixture',
-            'team1_monogram' => 'team1_monogram',
-            'team2_monogram' => 'team2_monogram',
+//            'team1_monogram' => 'team1_monogram',
+//            'team2_monogram' => 'team2_monogram',
             'starting_time' => Carbon::now()
         ];
     }

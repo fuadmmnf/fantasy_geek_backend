@@ -8,25 +8,22 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 
 class CricApiDataProvider {
-//    private $api_key;
-//    private $api_baseUrl = 'https://cricket.sportmonks.com/api/v2.0';
+
     public function __construct() {
-//        $this->api_key = config('sport_apikey.cricket_cric_api');
+        $this->api_key = ['api_token' => config('sport_api.cricket_cric_api')];
         $this->client = new Client([
-            'base_url' => ['https://cricket.sportmonks.com/api/{version}/', ['version' => 'v2.0']],
-            'defaults' => [
-//                'headers' => ['Foo' => 'Bar'],
-                'query' => ['api_token' => config('sport_apikey.cricket_cric_api')],
-//                'auth'    => ['username', 'password'],
-//                'proxy'   => 'tcp://localhost:80'
-            ]
+            'base_uri' => 'https://cricket.sportmonks.com/api/v2.0/',
         ]);
     }
 
 
     public function fetchUpcomingFixtures() {
-        $upcomingFixturees = $this->client->get("/fixtures");
-        return $upcomingFixturees['data'];
+        $upcomingFixturees = json_decode($this->client->get("fixtures", [
+            'query' => $this->api_key + [
+                'include' => 'localteam,visitorteam',
+            ]
+        ])->getBody()->getContents(), true);
+        return FixtureDetailDTO::collection($upcomingFixturees['data']);
     }
 
 //    public function fetchFixtureById($fixture_id) {
@@ -39,14 +36,14 @@ class CricApiDataProvider {
 //            'query' => [
 //                'include' => 'localteam,visitorteam,lineup',
 //            ],
-            'query' => $query_params,
+            'query' => $this->api_key + $query_params,
         ]);
         return FixtureDetailDTO::from($teamDetails['data']);
     }
 
     public function fetchFixtureScoreboard($fixture_id): FixtureDetailDTO {
-        $fixtureScoreboards = $this->client->get(`/fixtures/${fixture_id}`, [
-            'query' => [
+        $fixtureScoreboards = $this->client->get(`/fixtures/${fixture_id}`,  [
+            'query' => $this->api_key + [
                 'include' => 'bowling, batting',
             ]
         ]);

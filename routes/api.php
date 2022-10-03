@@ -18,6 +18,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::prefix('admin')->middleware([])->group(function () { //fix auth permissions later
+    Route::get('/fixtures/upcoming', [\App\Http\Controllers\API\FixtureController::class, 'getUpcomingFixturesForAdmin']);
+});
+
+
+
 //users
 Route::post('/login', [\App\Http\Controllers\API\UserController::class, 'authorizeUserLogin']);
 Route::post('/users/create', [\App\Http\Controllers\API\UserController::class, 'createUser']);
@@ -25,7 +31,6 @@ Route::post('/users/register/verify', [\App\Http\Controllers\API\UserController:
 Route::put('/users', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
 
 //fixtures
-
 Route::get('/fixtures', [\App\Http\Controllers\API\FixtureController::class, 'getFixtures']);
 Route::get('/fixtures/{fixture_id}', [\App\Http\Controllers\API\FixtureController::class, 'getSingleFixture'])->where('fixture_id', '[0-9]+');
 Route::get('/fixtures/upcoming', [\App\Http\Controllers\API\FixtureController::class, 'getUpcomingFixtures']);
