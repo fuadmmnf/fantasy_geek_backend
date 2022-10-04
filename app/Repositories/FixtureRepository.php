@@ -114,6 +114,8 @@ class FixtureRepository
         ]);
     }
 
+
+
     public function storeFixture(array $request)
     {
         $searchFixture = Fixture::where('api_fixtureid', $request['api_fixtureid'])->first();
@@ -123,7 +125,7 @@ class FixtureRepository
 
         $fixtureDetailDTO = (new CricApiDataProvider())->fetchFixtureInfo($request['api_fixtureid'], [
             'include' => 'localteam,visitorteam,lineup',
-        ]);
+        ]); // lineup is different thing, need to consider other thing for squad
 
 
         $newFixture = new Fixture();

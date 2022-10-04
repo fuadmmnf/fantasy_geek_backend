@@ -1,12 +1,16 @@
 <?php
+
 namespace App\Handlers;
 
 use App\Data\FixtureDetailDTO;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 
-class CricApiDataProvider {
+class CricApiDataProvider
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->api_key = ['api_token' => config('sport_api.cricket_cric_api')];
         $this->client = new Client([
             'base_uri' => 'https://cricket.sportmonks.com/api/v2.0/',
@@ -14,11 +18,14 @@ class CricApiDataProvider {
     }
 
 
-    public function fetchUpcomingFixtures() {
+    public function fetchUpcomingFixtures()
+    {
+        $today = Carbon::now();
         $upcomingFixturees = json_decode($this->client->get("fixtures", [
             'query' => $this->api_key + [
-                'include' => 'localteam,visitorteam',
-            ]
+                    'include' => 'localteam,visitorteam',
+                    'filter[starts_between]' => "{$today->format('Y-m-d')}, {$today->addWeek()->format('Y-m-d')}"
+                ]
         ])->getBody()->getContents(), true);
         return FixtureDetailDTO::collection($upcomingFixturees['data']);
     }
@@ -28,18 +35,20 @@ class CricApiDataProvider {
 //        return $fixtureDetails['data'];
 //    }
 
-    public function fetchFixtureInfo($fixture_id, $query_params = []): FixtureDetailDTO {
+    public function fetchFixtureInfo($fixture_id, $query_params = []): FixtureDetailDTO
+    {
         $teamDetails = json_decode($this->client->get("fixtures/{$fixture_id}", [
             'query' => $this->api_key + $query_params,
         ])->getBody()->getContents(), true);
         return FixtureDetailDTO::from($teamDetails['data']);
     }
 
-    public function fetchFixtureScoreboard($fixture_id): FixtureDetailDTO {
-        $fixtureScoreboards = json_decode($this->client->get(`/fixtures/${fixture_id}`,  [
+    public function fetchFixtureScoreboard($fixture_id): FixtureDetailDTO
+    {
+        $fixtureScoreboards = json_decode($this->client->get("fixtures/${fixture_id}", [
             'query' => $this->api_key + [
-                'include' => 'bowling, batting',
-            ]
+                    'include' => 'bowling, batting',
+                ]
         ])->getBody()->getContents(), true);
 
         return FixtureDetailDTO::from($fixtureScoreboards['data']);

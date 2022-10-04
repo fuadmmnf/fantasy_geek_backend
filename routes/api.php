@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('admin')->middleware([])->group(function () { //fix auth permissions later
     Route::get('/fixtures/upcoming', [\App\Http\Controllers\API\FixtureController::class, 'getUpcomingFixturesForAdmin']);
+    Route::get('/fixtures/{fixture_id}', [\App\Http\Controllers\API\FixtureController::class, 'getFixtureDetailForTest']);
     Route::post('/fixtures', [\App\Http\Controllers\API\FixtureController::class, 'createFixture']);
 });
 

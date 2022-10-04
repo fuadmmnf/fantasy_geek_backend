@@ -33,6 +33,13 @@ class FixtureController extends Controller
         return response()->json($fixtures);
     }
 
+    public function getFixtureDetailForTest($fixture_id){
+        $fixture = (new CricApiDataProvider())->fetchFixtureInfo($fixture_id, [
+            'include' => 'localteam,visitorteam,lineup',
+        ]);
+        return response()->json($fixture);
+    }
+
     public function getFixtures() {
         $fixturees = $this->fixtureRepository->getAllFixture();
 

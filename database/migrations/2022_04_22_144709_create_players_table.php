@@ -16,7 +16,7 @@ class CreatePlayersTable extends Migration
         Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('playerposition_id');
-            $table->string('api_pid');
+            $table->unsignedBigInteger('api_pid');
             $table->string('name');
             $table->double('rating')->nullable();
             $table->string('code');

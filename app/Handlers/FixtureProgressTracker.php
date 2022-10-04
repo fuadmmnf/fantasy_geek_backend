@@ -9,6 +9,7 @@ use App\Data\ScorecardStatsDTO;
 use App\Models\Fixture;
 use App\Models\Scorecard;
 use App\Models\Usercontest;
+use Illuminate\Support\Facades\Log;
 use Ramsey\Collection\Collection;
 
 class FixtureProgressTracker {
@@ -21,7 +22,7 @@ class FixtureProgressTracker {
 
     public function handleContestProgress(FixtureDetailDTO $fixtureDTO) {
         $scorecards = $this->fixture->scorecards;
-        foreach (range(0, count($scorecards)) as $i) {
+        foreach (range(0, count($scorecards)-1) as $i) {
             $this->calculateAndStorePoints($scorecards[$i], $fixtureDTO);
         }
 
@@ -54,13 +55,18 @@ class FixtureProgressTracker {
     }
 
     private function calculateAndStorePoints(Scorecard &$scorecard, FixtureDetailDTO $fixtureDetailDTO) {
-        $battingScoreboardDTO = BattingScoreboardDTO::from($fixtureDetailDTO->batting->where('player_id', $scorecard->player->api_pid)->first()); // ->toArray()
-        $bowlingScoreboardDTO = BowlingScoreboardDTO::from($fixtureDetailDTO->bowling->where('player_id', $scorecard->player->api_pid)->first());
 
+        $batting = $fixtureDetailDTO->batting->toCollection()->where('player_id', $scorecard->player->api_pid)->first();
+        $bowling = $fixtureDetailDTO->bowling->toCollection()->where('player_id', $scorecard->player->api_pid)->first();
+
+//        Log::debug('batting: ' . ($batting == null? '[]': json_encode($batting->toArray(), true)));
+//        Log::debug('bowling: ' . ($bowling == null? '[]': json_encode($bowling->toArray(), true)));
+        $battingScoreboardDTO = ($batting == null)? new BattingScoreboardDTO(player_id: $scorecard->player->api_pid): BattingScoreboardDTO::from($batting->toArray()); // ->toArray()
+        $bowlingScoreboardDTO = ($bowling == null)? new BowlingScoreboardDTO(player_id: $scorecard->player->api_pid): BowlingScoreboardDTO::from($bowling->toArray());
         //get point distributions
-        $pd = json_decode($this->fixture->pointdistribution->distribution);
-        $pd['econ_rate'] = $this->getRatesFromRange(json_decode($pd['econ_rate']), $bowlingScoreboardDTO->rate) / $bowlingScoreboardDTO->rate;
-        $pd['strike_rate'] = $this->getRatesFromRange(json_decode($pd['strike_rate']), $battingScoreboardDTO->rate) / $battingScoreboardDTO->rate;
+        $pd = json_decode($this->fixture->pointdistribution->distribution, true);
+        $pd['econ_rate'] = ($bowling == null? 0: $this->getRatesFromRange(json_decode($pd['econ_rate'], true), $bowlingScoreboardDTO->rate) / ($bowlingScoreboardDTO->rate == 0?1: $bowlingScoreboardDTO->rate) );
+        $pd['strike_rate'] = ($batting == null? 0: $this->getRatesFromRange(json_decode($pd['strike_rate'], true), $battingScoreboardDTO->rate) / ($battingScoreboardDTO->rate == 0? 1: $battingScoreboardDTO->rate));
         $pointDistributionDTO = ScorecardStatsDTO::from($pd);
 
 
@@ -80,10 +86,10 @@ class FixtureProgressTracker {
         $playerStats->wickets_4 = floor($bowlingScoreboardDTO->wickets / 4);
         $playerStats->wickets_5 = floor($bowlingScoreboardDTO->wickets / 5);
         $playerStats->maiden_overs = $bowlingScoreboardDTO->medians;
-        $playerStats->run_outs = $fixtureDetailDTO->batting->filter(function ($val) use ($scorecard) {
+        $playerStats->run_outs = $fixtureDetailDTO->batting->toCollection()->filter(function (BattingScoreboardDTO $val) use ($scorecard) {
             return $val->runout_by_id == $scorecard->player->api_pid;
         })->count();
-        $playerStats->catches_stumpings = $fixtureDetailDTO->batting->filter(function ($val) use ($scorecard) {
+        $playerStats->catches_stumpings = $fixtureDetailDTO->batting->toCollection()->filter(function (BattingScoreboardDTO $val) use ($scorecard) {
             return $val->catch_stump_player_id == $scorecard->player->api_pid;
         })->count();
 
@@ -95,6 +101,7 @@ class FixtureProgressTracker {
         $scorecard->stat_points = $playerPointScores;
         $scorecard->score = array_sum($playerPointScores);
         $scorecard->save();
+
     }
 
     private function getRatesFromRange($ranges, $val): float {

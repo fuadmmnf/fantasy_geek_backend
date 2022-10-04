@@ -20,7 +20,7 @@ class FixtureFactory extends Factory
             'pointdistribution_id' => 2,
             'team1_id' => rand(1,3),
             'team2_id' => rand(4,5),
-            'api_fixtureid' => $this->faker->unique()->ean8,
+            'api_fixtureid' => $this->faker->unique()->randomNumber(),
             'status' => 0,
             'name' => 'Demo Fixture',
 //            'team1_monogram' => 'team1_monogram',
