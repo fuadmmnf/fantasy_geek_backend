@@ -45,15 +45,13 @@ class CricApiDataProvider
     }
 
     public function fetchSquadBySeason($team_id, $season_id): TeamDetailDTO{
-        $team = json_decode($this->client->get("team/{$team_id}", [
+        $team = json_decode($this->client->get("teams/{$team_id}/squad/${season_id}", [
             'query' => $this->api_key + [
                     'include' => 'squad',
                 ]
         ])->getBody()->getContents(), true);
 
-        $team['data']['squad'] = array_filter($team['data']['squad'], function ($player) use ($season_id) {
-            return $player['squad']['season_id'] == $season_id;
-        });
+        \Log::debug($team);
 
         return TeamDetailDTO::from($team['data']);
     }
