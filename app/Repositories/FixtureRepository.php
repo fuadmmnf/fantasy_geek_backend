@@ -115,11 +115,11 @@ class FixtureRepository
 
 
 
-    public function storeFixture(array $request)
+    public function storeFixture(array $request): ?Fixture
     {
         $searchFixture = Fixture::where('api_fixtureid', $request['api_fixtureid'])->first();
         if ($searchFixture) {
-            return response()->json('Fixture already created', 400);
+            return null;
         }
 
         $fixtureDetailDTO = (new CricApiDataProvider())->fetchFixtureInfo($request['api_fixtureid'], [
