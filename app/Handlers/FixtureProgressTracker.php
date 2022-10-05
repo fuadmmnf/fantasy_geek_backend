@@ -9,8 +9,8 @@ use App\Data\ScorecardStatsDTO;
 use App\Models\Fixture;
 use App\Models\Scorecard;
 use App\Models\Usercontest;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
-use Ramsey\Collection\Collection;
 
 class FixtureProgressTracker {
     private Fixture $fixture;
@@ -28,7 +28,7 @@ class FixtureProgressTracker {
 
         foreach ($this->fixture->contests as $contest){
             $usercontests = $contest->usercontests;
-            foreach (range(0, count($usercontests)) as $i){
+            foreach (range(0, count($usercontests)-1) as $i){
                 $this->updateUserContestProgress($usercontests[$i], $scorecards);
             }
 
@@ -114,18 +114,18 @@ class FixtureProgressTracker {
     }
 
     private function updateUserContestProgress(Usercontest &$usercontest, Collection $scorecards){
-        $playerIds = $usercontest->team->team_members;
+        $playerIds = array_map(fn($player): int => $player['id'], $usercontest->team->team_members);
         $key_members = $usercontest->team->key_members;
         $playerScorecards = $scorecards->filter(function ($scorecard) use ($playerIds) {
             return in_array($scorecard->player_id, $playerIds);
         });
-        $usercontest->team_stats = $playerScorecards->transform(function ($item) {
+        $usercontest->team_stats = $playerScorecards->map(function ($item) {
             return $item->player_stats;
         })->all();
         $usercontest->score = $playerScorecards->reduce(function ($carry, $item) use ($key_members) {
-            $factor = $item->player_id == $key_members['captain_id'] ? 2.0 : ($item->player_id == $key_members['vicecaptain_id'] ? 1.5 : 1);
+            $factor = ($item->player_id == $key_members['captain'] ? 2.0 : ($item->player_id == $key_members['vicecaptain'] ? 1.5 : 1));
             return $carry + $item->score * $factor;
-        });
+        }, 0);
 
     }
 
