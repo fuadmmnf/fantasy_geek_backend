@@ -61,11 +61,13 @@ class FixtureStateCheckerScheduler
                 $fixture->save();
 
             }
-//            else if ($fixture->status == 1 && $fixtureDTO->man_of_match_id != null) {
-//                $fixture->status = 2;
-//                $fixture->save();
-//                //distribute prize to winners
-//            }
+
+            //cpmmment out this else if to test on finished games
+            else if ($fixture->status == 1 && $fixtureDTO->man_of_match_id != null) {
+                $fixture->status = 2;
+                $fixture->save();
+                //distribute prize to winners
+            }
 
 
         }

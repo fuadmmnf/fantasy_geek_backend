@@ -18,9 +18,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-//        $schedule->call(new FixtureStateCheckerScheduler)->name('fixture_status_check')->everyMinute();
+        $schedule->call(new FixtureStateCheckerScheduler)->name('fixture_status_check')->everyMinute();
 //        $schedule->call(new RunningFixtureTrackerScheduler)->name('fixture_progress')->withoutOverlapping()->everyMinute();
-        $schedule->call(new RunningFixtureTrackerScheduler)->name('fixture_progress')->everyMinute();
+        $schedule->call(new RunningFixtureTrackerScheduler)->name('fixture_progress')->everyTwoMinutes();
     }
 
     /**
