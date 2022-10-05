@@ -85,12 +85,11 @@ class FixtureRepository
         return $userCompleteFixturees;
     }
 
-    private function createTeam(TeamDetailDTO $detailDTO, DataCollection $lineup, int $api_teamid): Team
+    private function createTeam(int $api_teamid, int $api_seasonid): Team
     {
         //create player entities if not available
-        $teammember_ids = $lineup->toCollection()->filter(function (PlayerDTO $playerDTO) use ($api_teamid) {
-            return $playerDTO->lineup->team_id == $api_teamid;
-        })->map(function (PlayerDTO $playerDTO) {
+        $teamDetailDTO = (new CricApiDataProvider())->fetchSquadBySeason($api_teamid, $api_seasonid);
+        $teammember_ids = $teamDetailDTO->squad->toCollection()->map(function (PlayerDTO $playerDTO) {
             $player = Player::where('api_pid', $playerDTO->id)->first();
             if (!$player) {
                 $player = (new PlayerRepository())->storePlayer([
@@ -106,9 +105,9 @@ class FixtureRepository
         })->all();
 
         return (new TeamRepository())->storeTeam([
-            'name' => $detailDTO->name,
+            'name' => $teamDetailDTO->name,
             'type' => 0,
-            'image' => $detailDTO->image_path, // same image to local later
+            'image' => $teamDetailDTO->image_path, // same image to local later
             'team_members' => $teammember_ids,
             'key_members' => [],
         ]);
@@ -124,8 +123,8 @@ class FixtureRepository
         }
 
         $fixtureDetailDTO = (new CricApiDataProvider())->fetchFixtureInfo($request['api_fixtureid'], [
-            'include' => 'localteam,visitorteam,lineup',
-        ]); // lineup is different thing, need to consider other thing for squad
+            'include' => 'localteam,visitorteam',
+        ]);
 
 
         $newFixture = new Fixture();
@@ -133,8 +132,8 @@ class FixtureRepository
         try {
             $newFixture->name = "{$fixtureDetailDTO->localteam->name}_{$fixtureDetailDTO->visitorteam->name}";
             $newFixture->pointdistribution_id = Pointdistribution::findOrFail($request['pointdistribution_id'])->id;
-            $newFixture->team1_id = $this->createTeam($fixtureDetailDTO->localteam, $fixtureDetailDTO->lineup, $fixtureDetailDTO->localteam_id)->id;
-            $newFixture->team2_id = $this->createTeam($fixtureDetailDTO->visitorteam, $fixtureDetailDTO->lineup, $fixtureDetailDTO->visitorteam_id)->id;
+            $newFixture->team1_id = $this->createTeam($fixtureDetailDTO->localteam_id, $fixtureDetailDTO->season_id)->id;
+            $newFixture->team2_id = $this->createTeam($fixtureDetailDTO->visitorteam_id, $fixtureDetailDTO->season_id)->id;
             $newFixture->starting_time = Carbon::parse($fixtureDetailDTO->starting_at);
             $newFixture->api_fixtureid = $fixtureDetailDTO->id;
             $newFixture->save();

@@ -11,6 +11,7 @@ class FixtureDetailDTO extends Data {
     public function __construct(
         public int $id,
         public string $round,
+        public int $season_id,
         public int $localteam_id,
         public int $visitorteam_id,
         public ?int $toss_won_team_id,

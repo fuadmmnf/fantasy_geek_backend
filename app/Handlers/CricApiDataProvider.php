@@ -3,6 +3,7 @@
 namespace App\Handlers;
 
 use App\Data\FixtureDetailDTO;
+use App\Data\TeamDetailDTO;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 
@@ -41,6 +42,20 @@ class CricApiDataProvider
             'query' => $this->api_key + $query_params,
         ])->getBody()->getContents(), true);
         return FixtureDetailDTO::from($teamDetails['data']);
+    }
+
+    public function fetchSquadBySeason($team_id, $season_id): TeamDetailDTO{
+        $team = json_decode($this->client->get("team/{$team_id}", [
+            'query' => $this->api_key + [
+                    'include' => 'squad',
+                ]
+        ])->getBody()->getContents(), true);
+
+        $team['data']['squad'] = array_filter($team['data']['squad'], function ($player) use ($season_id) {
+            return $player['squad']['season_id'] == $season_id;
+        });
+
+        return TeamDetailDTO::from($team['data']);
     }
 
     public function fetchFixtureScoreboard($fixture_id): FixtureDetailDTO
