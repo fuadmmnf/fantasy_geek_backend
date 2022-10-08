@@ -85,7 +85,7 @@ class PaymentRepository
 
     public function paymentList($user_id)
     {
-        $payments = Userpayment::where('user_id', $user_id)->get();
+        $payments = Userpayment::where('user_id', $user_id)->orderBy('id', 'desc')->get();
 
         if($payments) {
             return [
