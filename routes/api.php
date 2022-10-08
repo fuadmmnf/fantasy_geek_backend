@@ -23,6 +23,14 @@ Route::post('/login', [\App\Http\Controllers\API\UserController::class, 'authori
 Route::post('/users/create', [\App\Http\Controllers\API\UserController::class, 'createUser']);
 Route::post('/users/register/verify', [\App\Http\Controllers\API\UserController::class, 'verifyUser']);
 Route::put('/users/update', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
+Route::get('/users/check/{id}', [\App\Http\Controllers\API\UserController::class, 'checkUser']);
+
+// payments
+Route::post('/payment/temp', [\App\Http\Controllers\API\PaymentController::class, 'tempPayment']);
+Route::get('/payment/fail', [\App\Http\Controllers\API\PaymentController::class, 'paymentFailed']);
+Route::get('/payment/cancel', [\App\Http\Controllers\API\PaymentController::class, 'paymentCancel']);
+Route::post('/payment/confirm', [\App\Http\Controllers\API\PaymentController::class, 'paymentConfirm']);
+Route::get('/payment/list/{user_id}', [\App\Http\Controllers\API\PaymentController::class, 'paymentList']);
 
 //matches
 Route::get('/matches', [\App\Http\Controllers\API\MatchController::class, 'getMatches']);

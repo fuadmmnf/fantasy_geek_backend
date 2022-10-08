@@ -153,6 +153,15 @@ class UserRepository
         ];
     }
 
+    public function checkUserAccount($id) {
+        $user = User::findOrFail($id);
+        return [
+            'success' => true,
+            'user' => $user,
+            'message' => 'লেনদেন সফল হয়েছে ও কয়েন সংখ্যা বৃদ্ধি করা হয়েছে!',
+        ];
+    }
+
     private function generateOTP($mobile)
     {
         $pool = '0123456789';

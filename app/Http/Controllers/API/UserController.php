@@ -58,4 +58,14 @@ class UserController extends Controller
             return response()->json(['message' => 'Invalild Credentials'], 401);
         }
     }
+
+    public function checkUser($id) {
+        $user = $this->userRepository->checkUserAccount($id);
+
+        if ($user) {
+            return response()->json($user, 200);
+        } else {
+            return response()->json(['message' => 'Invalild Credentials'], 401);
+        }
+    }
 }
