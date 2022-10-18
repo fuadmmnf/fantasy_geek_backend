@@ -14,14 +14,11 @@ class Player extends Model
     ];
 
     public function playerposition(){
-        return $this->belongsTo('App\Models\Playerposition');
+        return $this->belongsTo(Playerposition::class);
     }
 
-    public function country(){
-        return $this->belongsTo('App\Models\Country');
-    }
 
     public function scorecards(){
-        return $this->hasMany('App\Models\Scorecard');
+        return $this->hasMany(Scorecard::class);
     }
 }

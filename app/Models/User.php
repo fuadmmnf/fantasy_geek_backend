@@ -44,7 +44,7 @@ class User extends Authenticatable
     ];
 
     public function admin(){
-        return $this->hasOne('App\Models\Admin');
+        return $this->hasOne(Admin::class);
     }
 
     public function userpayments(){

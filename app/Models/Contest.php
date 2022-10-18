@@ -9,11 +9,16 @@ class Contest extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    public function match(){
-        return $this->belongsTo('App\Models\Match');
+    protected $casts = [
+        'prize_list' => 'array',
+        'user_standings' => 'array',
+    ];
+
+    public function fixture(){
+        return $this->belongsTo(Fixture::class);
     }
 
     public function usercontests(){
-        return $this->hasMany('App\Models\Usercontest');
+        return $this->hasMany(Usercontest::class);
     }
 }

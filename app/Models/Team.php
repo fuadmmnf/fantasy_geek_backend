@@ -9,6 +9,11 @@ class Team extends Model
 {
     use HasFactory;
     public $timestamps = false;
+
+    protected $casts = [
+        'team_members' => 'array',
+        'key_members' => 'array',
+    ];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -18,7 +23,8 @@ class Team extends Model
 //        'gameapi_id',
 //    ];
 
+
     public function usercontests(){
-        return $this->hasMany('App\Models\Usercontest');
+        return $this->hasMany(Usercontest::class);
     }
 }

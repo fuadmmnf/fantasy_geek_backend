@@ -21,7 +21,7 @@ class CreateTeamsTable extends Migration
             $table->jsonb('key_members')->nullable();
             $table->jsonb('team_members')->nullable();
 //            $table->jsonb('combination')->nullable();
-//            $table->string('monogram')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

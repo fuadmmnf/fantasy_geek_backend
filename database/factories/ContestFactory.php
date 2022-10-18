@@ -16,7 +16,7 @@ class ContestFactory extends Factory
     public function definition()
     {
         return [
-            'match_id' => rand(1,3),
+            'fixture_id' => rand(1,3),
             'name' => 'Demo Contest',
             'entry_fee' => rand(500, 10000),
             'winner_count' => rand(20,25),

@@ -9,6 +9,10 @@ class Usercontest extends Model
 {
     use HasFactory;
     public $timestamps = false;
+
+    protected $casts = [
+        'team_stats' => 'array',
+    ];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -19,14 +23,14 @@ class Usercontest extends Model
     ];
 
     public function user(){
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     public function contest(){
-        return $this->belongsTo('App\Models\Contest');
+        return $this->belongsTo(Contest::class);
     }
 
     public function team(){
-        return $this->belongsTo('App\Models\Team');
+        return $this->belongsTo(Team::class);
     }
 }

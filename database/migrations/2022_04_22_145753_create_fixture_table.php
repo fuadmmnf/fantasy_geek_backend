@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMatchesTable extends Migration
+class CreateFixtureTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,17 @@ class CreateMatchesTable extends Migration
      */
     public function up()
     {
-        Schema::create('matches', function (Blueprint $table) {
+        Schema::create('fixtures', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('pointdistribution_id');
             $table->unsignedBigInteger('team1_id');
             $table->unsignedBigInteger('team2_id');
-            $table->string('api_matchid');
+            $table->unsignedBigInteger('api_fixtureid');
             $table->integer('status')->default(0); // 0 => upcoming, 1 => running, 2 => completed, 3 => canceled
             $table->string('name');
             $table->dateTime('starting_time');
-            $table->string('team1_monogram');
-            $table->string('team2_monogram');
+//            $table->string('team1_monogram');
+//            $table->string('team2_monogram');
             $table->timestamps();
 
             $table->foreign('pointdistribution_id')->references('id')->on('pointdistributions')
@@ -34,7 +34,7 @@ class CreateMatchesTable extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
 
 
-            $table->index(['api_matchid',]);
+            $table->index(['api_fixtureid',]);
         });
     }
 
@@ -45,6 +45,6 @@ class CreateMatchesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('matches');
+        Schema::dropIfExists('fixtures');
     }
 }

@@ -17,15 +17,17 @@ class PlayerpositionSeeder extends Seeder
 
         $cricketpositions = [
             [
+                'id' => 4,
                 'name' => 'ar',
-                'fullname' => 'All-Rounder',
+                'fullname' => 'Allrounder',
                 'limit_min' => 1,
                 'limit_max' => 4,
                 'message' => "Pick 1 - 4 All-Rounders"
             ],
             [
+                'id' => 3,
                 'name' => 'wk',
-                'fullname' => 'Wicket-Keeper',
+                'fullname' => 'Wicketkeeper',
                 'limit_min' => 1,
                 'limit_max' => 4,
                 'message' => "Pick 1 - 4 Wicket-Keepers"
@@ -33,6 +35,7 @@ class PlayerpositionSeeder extends Seeder
 
             ],
             [
+                'id' => 1,
                 'name' => 'bat',
                 'fullname' => 'Batsman',
                 'limit_min' => 3,
@@ -40,6 +43,7 @@ class PlayerpositionSeeder extends Seeder
                 'message' => "Pick 3 - 6 Batsmen"
             ],
             [
+                'id' => 2,
                 'name' => 'bwl',
                 'fullname' => 'Bowler',
                 'limit_min' => 3,

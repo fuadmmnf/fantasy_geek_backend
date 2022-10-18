@@ -18,7 +18,7 @@ class PlayerFactory extends Factory
         return [
             'playerposition_id' => rand(1,4),
             'name' => $this->faker->name,
-            'api_pid' => $this->faker->uuid,
+            'api_pid' => $this->faker->unique()->randomNumber(),
             'rating' => rand(1,1),
             'code' => '017' . $this->faker->unique()->ean8
         ];

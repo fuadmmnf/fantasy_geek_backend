@@ -16,10 +16,12 @@ class CreatePlayersTable extends Migration
         Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('playerposition_id');
-            $table->string('api_pid');
+            $table->unsignedBigInteger('api_pid');
             $table->string('name');
-            $table->double('rating');
-            $table->string('code')->nullable(false);
+            $table->double('rating')->nullable();
+            $table->string('code');
+            $table->string('bowlingstyle')->nullable();
+            $table->string('battingstyle')->nullable();
             $table->string('image')->nullable();
             // strike rate and players profile
             $table->timestamps();

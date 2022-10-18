@@ -8,10 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Scorecard extends Model
 {
     public $timestamps = false;
+
+    protected $casts = [
+        'player_stats' => 'array',
+        'stat_points' => 'array',
+    ];
+
     public function player(){
-        return $this->belongsTo('App\Models\Player');
+        return $this->belongsTo(Player::class);
     }
-    public function match(){
-        return $this->belongsTo('App\Models\Match');
+    public function fixture(){
+        return $this->belongsTo(Fixture::class);
     }
 }

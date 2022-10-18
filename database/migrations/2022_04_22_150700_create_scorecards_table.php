@@ -15,14 +15,14 @@ class CreateScorecardsTable extends Migration
     {
         Schema::create('scorecards', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('match_id');
+            $table->unsignedBigInteger('fixture_id');
             $table->unsignedBigInteger('player_id');
             $table->jsonb('player_stats')->nullable();
             $table->jsonb('stat_points')->nullable();
             $table->double('score')->default(0.0);
             $table->timestamps();
 
-            $table->foreign('match_id')->references('id')->on('matches')
+            $table->foreign('fixture_id')->references('id')->on('fixtures')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('player_id')->references('id')->on('players')
                 ->onUpdate('cascade')->onDelete('cascade');

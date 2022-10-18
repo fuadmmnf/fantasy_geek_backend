@@ -15,7 +15,7 @@ class CreatePointdistributionsTable extends Migration
     {
         Schema::create('pointdistributions', function (Blueprint $table) {
             $table->id();
-            $table->string('match_type');
+            $table->string('fixture_type');
             $table->jsonb('distribution');
             $table->timestamps();
         });
