@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/migrate', [\App\Http\Controllers\API\SeederController::class, 'migrateFresh']);
+Route::get('/seed/auth', [\App\Http\Controllers\API\SeederController::class, 'authSeeder']);
+Route::get('/seed/playerposition', [\App\Http\Controllers\API\SeederController::class, 'playerPositionSeeder']);
+Route::get('/seed/pointdistribution', [\App\Http\Controllers\API\SeederController::class, 'pointdistributionSeeder']);
+Route::get('/seed/localmock', [\App\Http\Controllers\API\SeederController::class, 'localMockDataSeeder']);
+Route::get('/seed/contest/simulation', [\App\Http\Controllers\API\SeederController::class, 'contestSimulationSeeder']);
