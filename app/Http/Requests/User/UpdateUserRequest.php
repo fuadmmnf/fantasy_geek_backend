@@ -24,7 +24,11 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required',
+            'id' => 'sometimes',
+            'mobile' => 'sometimes',
+            'bkash' => 'sometimes',
+            'email' => 'sometimes',
+            'name' => 'sometimes',
         ];
     }
 }

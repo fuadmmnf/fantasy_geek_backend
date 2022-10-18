@@ -46,4 +46,8 @@ class User extends Authenticatable
     public function admin(){
         return $this->hasOne(Admin::class);
     }
+
+    public function userpayments(){
+        return $this->hasMany('App\Models\Userpayment');
+    }
 }

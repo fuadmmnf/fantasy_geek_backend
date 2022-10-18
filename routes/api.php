@@ -30,7 +30,15 @@ Route::prefix('admin')->middleware([])->group(function () { //fix auth permissio
 Route::post('/login', [\App\Http\Controllers\API\UserController::class, 'authorizeUserLogin']);
 Route::post('/users/create', [\App\Http\Controllers\API\UserController::class, 'createUser']);
 Route::post('/users/register/verify', [\App\Http\Controllers\API\UserController::class, 'verifyUser']);
-Route::put('/users', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
+Route::put('/users/update', [\App\Http\Controllers\API\UserController::class, 'updateUser']);
+Route::get('/users/check/{id}', [\App\Http\Controllers\API\UserController::class, 'checkUser']);
+
+// payments
+Route::post('/payment/temp', [\App\Http\Controllers\API\PaymentController::class, 'tempPayment']);
+Route::get('/payment/fail', [\App\Http\Controllers\API\PaymentController::class, 'paymentFailed']);
+Route::get('/payment/cancel', [\App\Http\Controllers\API\PaymentController::class, 'paymentCancel']);
+Route::post('/payment/confirm', [\App\Http\Controllers\API\PaymentController::class, 'paymentConfirm']);
+Route::get('/payment/list/{user_id}', [\App\Http\Controllers\API\PaymentController::class, 'paymentList']);
 
 //fixtures
 Route::get('/fixtures', [\App\Http\Controllers\API\FixtureController::class, 'getFixtures']);
@@ -66,3 +74,4 @@ Route::post('/usercontests', [\App\Http\Controllers\API\UsercontestController::c
 //userfixtureteams
 Route::get('/userfixtureteams', [\App\Http\Controllers\API\UserfixtureteamController::class, 'getUserfixtureteamsByFixture']);
 Route::post('/userfixtureteams', [\App\Http\Controllers\API\UserfixtureteamController::class, 'createUserfixtureteam']);
+

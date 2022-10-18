@@ -1,8 +1,9 @@
-set INTERVAL=5
+set INTERVAL=20
 :loop
 
+git pull
 git add --all
-git commit -a -m "Commit %date% %time% %random%"
+git commit -a -m "Rifat: Commit %date% %time% %random%"
 git push
 
 timeout %INTERVAL%
