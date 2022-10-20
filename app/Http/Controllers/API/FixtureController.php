@@ -54,22 +54,22 @@ class FixtureController extends Controller
     public function getUpcomingFixtures() {
         $fixture = $this->fixtureRepository->getUpcomingFixturees();
 
-        return response()->json($fixture, 200);
+        return FixtureResource::collection($fixture);
     }
     public function getUpcomingFixturesByUser($user_id) {
         $fixture = $this->fixtureRepository->getUpcomingFixtureesByUser($user_id);
-        return response()->json($fixture, 200);
+        return FixtureResource::collection($fixture);
     }
 
     public function getRunningFixturesByUser($user_id) {
         $fixture = $this->fixtureRepository->getRunningFixtureesByUser($user_id);
 
-        return response()->json($fixture, 200);
+        return FixtureResource::collection($fixture);
     }
 
     public function getCompleteFixturesByUser($user_id) {
         $fixture = $this->fixtureRepository->getCompleteFixtureesByUser($user_id);
 
-        return response()->json($fixture, 200);
+        return FixtureResource::collection($fixture);
     }
 }
