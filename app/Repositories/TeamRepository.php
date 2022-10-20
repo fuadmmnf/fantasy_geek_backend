@@ -15,15 +15,16 @@ class TeamRepository
 
     function getTeam($team_id) {
         $team = Team::findOrfail($team_id);
-        $team->team_members = json_decode($team->team_members, true);
-        $team->key_members = json_decode($team->team_members, true);
+        $decodedTeams = json_decode($team);
+        $decodedTeams->team_members = json_decode($decodedTeams->team_members, true);
+        $decodedTeams->key_members= json_decode($decodedTeams->key_members, true);
 
-        for ($i = 0; $i < count($team->team_members); $i++) {
-            $player = Player::findOrFail($team->team_members[$i]['id']);
-            $team->team_members[$i]['image'] = $player->image;
+        for ($i = 0; $i < count($decodedTeams->team_members); $i++) {
+            $player = Player::findOrFail($decodedTeams->team_members[$i]['id']);
+            $decodedTeams->team_members[$i]['image'] = $player->image;
         }
 
-        return $team;
+        return $decodedTeams;
     }
 
     public function storeTeam(array $request)
@@ -31,7 +32,7 @@ class TeamRepository
         $newTeam = new Team();
         $newTeam->type = $request['type'];
         $newTeam->name = $request['name'];
-        $newTeam->image = $request['image'];
+//        $newTeam->image = $request['image'];
         $newTeam->key_members = (count($request['key_members']) == 0) ? null : $request['key_members'];
 
         $teamMembers = [];
