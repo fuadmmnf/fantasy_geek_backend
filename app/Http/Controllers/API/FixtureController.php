@@ -6,6 +6,7 @@ use App\Handlers\CricApiDataProvider;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Fixture\CreateFixtureRequest;
 use App\Http\Requests\Fixture\UpdateFixtureRequest;
+use App\Http\Resources\Fixture\FixtureResource;
 use App\Repositories\FixtureRepository;
 use Illuminate\Http\Request;
 
@@ -41,14 +42,14 @@ class FixtureController extends Controller
     }
 
     public function getFixtures() {
-        $fixturees = $this->fixtureRepository->getAllFixture();
+        $fixtures = $this->fixtureRepository->getAllFixture();
 
-        return response()->json($fixturees, 200);
+        return FixtureResource::collection($fixtures);
     }
     public function getSingleFixture($fixture_id) {
         $fixture = $this->fixtureRepository->getFixture($fixture_id);
 
-        return response()->json($fixture, 200);
+        return new FixtureResource($fixture);
     }
     public function getUpcomingFixtures() {
         $fixture = $this->fixtureRepository->getUpcomingFixturees();
