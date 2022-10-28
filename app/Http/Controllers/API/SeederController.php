@@ -19,6 +19,11 @@ class SeederController extends Controller
         Artisan::call('migrate:fresh');
         return response()->json("Database migrated", 200);
     }
+
+    public function seed(){
+        Artisan::call('db:seed');
+        return response()->json("Seeded defaults", 200);
+    }
     public function authSeeder(){
       $authseeder = new AuthorizationSeeder();
       $authseeder->run();

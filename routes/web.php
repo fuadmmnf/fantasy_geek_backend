@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/migrate', [\App\Http\Controllers\API\SeederController::class, 'migrateFresh']);
+Route::get('/seed', [\App\Http\Controllers\API\SeederController::class, 'seed']);
 Route::get('/seed/auth', [\App\Http\Controllers\API\SeederController::class, 'authSeeder']);
 Route::get('/seed/playerposition', [\App\Http\Controllers\API\SeederController::class, 'playerPositionSeeder']);
 Route::get('/seed/pointdistribution', [\App\Http\Controllers\API\SeederController::class, 'pointdistributionSeeder']);
