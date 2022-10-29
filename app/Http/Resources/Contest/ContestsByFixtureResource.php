@@ -22,7 +22,7 @@ class ContestsByFixtureResource extends JsonResource {
             'entryCount' => $this->entry_count,
             'firstPrize' => $this->award_amount,
             'winnerCount' => $this->winner_count,
-            'prizeList' => json_decode($this->prize_list, true)
+            'prizeList' => $this->prize_list
 		];
 	}
 }
