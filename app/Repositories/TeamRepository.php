@@ -15,12 +15,6 @@ class TeamRepository
 
     function getTeam($team_id) {
         $team = Team::findOrfail($team_id);
-
-        for ($i = 0; $i < count($team->team_members); $i++) {
-            $player = Player::findOrFail($team->team_members[$i]['id']);
-            $team->team_members[$i]['image'] = $player->image;
-        }
-
         return $team;
     }
 
@@ -40,6 +34,7 @@ class TeamRepository
                 "name" => $player->name,
                 "pid" => $player->api_pid,
                 "rating" => $player->rating,
+                "image" => $player->image,
                 "playerposition_id" => $player->playerposition_id
             ];
         }
