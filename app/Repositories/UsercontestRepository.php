@@ -101,7 +101,7 @@ class UsercontestRepository
         $newUsercontest->user_id = $user->id;
         $newUsercontest->team_id = $team->id;
         $newUsercontest->contest_id = $contest->id;
-        $newUsercontest->transaction_id = $request['transaction_id'];
+        $newUsercontest->transaction_id = $request['transaction_id']??0;
 
         $newUsercontest->save();
 
