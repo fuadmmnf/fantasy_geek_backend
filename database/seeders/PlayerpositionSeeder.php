@@ -61,6 +61,7 @@ class PlayerpositionSeeder extends Seeder
             $pp->limit_min = $value['limit_min'];
             $pp->limit_max = $value['limit_max'];
             $pp->message = $value['message'];
+            $pp->save();
         }
     }
 }
