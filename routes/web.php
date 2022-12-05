@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/clear', [\App\Http\Controllers\API\SeederController::class, 'clear'])->name('clear');
+Route::get('/migratebyadmin', [\App\Http\Controllers\API\SeederController::class, 'migrate'])->name('migrate');
 Route::get('/migrate', [\App\Http\Controllers\API\SeederController::class, 'migrateFresh']);
 Route::get('/seed/auth', [\App\Http\Controllers\API\SeederController::class, 'authSeeder']);
 Route::get('/seed/playerposition', [\App\Http\Controllers\API\SeederController::class, 'playerPositionSeeder']);

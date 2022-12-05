@@ -12,9 +12,38 @@ use Database\Seeders\PointdistributionSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class SeederController extends Controller
 {
+    // clear configs, routes and serve
+    public function clear()
+    {
+//        $user = Auth::user();
+//        if (! ($user !== null && $user->can('admin-menu'))) {
+//            return 'error';
+//        }
+        // Artisan::call('route:cache');
+        Artisan::call('cache:clear');
+        Artisan::call('view:clear');
+        Artisan::call('key:generate');
+        Artisan::call('optimize');
+        Session::flush();
+        return 'Config and Route Cached. All Cache Cleared';
+    }
+
+    public function migrate()
+    {
+//        $user = Auth::user();
+//        if ($user !== null && $user->can('admin-menu')) {
+            // Artisan::call('route:cache');
+            Artisan::call('migrate', array('--force' => true));
+            return 'Migration done';
+//        }
+//        return 'error';
+    }
+
+
     public function migrateFresh(){
         Artisan::call('migrate:fresh');
         return response()->json("Database migrated", 200);
