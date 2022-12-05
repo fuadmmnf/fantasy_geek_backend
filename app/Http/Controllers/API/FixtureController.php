@@ -9,13 +9,12 @@ use App\Http\Requests\Fixture\UpdateFixtureRequest;
 use App\Repositories\FixtureRepository;
 use Illuminate\Http\Request;
 
-class FixtureController extends Controller
-{
+class FixtureController extends Controller {
 
-    public function __construct(FixtureRepository $fixtureRepository)
-    {
+    public function __construct(FixtureRepository $fixtureRepository) {
         $this->fixtureRepository = $fixtureRepository;
     }
+
     public function createFixture(CreateFixtureRequest $request) {
         $fixture = $this->fixtureRepository->storeFixture($request->validated());
 
@@ -28,33 +27,35 @@ class FixtureController extends Controller
         return response()->json($fixture, 201);
     }
 
-    public function getUpcomingFixturesForAdmin(){
+    public function getUpcomingFixturesForAdmin() {
         $fixtures = (new CricApiDataProvider())->fetchUpcomingFixtures();
         return response()->json($fixtures);
     }
 
-    public function getFixtureDetailForTest($fixture_id){
+    public function getFixtureDetailForTest($fixture_id) {
         $fixture = (new CricApiDataProvider())->fetchFixtureInfo($fixture_id, [
             'include' => 'localteam,visitorteam,lineup',
         ]);
         return response()->json($fixture);
     }
 
-    public function getFixtures() {
-        $fixturees = $this->fixtureRepository->getAllFixture();
-
+    public function getFixtures(Request $request) {
+        $fixturees = $this->fixtureRepository->getAllFixture($request->query('status') ?? null);
         return response()->json($fixturees, 200);
     }
+
     public function getSingleFixture($fixture_id) {
         $fixture = $this->fixtureRepository->getFixture($fixture_id);
 
         return response()->json($fixture, 200);
     }
+
     public function getUpcomingFixtures() {
         $fixture = $this->fixtureRepository->getUpcomingFixturees();
 
         return response()->json($fixture, 200);
     }
+
     public function getUpcomingFixturesByUser($user_id) {
         $fixture = $this->fixtureRepository->getUpcomingFixtureesByUser($user_id);
         return response()->json($fixture, 200);

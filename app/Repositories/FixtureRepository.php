@@ -21,10 +21,13 @@ use Spatie\LaravelData\DataCollection;
 class FixtureRepository
 {
 
-    public function getAllFixture()
+    public function getAllFixture($status=null)
     {
-        $fixturees = Fixture::with('team1', 'team2')
-            ->orderBy('starting_time', 'DESC')
+        $fixturees = Fixture::with('team1', 'team2');
+        if($status != null){
+            $fixturees = $fixturees->where('status', $status);
+        }
+        $fixturees = $fixturees->orderBy('starting_time', 'DESC')
             ->paginate(20);
         return $fixturees;
     }
