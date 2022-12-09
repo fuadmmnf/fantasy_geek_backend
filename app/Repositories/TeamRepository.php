@@ -18,10 +18,10 @@ class TeamRepository
 //        $team->team_members = $team->team_members, true);
 //        $team->key_members = json_decode($team->team_members, true);
 
-        for ($i = 0; $i < count($team->team_members); $i++) {
-            $player = Player::findOrFail($team->team_members[$i]['id']);
-            $team->team_members[$i]['image'] = $player->image;
-        }
+//        for ($i = 0; $i < count($team->team_members); $i++) {
+//            $player = Player::findOrFail($team->team_members[$i]['id']);
+//            $team->team_members[$i]['image'] = $player->image;
+//        }
 
         return $team;
     }
