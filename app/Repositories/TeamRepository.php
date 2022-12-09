@@ -31,7 +31,7 @@ class TeamRepository
         $newTeam = new Team();
         $newTeam->type = $request['type'];
         $newTeam->name = $request['name'];
-        $newTeam->image = $request['image'];
+        $newTeam->image = $request['image']?? null;
         $newTeam->key_members = (count($request['key_members']) == 0) ? null : $request['key_members'];
 
         $teamMembers = [];
