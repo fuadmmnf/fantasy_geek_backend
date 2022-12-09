@@ -42,7 +42,8 @@ class TeamRepository
                 "name" => $player->name,
                 "pid" => $player->api_pid,
                 "rating" => $player->rating,
-                "playerposition_id" => $player->playerposition_id
+                "playerposition_id" => $player->playerposition_id,
+                "image" => $player->image,
             ];
         }
         $newTeam->team_members = $teamMembers;
