@@ -57,6 +57,8 @@ Route::post('/teams', [\App\Http\Controllers\API\TeamController::class, 'createT
 Route::post('/players', [\App\Http\Controllers\API\PlayerController::class, 'createPlayer']);
 
 //contests
+Route::get('/test', [\App\Http\Controllers\API\ContestController::class, 'test']);
+
 Route::get('/contests', [\App\Http\Controllers\API\ContestController::class, 'getContestsByFixture']);
 Route::get('/contests/{contest_id}', [\App\Http\Controllers\API\ContestController::class, 'getContestDetails'])->where('contest_id', '[0-9]+');
 Route::post('/contests', [\App\Http\Controllers\API\ContestController::class, 'createContest']);

@@ -18,6 +18,9 @@ class ContestController extends Controller
         $this->contestRepository = $contestRepository;
     }
 
+    public function test(Request $request){
+        return response()->json('congrats');
+    }
     public function getContestsByFixture(Request $request)
     {
         $contests = $this->contestRepository->getContestsByFixture($request->query('fixture_id'));
