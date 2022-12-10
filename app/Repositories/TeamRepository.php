@@ -58,9 +58,9 @@ class TeamRepository
 
         if($request['type'] == 1 && isset($request['fixture_id'])){
             $userfixtureteam = new Userfixtureteam();
-            $userfixtureteam->fixture_id = $newTeam->id;
+            $userfixtureteam->fixture_id = $request['fixture_id'];
             $userfixtureteam->team_id = $newTeam->id;
-            $userfixtureteam->user_id = $request['fixture_id'];
+            $userfixtureteam->user_id = $request['user_id'];
             $userfixtureteam->save();
         }
 
