@@ -6,6 +6,7 @@ use App\Handlers\Scorecard\CricketScorecardUpdater;
 use App\Models\Player;
 use App\Models\Pointdistribution;
 use App\Models\Team;
+use App\Models\Userfixtureteam;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Carbon;
@@ -54,6 +55,14 @@ class TeamRepository
         $newTeam->code = $code;
 
         $newTeam->save();
+
+        if($request['type'] == 1 && isset($request['fixture_id'])){
+            $userfixtureteam = new Userfixtureteam();
+            $userfixtureteam->fixture_id = $newTeam->id;
+            $userfixtureteam->team_id = $newTeam->id;
+            $userfixtureteam->user_id = $request['fixture_id'];
+            $userfixtureteam->save();
+        }
 
         return $newTeam;
     }
