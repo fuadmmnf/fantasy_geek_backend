@@ -24,3 +24,5 @@ Route::get('/seed/playerposition', [\App\Http\Controllers\API\SeederController::
 Route::get('/seed/pointdistribution', [\App\Http\Controllers\API\SeederController::class, 'pointdistributionSeeder']);
 Route::get('/seed/localmock', [\App\Http\Controllers\API\SeederController::class, 'localMockDataSeeder']);
 Route::get('/seed/contest/simulation', [\App\Http\Controllers\API\SeederController::class, 'contestSimulationSeeder']);
+Route::get('/scheduler/fixture_state_check', [\App\Http\Controllers\API\SeederController::class, 'fixtureStateCheck']);
+Route::get('/scheduler/running_fixture_tracker', [\App\Http\Controllers\API\SeederController::class, 'runningFixtureTracker']);

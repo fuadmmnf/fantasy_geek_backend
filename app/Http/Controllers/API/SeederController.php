@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Schedulers\FixtureStateCheckerScheduler;
+use App\Schedulers\RunningFixtureTrackerScheduler;
 use Database\Seeders\AuthorizationSeeder;
 use Database\Seeders\ContestSimulationSeeder;
 use Database\Seeders\DatabaseSeeder;
@@ -74,5 +76,15 @@ class SeederController extends Controller
         $simulation = new ContestSimulationSeeder();
         $simulation->run();
         return response()->json("Contest Simulation Seeder", 200);
+    }
+
+    public function fixtureStateCheck(){
+        (new FixtureStateCheckerScheduler())();
+        return response()->json("Finished executing fixture status checker", 200);
+    }
+
+    public function runningFixtureTracker(){
+        (new RunningFixtureTrackerScheduler())();
+        return response()->json("Finished executing fixture stat tracker", 200);
     }
 }
