@@ -17,7 +17,7 @@ class UsercontestLeaderboardResource extends JsonResource
     public function toArray($request)
     {
         return [
-//            'id' => $this->id,
+            'id' => $this->id,
 //            'user_id' => $this->user_id,
 //            'team_id' => $this->team_id,
 //            'contest_id' => $this->contest_id,
