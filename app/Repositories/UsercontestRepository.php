@@ -25,19 +25,19 @@ class UsercontestRepository
     }
 
     public function getUsercontestsById($user_id, $contest_id){
-        $user = User::findOrFail($user_id);
+//        $user = User::findOrFail($user_id);
 
-        $usercontest = Usercontest::where('user_id', $user->id)
+        $usercontest = Usercontest::where('user_id', $user_id)
             ->where('contest_id', $contest_id)
-            ->first();
-
+            ->firstOrFail();
+        $usercontest->load('user', 'team', 'contest');
         return $usercontest;
     }
     public function getUsercontestsRankingById($contest_id){
         $ranking = Usercontest::where('contest_id', $contest_id)
             ->orderBy('ranking', 'ASC')
             ->paginate(10);
-
+        $ranking->load('user');
         return $ranking;
     }
 

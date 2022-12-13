@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @mixin \App\Models\Usercontest */
-class UsercontestByFixtureResource extends JsonResource
+class UsercontestLeaderboardResource extends JsonResource
 {
     /**
      * @param Request $request
@@ -23,11 +23,8 @@ class UsercontestByFixtureResource extends JsonResource
 //            'contest_id' => $this->contest_id,
 //            'contest' => new ContestsByFixtureResource($this->contest)
             'user' => new PublicUserResource($this->user),
-            'key_members' => $this->when(),
             'score' => $this->score,
             'ranking' => $this->ranking,
-            'team_stats' => $this->team_stats,
-            'contest' => new ContestsByFixtureResource($this->contest)
         ];
     }
 }

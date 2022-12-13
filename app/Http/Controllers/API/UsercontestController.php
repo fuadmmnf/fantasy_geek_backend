@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Usercontest\CreateUsercontestRequest;
 use App\Http\Resources\Usercontest\UsercontestByFixtureResource;
+use App\Http\Resources\Usercontest\UsercontestLeaderboardResource;
 use App\Repositories\UsercontestRepository;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,7 @@ class UsercontestController extends Controller
     {
         $ranking = $this->usercontestRepository->getUsercontestsRankingById($request->query('contest_id'));
 
-        return response()->json($ranking, 200);
+        return UsercontestLeaderboardResource::collection($ranking);
     }
 
     public function getUserUpcomingContests($user_id){
