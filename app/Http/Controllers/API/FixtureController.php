@@ -24,7 +24,7 @@ class FixtureController extends Controller {
     public function updateFixture(UpdateFixtureRequest $request) {
         $fixture = $this->fixtureRepository->updateFixture($request->validated());
 
-        return response()->json($fixture, 201);
+        return response()->json($fixture, 200);
     }
 
     public function getUpcomingFixturesForAdmin() {
