@@ -121,7 +121,7 @@ class FixtureProgressTracker {
         });
         $usercontest->team_stats = $playerScorecards->map(function ($item) {
             return $item->player_stats;
-        })->all();
+        })->toArray();
         $usercontest->score = $playerScorecards->reduce(function ($carry, $item) use ($key_members) {
             $factor = ($item->player_id == $key_members[0] ? 2.0 : ($item->player_id == $key_members[1] ? 1.5 : 1)); // first index in captain id, second index in vicecaptain
             return $carry + $item->score * $factor;
