@@ -23,7 +23,7 @@ class UsercontestByFixtureResource extends JsonResource
 //            'contest_id' => $this->contest_id,
 //            'contest' => new ContestsByFixtureResource($this->contest)
             'user' => new PublicUserResource($this->user),
-            'key_members' => $this->when(),
+            'key_members' => $this->team->key_members,
             'score' => $this->score,
             'ranking' => $this->ranking,
             'team_stats' => $this->team_stats,

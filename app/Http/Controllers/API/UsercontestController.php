@@ -31,6 +31,12 @@ class UsercontestController extends Controller {
         return response()->json($playerscorecard);
     }
 
+    public function getUsercontestsById(Request $request) {
+        $usercontest = $this->usercontestRepository->getUsercontestsById($request->query('user_id'), $request->query('contest_id'));
+
+        return new UsercontestByFixtureResource($usercontest);
+    }
+
     public function getUsercontestsRankingById(Request $request) {
         $ranking = $this->usercontestRepository->getUsercontestsRankingById($request->query('contest_id'));
 
