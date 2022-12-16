@@ -19,7 +19,7 @@ class UsercontestLeaderboardResource extends JsonResource
         return [
             'usercontest_id' => $this->id,
 //            'user_id' => $this->user_id,
-//            'team_id' => $this->team_id,
+            'team_id' => $this->team_id,
 //            'contest_id' => $this->contest_id,
 //            'contest' => new ContestsByFixtureResource($this->contest)
             'user' => new PublicUserResource($this->user),
