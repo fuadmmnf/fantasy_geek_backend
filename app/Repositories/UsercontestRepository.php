@@ -43,7 +43,7 @@ class UsercontestRepository {
             'is_vicecaptain' => $usercontest->team->key_members[1] == $player_id,
             'player_stats' => $scorecard->player_stats,
             'stat_points' => $scorecard->stat_points,
-            'score' => $scorecard->stat_points * ($scorecard->player_id == $usercontest->team->key_members[0] ? 2.0 : ($scorecard->player_id == $usercontest->team->key_members[1] ? 1.5 : 1))
+            'score' => $scorecard->score * ($scorecard->player_id == $usercontest->team->key_members[0] ? 2.0 : ($scorecard->player_id == $usercontest->team->key_members[1] ? 1.5 : 1))
         ];
     }
 
