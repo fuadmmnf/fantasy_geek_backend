@@ -18,7 +18,7 @@ class CreatePlayersTable extends Migration
             $table->unsignedBigInteger('playerposition_id');
             $table->unsignedBigInteger('api_pid');
             $table->string('name');
-            $table->double('rating')->nullable();
+            $table->double('rating')->default(0.0);
             $table->string('code');
             $table->string('bowlingstyle')->nullable();
             $table->string('battingstyle')->nullable();

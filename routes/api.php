@@ -54,7 +54,9 @@ Route::get('/teams/{team_id}', [\App\Http\Controllers\API\TeamController::class,
 Route::post('/teams', [\App\Http\Controllers\API\TeamController::class, 'createTeam']);
 
 //players
+Route::get('/players/unrated', [\App\Http\Controllers\API\PlayerController::class, 'getUnratedPlayers']);
 Route::post('/players', [\App\Http\Controllers\API\PlayerController::class, 'createPlayer']);
+Route::put('/players', [\App\Http\Controllers\API\PlayerController::class, 'updatePlayerRatings']);
 
 //contests
 Route::get('/contests', [\App\Http\Controllers\API\ContestController::class, 'getContestsByFixture']);

@@ -7,6 +7,10 @@ use App\Models\Playerposition;
 
 class PlayerRepository
 {
+    public function getUnrated()
+    {
+        return Player::where('rating', 0)->get();
+    }
 
     public function storePlayer(array $request)
     {
@@ -17,7 +21,7 @@ class PlayerRepository
         $newPLayer->name = $request['name'];
         $newPLayer->battingstyle = $request['battingstyle'];
         $newPLayer->bowlingstyle = $request['bowlingstyle'];
-        $newPLayer->image = $request['image']?? null;
+        $newPLayer->image = $request['image'] ?? null;
         $newPLayer->rating = $request['rating'] ?? null;
         $newPLayer->code = random_string(10) . time();
 
@@ -25,5 +29,15 @@ class PlayerRepository
 
         return $newPLayer;
 
+    }
+
+    public function updatePlayerRatingsAndTeamPlayerStats($player_ratings){
+        foreach ($player_ratings as $player_rating){
+            $player = Player::findOrFail($player_rating['id']);
+            $player->rating = $player_rating['rating'];
+            $player->save();
+        }
+
+        //update team player arr from unpublished fixtures
     }
 }
