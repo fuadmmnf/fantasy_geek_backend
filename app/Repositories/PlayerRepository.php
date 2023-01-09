@@ -22,7 +22,7 @@ class PlayerRepository
         $newPLayer->battingstyle = $request['battingstyle'];
         $newPLayer->bowlingstyle = $request['bowlingstyle'];
         $newPLayer->image = $request['image']?? null;
-        $newPLayer->rating = $request['rating'] ?? null;
+//        $newPLayer->rating = $request['rating'] ?? null;
         $newPLayer->code = random_string(10) . time();
 
         $newPLayer->save();
