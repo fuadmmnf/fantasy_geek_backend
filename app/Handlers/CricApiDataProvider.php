@@ -25,7 +25,11 @@ class CricApiDataProvider
         $upcomingFixturees = json_decode($this->client->get("fixtures", [
             'query' => $this->api_key + [
                     'include' => 'localteam,visitorteam',
+<<<<<<< HEAD
+                    'filter[starts_between]' => "{$today->subDay(5)->format('Y-m-d')}, {$today->addMonth()->format('Y-m-d')}"
+=======
                     'filter[starts_between]' => "{$today->format('Y-m-d')}, {$today->addWeek()->format('Y-m-d')}"
+>>>>>>> master
                 ]
         ])->getBody()->getContents(), true);
         return FixtureDetailDTO::collection($upcomingFixturees['data']);

@@ -8,7 +8,14 @@ class UserTokenHandler
 {
     public function createUser(array $userInfo): User
     {
-        return User::create($userInfo);
+        $user = new User();
+        $user->name = $userInfo['name'];
+        $user->email = $userInfo['email'];
+        $user->mobile = $userInfo['mobile'];
+        $user->address = $userInfo['address'];
+        $user->password = $userInfo['password'];
+        $user->save();
+        return $user;
     }
 
     public function regenerateUserToken(User $user){

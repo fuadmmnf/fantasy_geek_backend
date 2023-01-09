@@ -54,7 +54,14 @@ class PlayerpositionSeeder extends Seeder
         ];
 
         foreach ($cricketpositions as $key => $value) {
-            Playerposition::create($value);
+            $pp = new Playerposition();
+            $pp->id = $value['id'];
+            $pp->name = $value['name'];
+            $pp->fullname = $value['fullname'];
+            $pp->limit_min = $value['limit_min'];
+            $pp->limit_max = $value['limit_max'];
+            $pp->message = $value['message'];
+            $pp->save();
         }
     }
 }

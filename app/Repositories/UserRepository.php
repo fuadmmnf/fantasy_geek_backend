@@ -129,7 +129,7 @@ class UserRepository
         try {
             $user->name = $request['name'];
             $user->email = $request['email'];
-            $user->bkash = $request['bkash'];
+//            $user->bkash = $request['bkash'];
             // ARO INFO ADD KORA LAGBE...
             // ARO INFO ADD KORA LAGBE...
             // ARO INFO ADD KORA LAGBE...
@@ -139,7 +139,7 @@ class UserRepository
             $user->load('roles');
         } catch (\Exception $e) {
             DB::rollBack();
-            // throw new \Exception($e->getMessage());
+             throw new \Exception($e->getMessage());
             return [
                 'success' => false,
                 'message' => 'দুঃখিত! আপডেট করা সম্ভব হয়নি।',

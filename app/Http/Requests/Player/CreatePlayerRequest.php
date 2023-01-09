@@ -13,7 +13,11 @@ class CreatePlayerRequest extends FormRequest
      */
     public function authorize()
     {
+<<<<<<< HEAD
+        return false;
+=======
         return true;
+>>>>>>> master
     }
 
     /**

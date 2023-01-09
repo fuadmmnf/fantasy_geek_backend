@@ -77,3 +77,25 @@ Route::post('/usercontests', [\App\Http\Controllers\API\UsercontestController::c
 Route::get('/userfixtureteams', [\App\Http\Controllers\API\UserfixtureteamController::class, 'getUserfixtureteamsByFixture']);
 Route::post('/userfixtureteams', [\App\Http\Controllers\API\UserfixtureteamController::class, 'createUserfixtureteam']);
 
+//contests
+Route::get('/test', [\App\Http\Controllers\API\ContestController::class, 'test']);
+
+Route::get('/contests', [\App\Http\Controllers\API\ContestController::class, 'getContestsByFixture']);
+Route::get('/contests/{contest_id}', [\App\Http\Controllers\API\ContestController::class, 'getContestDetails'])->where('contest_id', '[0-9]+');
+Route::post('/contests', [\App\Http\Controllers\API\ContestController::class, 'createContest']);
+Route::put('/contests', [\App\Http\Controllers\API\ContestController::class, 'updateContest']);
+
+//usercontests
+Route::get('usercontests/scorecard', [\App\Http\Controllers\API\UsercontestController::class, 'getPlayerScorecard']);
+Route::get('usercontests', [\App\Http\Controllers\API\UsercontestController::class, 'getUsercontestsById']);
+Route::get('usercontests/ranking', [\App\Http\Controllers\API\UsercontestController::class, 'getUsercontestsRankingById']);
+Route::get('/user/{user_id}/fixture/{fixture_id}/usercontests', [\App\Http\Controllers\API\UsercontestController::class, 'getUsercontestsByFixture']);
+Route::get('/user/{user_id}/usercontests/upcoming', [\App\Http\Controllers\API\UsercontestController::class, 'getUserUpcomingContests']);
+Route::get('/user/{user_id}/usercontests/ongoing', [\App\Http\Controllers\API\UsercontestController::class, 'getUserOngoingContests']);
+Route::get('/user/{user_id}/usercontests/completed', [\App\Http\Controllers\API\UsercontestController::class, 'getUserCompletedContests']);
+Route::post('/usercontests', [\App\Http\Controllers\API\UsercontestController::class, 'createUsercontest']);
+
+//userfixtureteams
+Route::get('/userfixtureteams', [\App\Http\Controllers\API\UserfixtureteamController::class, 'getUserfixtureteamsByFixture']);
+Route::post('/userfixtureteams', [\App\Http\Controllers\API\UserfixtureteamController::class, 'createUserfixtureteam']);
+

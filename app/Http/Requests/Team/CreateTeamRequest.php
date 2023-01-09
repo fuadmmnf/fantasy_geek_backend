@@ -28,6 +28,9 @@ class CreateTeamRequest extends FormRequest
             'type' => 'required | numeric',
             'key_members' => 'present | nullable',
             'team_members' => 'present | nullable',
+            'image' => 'sometimes',
+            'fixture_id' => 'sometimes',
+            'user_id' => 'sometimes',
         ];
     }
 }

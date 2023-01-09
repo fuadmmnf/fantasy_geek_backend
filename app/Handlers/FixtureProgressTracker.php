@@ -22,6 +22,15 @@ class FixtureProgressTracker {
 
     public function handleContestProgress(FixtureDetailDTO $fixtureDTO) {
         $scorecards = $this->fixture->scorecards;
+<<<<<<< HEAD
+        foreach (range(0, count($scorecards) - 1) as $i) {
+            $this->calculateAndStorePoints($scorecards[$i], $fixtureDTO);
+        }
+
+        foreach ($this->fixture->contests as $contest) {
+            $usercontests = $contest->usercontests;
+            foreach (range(0, count($usercontests) - 1) as $i) {
+=======
         foreach (range(0, count($scorecards)-1) as $i) {
             $this->calculateAndStorePoints($scorecards[$i], $fixtureDTO);
         }
@@ -29,6 +38,7 @@ class FixtureProgressTracker {
         foreach ($this->fixture->contests as $contest){
             $usercontests = $contest->usercontests;
             foreach (range(0, count($usercontests)-1) as $i){
+>>>>>>> master
                 $this->updateUserContestProgress($usercontests[$i], $scorecards);
             }
 
@@ -61,12 +71,21 @@ class FixtureProgressTracker {
 
 //        Log::debug('batting: ' . ($batting == null? '[]': json_encode($batting->toArray(), true)));
 //        Log::debug('bowling: ' . ($bowling == null? '[]': json_encode($bowling->toArray(), true)));
+<<<<<<< HEAD
+        $battingScoreboardDTO = ($batting == null) ? new BattingScoreboardDTO(player_id: $scorecard->player->api_pid) : BattingScoreboardDTO::from($batting->toArray()); // ->toArray()
+        $bowlingScoreboardDTO = ($bowling == null) ? new BowlingScoreboardDTO(player_id: $scorecard->player->api_pid) : BowlingScoreboardDTO::from($bowling->toArray());
+        //get point distributions
+        $pd = json_decode($this->fixture->pointdistribution->distribution, true);
+        $pd['econ_rate'] = ($bowling == null ? 0 : $this->getRatesFromRange(json_decode($pd['econ_rate'], true), $bowlingScoreboardDTO->rate) / ($bowlingScoreboardDTO->rate == 0 ? 1 : $bowlingScoreboardDTO->rate));
+        $pd['strike_rate'] = ($batting == null ? 0 : $this->getRatesFromRange(json_decode($pd['strike_rate'], true), $battingScoreboardDTO->rate) / ($battingScoreboardDTO->rate == 0 ? 1 : $battingScoreboardDTO->rate));
+=======
         $battingScoreboardDTO = ($batting == null)? new BattingScoreboardDTO(player_id: $scorecard->player->api_pid): BattingScoreboardDTO::from($batting->toArray()); // ->toArray()
         $bowlingScoreboardDTO = ($bowling == null)? new BowlingScoreboardDTO(player_id: $scorecard->player->api_pid): BowlingScoreboardDTO::from($bowling->toArray());
         //get point distributions
         $pd = json_decode($this->fixture->pointdistribution->distribution, true);
         $pd['econ_rate'] = ($bowling == null? 0: $this->getRatesFromRange(json_decode($pd['econ_rate'], true), $bowlingScoreboardDTO->rate) / ($bowlingScoreboardDTO->rate == 0?1: $bowlingScoreboardDTO->rate) );
         $pd['strike_rate'] = ($batting == null? 0: $this->getRatesFromRange(json_decode($pd['strike_rate'], true), $battingScoreboardDTO->rate) / ($battingScoreboardDTO->rate == 0? 1: $battingScoreboardDTO->rate));
+>>>>>>> master
         $pointDistributionDTO = ScorecardStatsDTO::from($pd);
 
 
@@ -95,7 +114,13 @@ class FixtureProgressTracker {
 
         //calculate points per attribute
         $playerPointScores = array_merge_recursive($pointDistributionDTO->toArray(), $playerStats->toArray());
+<<<<<<< HEAD
+        array_walk($playerPointScores, function (&$v, $k) {
+            $v = $v[0] * $v[1];
+        });
+=======
         array_walk($playerPointScores, function(&$v, $k) { $v = $v[0]*$v[1]; });
+>>>>>>> master
 
         $scorecard->player_stats = $playerStats->toArray();
         $scorecard->stat_points = $playerPointScores;
@@ -113,17 +138,36 @@ class FixtureProgressTracker {
         return 0.0;
     }
 
+<<<<<<< HEAD
+    private function updateUserContestProgress(Usercontest &$usercontest, Collection $scorecards) {
+=======
     private function updateUserContestProgress(Usercontest &$usercontest, Collection $scorecards){
+>>>>>>> master
         $playerIds = array_map(fn($player): int => $player['id'], $usercontest->team->team_members);
         $key_members = $usercontest->team->key_members;
         $playerScorecards = $scorecards->filter(function ($scorecard) use ($playerIds) {
             return in_array($scorecard->player_id, $playerIds);
         });
+<<<<<<< HEAD
+        $usercontest->team_stats = $playerScorecards->map(function ($item) use ($key_members){
+            $factor = ($item->player_id == $key_members[0] ? 2.0 : ($item->player_id == $key_members[1] ? 1.5 : 1)); // first index in captain id, second index in vicecaptain
+            return [
+                'id' => $item->player_id,
+                'name' => $item->player->name,
+                'playerposition_id' => $item->player->playerposition_id,
+                'image' => $item->player->image,
+                'score' => $item->score * $factor,
+            ];
+        })->values()->toArray();
+        $usercontest->score = $playerScorecards->reduce(function ($carry, $item) use ($key_members) {
+            $factor = ($item->player_id == $key_members[0] ? 2.0 : ($item->player_id == $key_members[1] ? 1.5 : 1)); // first index in captain id, second index in vicecaptain
+=======
         $usercontest->team_stats = $playerScorecards->map(function ($item) {
             return $item->player_stats;
         })->all();
         $usercontest->score = $playerScorecards->reduce(function ($carry, $item) use ($key_members) {
             $factor = ($item->player_id == $key_members['captain'] ? 2.0 : ($item->player_id == $key_members['vicecaptain'] ? 1.5 : 1));
+>>>>>>> master
             return $carry + $item->score * $factor;
         }, 0);
 
