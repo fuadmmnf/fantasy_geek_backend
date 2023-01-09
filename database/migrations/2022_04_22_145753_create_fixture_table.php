@@ -20,6 +20,7 @@ class CreateFixtureTable extends Migration
             $table->unsignedBigInteger('team2_id');
             $table->unsignedBigInteger('api_fixtureid');
             $table->integer('status')->default(-1); //-1=>not admin approved, 0 => upcoming, 1 => running, 2 => completed, 3 => canceled
+
             $table->string('name');
             $table->dateTime('starting_time');
 //            $table->string('team1_monogram');

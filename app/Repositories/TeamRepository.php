@@ -24,6 +24,7 @@ class TeamRepository
 //            $team->team_members[$i]['image'] = $player->image;
 //        }
 
+
         return $team;
     }
 
@@ -45,6 +46,7 @@ class TeamRepository
                 "rating" => $player->rating,
                 "playerposition_id" => $player->playerposition_id,
                 "image" => $player->image,
+
             ];
         }
         $newTeam->team_members = $teamMembers;

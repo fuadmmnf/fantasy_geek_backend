@@ -7,6 +7,10 @@ use App\Models\Playerposition;
 
 class PlayerRepository
 {
+    public function getUnrated()
+    {
+        return Player::where('rating', 0)->get();
+    }
 
     public function storePlayer(array $request)
     {
@@ -25,5 +29,13 @@ class PlayerRepository
 
         return $newPLayer;
 
+    }
+
+    public function updatePlayerRatings($player_ratings){
+        foreach ($player_ratings as $player_rating){
+            $player = Player::findOrFail($player_rating['id']);
+            $player->rating = $player_rating['rating'];
+            $player->save();
+        }
     }
 }

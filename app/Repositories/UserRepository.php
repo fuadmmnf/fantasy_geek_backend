@@ -170,7 +170,8 @@ class UserRepository
 
         $newOTP = new Userotp();
         $newOTP->mobile = $mobile;
-        $newOTP->otp = $otp;
+//        $newOTP->otp = $otp;
+        $newOTP->otp = '1234';
         $newOTP->save();
         return $otp;
     }

@@ -14,7 +14,11 @@ class ContestDetailResource extends JsonResource {
 	public function toArray($request) {
 		return [
             'id' => $this->id,
+<<<<<<< HEAD
             'match_id' => $this->match_id,
+=======
+            'fixture_id' => $this->fixture_id,
+>>>>>>> master
             'name' => $this->name,
             'totalPrize' => $this->total_award_amount,
             'entryFee' => $this->entry_fee,
@@ -23,7 +27,11 @@ class ContestDetailResource extends JsonResource {
             'firstPrize' => $this->award_amount,
             'winnerCount' => $this->winner_count,
             'prizeList' => $this->prize_list,
+<<<<<<< HEAD
             'user_standings' => $this->user_standings,
+=======
+            'user_standings' => $this->user_standings
+>>>>>>> master
 		];
 	}
 }

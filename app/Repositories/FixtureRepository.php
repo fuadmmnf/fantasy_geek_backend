@@ -28,6 +28,7 @@ class FixtureRepository
             $fixturees = $fixturees->where('status', $status);
         }
         $fixturees = $fixturees->orderBy('starting_time', 'DESC')
+
             ->paginate(20);
         return $fixturees;
     }
@@ -116,8 +117,6 @@ class FixtureRepository
         ]);
     }
 
-
-
     public function storeFixture(array $request): ?Fixture
     {
         $searchFixture = Fixture::where('api_fixtureid', $request['api_fixtureid'])->first();
@@ -159,11 +158,36 @@ class FixtureRepository
     public function updateFixture(array $request)
     {
         $fixture = Fixture::findOrFail($request['id']);
+        $fixture->load('team1', 'team2');
         if (isset($request['starting_time'])) {
             $fixture->starting_time = $request['starting_time'];
         }
         if (isset($request['status'])) {
             $fixture->status = $request['status'];
+
+            if ($request['status'] == 0) {//publishing a fixture, checking if all players are rated
+                $team1_members = [];
+                foreach ($fixture->team1->team_members as $team_member){
+                    $player = Player::findOrFail($team_member['id']);
+                    if ($player->rating == 0) return null;
+                    $team_member['rating'] = $player->rating;
+                    $team1_members[] = $team_member;
+                }
+                $fixture->team1->team_members = $team1_members;
+                $fixture->team1->save();
+
+
+                $team2_members = [];
+                foreach ($fixture->team2->team_members as $team_member){
+                    $player = Player::findOrFail($team_member['id']);
+                    if ($player->rating == 0) return null;
+                    $team_member['rating'] = $player->rating;
+                    $team2_members[] = $team_member;
+                }
+                $fixture->team2->team_members = $team2_members;
+                $fixture->team2->save();
+
+            }
         }
 
         $fixture->save();

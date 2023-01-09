@@ -19,7 +19,11 @@ class DatabaseSeeder extends Seeder
         $this->call(PlayerpositionSeeder::class);
         $this->call(PointdistributionSeeder::class);
 
+<<<<<<< HEAD
         $this->call(ContestSimulationSeeder::class);
+=======
+//        $this->call(ContestSimulationSeeder::class);
+>>>>>>> master
 //        $this->call(LocalMockDataSeeder::class);
     }
 }

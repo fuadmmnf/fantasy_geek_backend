@@ -9,6 +9,7 @@ class Pointdistribution extends Model
 {
     public $timestamps = false;
     protected $fillable = ['*'];
+
     public function fixtures(){
         return $this->hasMany(Fixture::class);
     }

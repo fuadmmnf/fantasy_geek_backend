@@ -21,7 +21,11 @@ class UserfixtureteamsByFixtureResource extends JsonResource
             'name' => $this->name,
             'code' => $this->code,
             'key_members' => $this->key_members,
+<<<<<<< HEAD
             'team_members' =>  $this->team_members,
+=======
+            'team_members' =>  PlayerForTeamResource::collection(json_decode($this->team_members)),
+>>>>>>> master
         ];
     }
 }

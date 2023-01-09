@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+<<<<<<< HEAD
 use App\Schedulers\FixtureStateCheckerScheduler;
 use App\Schedulers\RunningFixtureTrackerScheduler;
+=======
+>>>>>>> master
 use Database\Seeders\AuthorizationSeeder;
 use Database\Seeders\ContestSimulationSeeder;
 use Database\Seeders\DatabaseSeeder;
@@ -14,6 +17,7 @@ use Database\Seeders\PointdistributionSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Session;
 
 class SeederController extends Controller
@@ -46,10 +50,23 @@ class SeederController extends Controller
     }
 
 
+=======
+
+class SeederController extends Controller
+{
+>>>>>>> master
     public function migrateFresh(){
         Artisan::call('migrate:fresh');
         return response()->json("Database migrated", 200);
     }
+<<<<<<< HEAD
+=======
+
+    public function seed(){
+        Artisan::call('db:seed');
+        return response()->json("Seeded defaults", 200);
+    }
+>>>>>>> master
     public function authSeeder(){
       $authseeder = new AuthorizationSeeder();
       $authseeder->run();
@@ -77,6 +94,7 @@ class SeederController extends Controller
         $simulation->run();
         return response()->json("Contest Simulation Seeder", 200);
     }
+<<<<<<< HEAD
 
     public function fixtureStateCheck(){
         (new FixtureStateCheckerScheduler())();
@@ -87,4 +105,6 @@ class SeederController extends Controller
         (new RunningFixtureTrackerScheduler())();
         return response()->json("Finished executing fixture stat tracker", 200);
     }
+=======
+>>>>>>> master
 }

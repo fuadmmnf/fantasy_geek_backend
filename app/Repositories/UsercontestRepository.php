@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 class UsercontestRepository {
     public function getConstestsByFixture($user_id, $fixture_id) {
 
+
         $fixtureContestIds = Contest::where('fixture_id', $fixture_id)->pluck('id');
         $userContestByFixture = Usercontest::where('user_id', $user_id)
             ->whereIn('contest_id', $fixtureContestIds)
@@ -67,6 +68,7 @@ class UsercontestRepository {
 
     public function getUserUpcomingContests($user_id) {
 
+
         $matchIdsByUser = Userfixtureteam::where('user_id', $user_id)->pluck('fixture_id');
 
         $upcomingFixtureIds = Fixture::where('status', 0)
@@ -84,6 +86,7 @@ class UsercontestRepository {
 
     public function getUserOngoingContests($user_id) {
 
+
         $matchIdsByUser = Userfixtureteam::where('user_id', $user_id)->pluck('fixture_id');
 
         $upcomingFixtureIds = Fixture::where('status', 1)
@@ -100,6 +103,7 @@ class UsercontestRepository {
     }
 
     public function getUserCompletedContests($user_id) {
+
 
         $matchIdsByUser = Userfixtureteam::where('user_id', $user_id)->pluck('fixture_id');
 
@@ -127,6 +131,7 @@ class UsercontestRepository {
         $newUsercontest->team_id = $team->id;
         $newUsercontest->contest_id = $contest->id;
         $newUsercontest->transaction_id = $request['transaction_id'];
+
 
         $newUsercontest->save();
 
