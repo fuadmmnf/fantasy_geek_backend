@@ -31,13 +31,11 @@ class PlayerRepository
 
     }
 
-    public function updatePlayerRatingsAndTeamPlayerStats($player_ratings){
+    public function updatePlayerRatings($player_ratings){
         foreach ($player_ratings as $player_rating){
             $player = Player::findOrFail($player_rating['id']);
             $player->rating = $player_rating['rating'];
             $player->save();
         }
-
-        //update team player arr from unpublished fixtures
     }
 }

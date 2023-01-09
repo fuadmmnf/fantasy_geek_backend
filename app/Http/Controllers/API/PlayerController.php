@@ -26,7 +26,7 @@ class PlayerController extends Controller
     }
 
     public function updatePlayerRatings(UpdateRatingsRequest $request){
-        $this->playerRepository->updatePlayerRatingsAndTeamPlayerStats($request->validated());
+        $this->playerRepository->updatePlayerRatings($request->validated());
         return response()->noContent();
     }
 }

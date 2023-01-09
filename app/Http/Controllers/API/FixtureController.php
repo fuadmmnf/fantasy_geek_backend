@@ -16,57 +16,73 @@ class FixtureController extends Controller
     {
         $this->fixtureRepository = $fixtureRepository;
     }
-    public function createFixture(CreateFixtureRequest $request) {
+
+    public function createFixture(CreateFixtureRequest $request)
+    {
         $fixture = $this->fixtureRepository->storeFixture($request->validated());
 
         return response()->json($fixture, 201);
     }
 
-    public function updateFixture(UpdateFixtureRequest $request) {
+    public function updateFixture(UpdateFixtureRequest $request)
+    {
         $fixture = $this->fixtureRepository->updateFixture($request->validated());
-
+        if (!$fixture) {
+            return response()->json('player ratings not set', 403);
+        }
         return response()->json($fixture, 201);
     }
 
-    public function getUpcomingFixturesForAdmin(){
+    public function getUpcomingFixturesForAdmin()
+    {
         $fixtures = (new CricApiDataProvider())->fetchUpcomingFixtures();
         return response()->json($fixtures);
     }
 
-    public function getFixtureDetailForTest($fixture_id){
+    public function getFixtureDetailForTest($fixture_id)
+    {
         $fixture = (new CricApiDataProvider())->fetchFixtureInfo($fixture_id, [
             'include' => 'localteam,visitorteam,lineup',
         ]);
         return response()->json($fixture);
     }
 
-    public function getFixtures() {
+    public function getFixtures()
+    {
         $fixturees = $this->fixtureRepository->getAllFixture();
 
         return response()->json($fixturees, 200);
     }
-    public function getSingleFixture($fixture_id) {
+
+    public function getSingleFixture($fixture_id)
+    {
         $fixture = $this->fixtureRepository->getFixture($fixture_id);
 
         return response()->json($fixture, 200);
     }
-    public function getUpcomingFixtures() {
+
+    public function getUpcomingFixtures()
+    {
         $fixture = $this->fixtureRepository->getUpcomingFixturees();
 
         return response()->json($fixture, 200);
     }
-    public function getUpcomingFixturesByUser($user_id) {
+
+    public function getUpcomingFixturesByUser($user_id)
+    {
         $fixture = $this->fixtureRepository->getUpcomingFixtureesByUser($user_id);
         return response()->json($fixture, 200);
     }
 
-    public function getRunningFixturesByUser($user_id) {
+    public function getRunningFixturesByUser($user_id)
+    {
         $fixture = $this->fixtureRepository->getRunningFixtureesByUser($user_id);
 
         return response()->json($fixture, 200);
     }
 
-    public function getCompleteFixturesByUser($user_id) {
+    public function getCompleteFixturesByUser($user_id)
+    {
         $fixture = $this->fixtureRepository->getCompleteFixtureesByUser($user_id);
 
         return response()->json($fixture, 200);
