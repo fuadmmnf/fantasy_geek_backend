@@ -3,10 +3,8 @@
 namespace App\Http\Resources\Usercontest;
 
 use App\Http\Resources\Contest\ContestsByFixtureResource;
-<<<<<<< HEAD
 use App\Http\Resources\User\PublicUserResource;
-=======
->>>>>>> master
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,7 +19,6 @@ class UsercontestByFixtureResource extends JsonResource
     {
         return [
             'id' => $this->id,
-<<<<<<< HEAD
 //            'user_id' => $this->user_id,
 //            'team_id' => $this->team_id,
 //            'contest_id' => $this->contest_id,
@@ -31,11 +28,7 @@ class UsercontestByFixtureResource extends JsonResource
             'score' => $this->score,
             'ranking' => $this->ranking,
             'team_stats' => $this->team_stats,
-=======
-            'user_id' => $this->user_id,
-            'team_id' => $this->team_id,
-            'contest_id' => $this->contest_id,
->>>>>>> master
+
             'contest' => new ContestsByFixtureResource($this->contest)
         ];
     }

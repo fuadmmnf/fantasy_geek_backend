@@ -14,11 +14,7 @@ class ContestsByFixtureResource extends JsonResource {
 	public function toArray($request) {
 		return [
             'id' => $this->id,
-<<<<<<< HEAD
-            'match_id' => $this->match_id,
-=======
             'fixture_id' => $this->fixture_id,
->>>>>>> master
             'name' => $this->name,
             'totalPrize' => $this->total_award_amount,
             'entryFee' => $this->entry_fee,

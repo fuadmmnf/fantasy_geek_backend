@@ -27,11 +27,7 @@ class CreateUsercontestRequest extends FormRequest
             'user_id' => 'required',
             'contest_id' => 'required',
             'team_id' => 'required',
-<<<<<<< HEAD
             'transaction_id' => 'required',
-=======
-//            'transaction_id' => 'required',
->>>>>>> master
         ];
     }
 }
