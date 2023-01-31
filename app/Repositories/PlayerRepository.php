@@ -33,6 +33,7 @@ class PlayerRepository
 
     public function updatePlayerRatings($info){
         foreach ($info['player_ratings'] as $player_rating){
+            if(!is_numeric($player_rating['rating'])) continue;
             $player = Player::findOrFail($player_rating['id']);
             $player->rating = $player_rating['rating'];
             $player->save();
