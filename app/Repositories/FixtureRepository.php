@@ -169,7 +169,9 @@ class FixtureRepository
                 $team1_members = [];
                 foreach ($fixture->team1->team_members as $team_member){
                     $player = Player::findOrFail($team_member['id']);
-                    if ($player->rating == 0) return null;
+                    if ($player->rating == 0) {
+                        return null;
+                    }
                     $team_member['rating'] = $player->rating;
                     $team1_members[] = $team_member;
                 }
@@ -178,11 +180,13 @@ class FixtureRepository
 
 
                 $team2_members = [];
-                foreach ($fixture->team2->team_members as $team_member){
-                    $player = Player::findOrFail($team_member['id']);
-                    if ($player->rating == 0) return null;
-                    $team_member['rating'] = $player->rating;
-                    $team2_members[] = $team_member;
+                foreach ($fixture->team2->team_members as $team2_member){
+                    $player = Player::findOrFail($team2_member['id']);
+                    if ($player->rating == 0) {
+                        return null;
+                    }
+                    $team2_member['rating'] = $player->rating;
+                    $team2_members[] = $team2_member;
                 }
                 $fixture->team2->team_members = $team2_members;
                 $fixture->team2->save();
