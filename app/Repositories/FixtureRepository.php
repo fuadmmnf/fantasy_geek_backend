@@ -14,6 +14,7 @@ use App\Models\Pointdistribution;
 use App\Models\Team;
 use App\Models\Usercontest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Carbon;
 use Spatie\LaravelData\DataCollection;
@@ -185,6 +186,7 @@ class FixtureRepository
                 foreach ($team2->team_members as $team2_member) {
                     $player2 = Player::findOrFail($team2_member['id']);
                     if ($player2->rating == 0) {
+                        Log::info(json_encode($team2_member) . '  rating: ' . $player2->rating);
                         return null;
                     }
                     $team2_member['rating'] = $player2->rating;
