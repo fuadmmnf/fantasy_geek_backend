@@ -21,14 +21,13 @@ use Spatie\LaravelData\DataCollection;
 class FixtureRepository
 {
 
-    public function getAllFixture($status=null)
+    public function getAllFixture($status = null)
     {
         $fixturees = Fixture::with('team1', 'team2');
-        if($status != null){
+        if ($status != null) {
             $fixturees = $fixturees->where('status', $status);
         }
         $fixturees = $fixturees->orderBy('starting_time', 'DESC')
-
             ->paginate(20);
         return $fixturees;
     }
@@ -167,7 +166,8 @@ class FixtureRepository
 
             if ($request['status'] == 0) {//publishing a fixture, checking if all players are rated
                 $team1_members = [];
-                foreach ($fixture->team1->team_members as $team_member){
+                $team1 = $fixture->team1();
+                foreach ($team1->team_members as $team_member) {
                     $player = Player::findOrFail($team_member['id']);
                     if ($player->rating == 0) {
                         return null;
@@ -175,12 +175,14 @@ class FixtureRepository
                     $team_member['rating'] = $player->rating;
                     $team1_members[] = $team_member;
                 }
-                $fixture->team1->team_members = $team1_members;
-                $fixture->team1->save();
+                $team1->team_members = $team1_members;
+                $team1()->save();
 
 
                 $team2_members = [];
-                foreach ($fixture->team2->team_members as $team2_member){
+                $team2 = $fixture->team2();
+
+                foreach ($team2->team_members as $team2_member) {
                     $player = Player::findOrFail($team2_member['id']);
                     if ($player->rating == 0) {
                         return null;
@@ -188,8 +190,8 @@ class FixtureRepository
                     $team2_member['rating'] = $player->rating;
                     $team2_members[] = $team2_member;
                 }
-                $fixture->team2->team_members = $team2_members;
-                $fixture->team2->save();
+                $team2->team_members = $team2_members;
+                $team2->save();
 
             }
         }
