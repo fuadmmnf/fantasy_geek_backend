@@ -166,7 +166,7 @@ class FixtureRepository
 
             if ($request['status'] == 0) {//publishing a fixture, checking if all players are rated
                 $team1_members = [];
-                $team1 = $fixture->team1();
+                $team1 = $fixture->team1;
                 foreach ($team1->team_members as $team_member) {
                     $player = Player::findOrFail($team_member['id']);
                     if ($player->rating == 0) {
@@ -180,7 +180,7 @@ class FixtureRepository
 
 
                 $team2_members = [];
-                $team2 = $fixture->team2();
+                $team2 = $fixture->team2;
 
                 foreach ($team2->team_members as $team2_member) {
                     $player = Player::findOrFail($team2_member['id']);
