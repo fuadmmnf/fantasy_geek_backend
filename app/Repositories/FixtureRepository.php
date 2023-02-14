@@ -176,7 +176,7 @@ class FixtureRepository
                     $team1_members[] = $team_member;
                 }
                 $team1->team_members = $team1_members;
-                $team1()->save();
+                $team1->save();
 
 
                 $team2_members = [];
