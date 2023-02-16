@@ -27,12 +27,12 @@ class FixtureStateCheckerScheduler
 
         $now = Carbon::now();
         $fixtures = Fixture::whereIn('status', [0, 1])
-            ->get();
-//            ->filter(function ($fixture) use ($now) {
-//                return $fixture->status == 1 ||
-//                    ($fixture->status == 0 &&
-//                        $now->diffInMinutes($fixture->starting_time)) < 2;
-//            });
+            ->get()
+            ->filter(function ($fixture) use ($now) {
+                return $fixture->status == 1 ||
+                    ($fixture->status == 0 &&
+                        $now->diffInMinutes($fixture->starting_time)) < 2;
+            });
 
         $query_params = [
             'fields[object]' => 'toss_won_team_id,man_of_match_id,status',
@@ -63,11 +63,11 @@ class FixtureStateCheckerScheduler
             }
 
             //cpmmment out this else if to test on finished games
-//            else if ($fixture->status == 1 && $fixtureDTO->man_of_match_id != null) {
-//                $fixture->status = 2;
-//                $fixture->save();
-//                //distribute prize to winners
-//            }
+            else if ($fixture->status == 1 && $fixtureDTO->man_of_match_id != null) {
+                $fixture->status = 2;
+                $fixture->save();
+                //distribute prize to winners
+            }
 
 
 
