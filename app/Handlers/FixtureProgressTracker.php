@@ -12,25 +12,28 @@ use App\Models\Usercontest;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 
-class FixtureProgressTracker {
+class FixtureProgressTracker
+{
     private Fixture $fixture;
 
-    public function __construct(Fixture $fixture) {
+    public function __construct(Fixture $fixture)
+    {
         $this->fixture = $fixture;
     }
 
 
-    public function handleContestProgress(FixtureDetailDTO $fixtureDTO) {
+    public function handleContestProgress(FixtureDetailDTO $fixtureDTO)
+    {
         $scorecards = $this->fixture->scorecards;
         foreach (range(0, count($scorecards) - 1) as $i) {
-            $this->calculateAndStorePoints($scorecards[$i], $fixtureDTO);
+            $this->calculateAndStorePoints($scorecards->slice($i, 1), $fixtureDTO);
         }
 
         foreach ($this->fixture->contests as $contest) {
             $usercontests = $contest->usercontests;
             foreach (range(0, count($usercontests) - 1) as $i) {
 
-                $this->updateUserContestProgress($usercontests[$i], $scorecards);
+                $this->updateUserContestProgress($usercontests->slice($i, 1), $scorecards);
             }
 
             $contestStandings = array();
@@ -55,7 +58,8 @@ class FixtureProgressTracker {
 
     }
 
-    private function calculateAndStorePoints(Scorecard &$scorecard, FixtureDetailDTO $fixtureDetailDTO) {
+    private function calculateAndStorePoints(Scorecard &$scorecard, FixtureDetailDTO $fixtureDetailDTO)
+    {
 
         $batting = $fixtureDetailDTO->batting->toCollection()->where('player_id', $scorecard->player->api_pid)->first();
         $bowling = $fixtureDetailDTO->bowling->toCollection()->where('player_id', $scorecard->player->api_pid)->first();
@@ -109,7 +113,8 @@ class FixtureProgressTracker {
 
     }
 
-    private function getRatesFromRange($ranges, $val): float {
+    private function getRatesFromRange($ranges, $val): float
+    {
         foreach (array_keys($ranges) as $key) {
             if ($val <= floatval($key)) {
                 return $ranges[$key];
@@ -118,14 +123,15 @@ class FixtureProgressTracker {
         return 0.0;
     }
 
-    private function updateUserContestProgress(Usercontest &$usercontest, Collection $scorecards) {
+    private function updateUserContestProgress(Usercontest &$usercontest, Collection $scorecards)
+    {
 
         $playerIds = array_map(fn($player): int => $player['id'], $usercontest->team->team_members);
         $key_members = $usercontest->team->key_members;
         $playerScorecards = $scorecards->filter(function ($scorecard) use ($playerIds) {
             return in_array($scorecard->player_id, $playerIds);
         });
-        $usercontest->team_stats = $playerScorecards->map(function ($item) use ($key_members){
+        $usercontest->team_stats = $playerScorecards->map(function ($item) use ($key_members) {
             $factor = ($item->player_id == $key_members[0] ? 2.0 : ($item->player_id == $key_members[1] ? 1.5 : 1)); // first index in captain id, second index in vicecaptain
             return [
                 'id' => $item->player_id,
