@@ -12,8 +12,10 @@ use App\Models\Usercontest;
 use App\Models\Userfixtureteam;
 use Illuminate\Support\Facades\DB;
 
-class UsercontestRepository {
-    public function getConstestsByFixture($user_id, $fixture_id) {
+class UsercontestRepository
+{
+    public function getConstestsByFixture($user_id, $fixture_id)
+    {
 
 
         $fixtureContestIds = Contest::where('fixture_id', $fixture_id)->pluck('id');
@@ -26,7 +28,8 @@ class UsercontestRepository {
         return $userContestByFixture;
     }
 
-    public function getScorecardByPlayer($usercontest_id, $player_id) {
+    public function getScorecardByPlayer($usercontest_id, $player_id)
+    {
         $usercontest = Usercontest::findOrFail($usercontest_id);
         $usercontest->load('team', 'contest');
         $player = Player::findOrFail($player_id);
@@ -48,7 +51,8 @@ class UsercontestRepository {
         ];
     }
 
-    public function getUsercontestsById($user_id, $contest_id) {
+    public function getUsercontestsById($user_id, $contest_id)
+    {
 //        $user = User::findOrFail($user_id);
 
         $usercontest = Usercontest::where('user_id', $user_id)
@@ -58,7 +62,8 @@ class UsercontestRepository {
         return $usercontest;
     }
 
-    public function getUsercontestsRankingById($contest_id) {
+    public function getUsercontestsRankingById($contest_id)
+    {
         $ranking = Usercontest::where('contest_id', $contest_id)
             ->orderBy('ranking', 'ASC')
             ->paginate(10);
@@ -66,7 +71,8 @@ class UsercontestRepository {
         return $ranking;
     }
 
-    public function getUserUpcomingContests($user_id) {
+    public function getUserUpcomingContests($user_id)
+    {
 
 
         $matchIdsByUser = Userfixtureteam::where('user_id', $user_id)->pluck('fixture_id');
@@ -84,7 +90,8 @@ class UsercontestRepository {
         return $userUpcomingContests;
     }
 
-    public function getUserOngoingContests($user_id) {
+    public function getUserOngoingContests($user_id)
+    {
 
 
         $matchIdsByUser = Userfixtureteam::where('user_id', $user_id)->pluck('fixture_id');
@@ -102,7 +109,8 @@ class UsercontestRepository {
         return $userUpcomingContests;
     }
 
-    public function getUserCompletedContests($user_id) {
+    public function getUserCompletedContests($user_id)
+    {
 
 
         $matchIdsByUser = Userfixtureteam::where('user_id', $user_id)->pluck('fixture_id');
@@ -120,21 +128,29 @@ class UsercontestRepository {
         return $userUpcomingContests;
     }
 
-    public function createUsercontest(array $request) {
+    public function createUsercontest(array $request)
+    {
         $user = User::findOrFail($request['user_id']);
         $team = Team::findOrFail($request['team_id']);
         $contest = Contest::findOrFail($request['contest_id']);
 
-        $newUsercontest = new Usercontest();
+        DB::beginTransaction();
+        try {
 
-        $newUsercontest->user_id = $user->id;
-        $newUsercontest->team_id = $team->id;
-        $newUsercontest->contest_id = $contest->id;
-        $newUsercontest->transaction_id = $request['transaction_id'];
+            $newUsercontest = new Usercontest();
 
+            $newUsercontest->user_id = $user->id;
+            $newUsercontest->team_id = $team->id;
+            $newUsercontest->contest_id = $contest->id;
+            $newUsercontest->transaction_id = $request['transaction_id'];
+            $newUsercontest->save();
 
-        $newUsercontest->save();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw new \Exception($exception->getMessage());
+        }
 
+        DB::commit();
         return $newUsercontest;
     }
 

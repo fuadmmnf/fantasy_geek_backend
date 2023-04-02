@@ -24,7 +24,7 @@ class FixtureRepository
 
     public function getAllFixture($status = null)
     {
-        $fixturees = Fixture::with('team1', 'team2');
+        $fixturees = Fixture::with('team1', 'team2')->withCount('contests');
         if ($status != null) {
             $fixturees = $fixturees->where('status', $status);
         }
@@ -45,6 +45,7 @@ class FixtureRepository
     {
         $fixturees = Fixture::where('status', 0)
             ->with('team1', 'team2')
+            ->withCount('contests')
             ->orderBy('starting_time', 'DESC')
             ->paginate(20);
         return $fixturees;

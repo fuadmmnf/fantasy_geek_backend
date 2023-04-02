@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class ContestRepository
 {
     public function getContestsByFixture($fixture_id){
-        $contestsByFixture = Contest::where('fixture_id', $fixture_id)->get();
+        $contestsByFixture = Contest::where('fixture_id', $fixture_id)->withCount('usercontests')->get();
         return $contestsByFixture;
     }
 
