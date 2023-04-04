@@ -14,6 +14,12 @@ class PlayerRepository
 
     public function storePlayer(array $request)
     {
+        //special cases for IPL
+        if($request['playerposition_id'] == 14) $request['playerposition_id'] = 1; // 14 == batting Allrounder
+        if($request['playerposition_id'] == 11) $request['playerposition_id'] = 2; // 11 == bowling Allrounder
+
+
+
         $playerPosition = Playerposition::findOrFail($request['playerposition_id']);
         $newPLayer = new Player();
         $newPLayer->playerposition_id = $playerPosition->id;
