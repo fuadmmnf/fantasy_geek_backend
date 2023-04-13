@@ -31,7 +31,7 @@ class FixtureStateCheckerScheduler
             ->filter(function ($fixture) use ($now) {
                 return $fixture->status == 1 ||
                     ($fixture->status == 0 &&
-                        $now->diffInMinutes($fixture->starting_time)) < 2;
+                        $now->diffInMinutes($fixture->starting_time)) < 5;
             });
 
         $query_params = [
