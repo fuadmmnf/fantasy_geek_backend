@@ -27,12 +27,12 @@ class FixtureStateCheckerScheduler
 
         $now = Carbon::now();
         $fixtures = Fixture::whereIn('status', [0, 1])
-            ->get()
-            ->filter(function ($fixture) use ($now) {
-                return $fixture->status == 1 ||
-                    ($fixture->status == 0 &&
-                        $now->diffInMinutes($fixture->starting_time)) < 5;
-            });
+            ->get();
+//            ->filter(function ($fixture) use ($now) {
+//                return $fixture->status == 1 ||
+//                    ($fixture->status == 0 &&
+//                        $now->diffInMinutes($fixture->starting_time)) < 2;
+//            });
 
         $query_params = [
             'fields[object]' => 'toss_won_team_id,man_of_match_id,status',
