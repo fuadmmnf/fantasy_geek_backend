@@ -13,7 +13,7 @@ class ContestRepository
     }
 
     public function getDetail($contest_id){
-        $contest = Contest::findOrFail($contest_id);
+        $contest = Contest::withCount('usercontests')->findOrFail($contest_id);
         return $contest;
     }
 

@@ -19,7 +19,7 @@ class ContestDetailResource extends JsonResource {
             'totalPrize' => $this->total_award_amount,
             'entryFee' => $this->entry_fee,
             'entryCapacity' => $this->entry_capacity,
-            'entryCount' => $this->entry_count,
+            'entryCount' => $this->usercontests_count,
             'firstPrize' => $this->award_amount,
             'winnerCount' => $this->winner_count,
             'prizeList' => $this->prize_list,
