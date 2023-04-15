@@ -109,6 +109,7 @@ class FixtureProgressTracker
         });
     }
 
+
     private function getRatesFromRange($ranges, $val): float
     {
         foreach (array_keys($ranges) as $key) {
