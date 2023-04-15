@@ -59,11 +59,12 @@ class FixtureStateCheckerScheduler
                 }
 
                 $fixture->save();
-
+                (new RunningFixtureTrackerScheduler())();
             }
 
             //cpmmment out this else if to test on finished games
             else if ($fixture->status == 1 && $fixtureDTO->man_of_match_id != null) {
+                (new RunningFixtureTrackerScheduler())();
                 $fixture->status = 2;
                 $fixture->save();
                 //distribute prize to winners
